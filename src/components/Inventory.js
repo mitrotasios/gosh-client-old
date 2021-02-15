@@ -3,6 +3,8 @@ import { Button, Form, FormGroup, Label, Input, Col} from 'reactstrap';
 import {FaSearch} from 'react-icons/fa'
 import AddReagent from './AddReagent';
 import { BasicTable } from './BasicTable';
+import { FilteringTable } from './FilteringTable';
+
 
 class Inventory extends Component {
     constructor(props) {
@@ -43,7 +45,7 @@ class Inventory extends Component {
                     </div>                
                 </div>
                 <div className="table-container container-fluid">                    
-                    <BasicTable />
+                    <FilteringTable />
                     <AddReagent isSidebarOpen={this.state.isSidebarOpen} onSidebarToggle={this.toggleSidebar}/>                                                            
                 </div>
             </div>
