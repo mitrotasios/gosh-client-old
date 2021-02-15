@@ -1,38 +1,132 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#page-wrap {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.bm-burger-button {
+  position: fixed;
+  width: 36px;
+  height: 27px;
+  left: 36px;
+  top: 15px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.bm-burger-bars {
+  background: #38b6ff;
+}
+
+.bm-burger-bars-hover {
+  background: lightslategrey;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background:#38b6ff;
+}
+
+/*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+  position: fixed;
+  height: 100%;
+}
+
+.bm-menu {
+  background: lightgray;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+  padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+  color: #38b6ff;
+  font-size: x-large;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s;
+  border: none;
+}
+
+.bm-item:hover {
+  color: lightslategrey;
+  margin: none;
+}
+
+.bm-item {
+  outline: none;
+  background-color: none;
+  border: 0;
+}
+
+.bm-item:active {
+  outline: none;
+  background-color: none;
+  border: 0;
+}
+
+.menu-item:active {
+  outline: none;
+  background-color: none;
+  border: 0;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.btn-styled {
+  background-color: #38b6ff;
+  border: none;
+  font-weight: 500;
+}
+
+.btn.btn-secondary{
+  background-color: #38b6ff;
+  border: none;
+  font-weight: 500;
+}
+
+.sidebar-content {
+  width: 500px;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  transition: 750ms;
+  background-color: lightgray;
 }
 
-.App-link {
-  color: #61dafb;
+.sidebar-content.open {
+	right: 0;
+  transition: 350ms;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h4 {
+  color: #38b6ff;
 }
