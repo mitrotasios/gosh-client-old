@@ -134,4 +134,6 @@ h4 {
 .table-container {
   border: 1px solid lightgray;
   box-shadow: 0 0 10px lightgray;
+  padding-left: 0px;
+  padding-right: 0px;
 }

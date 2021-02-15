@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS } from './columns'
 import './table.css';
+import {FaArrowDown, FaArrowUp} from 'react-icons/fa'
+import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
 
 export const BasicTable = () => {
     
@@ -10,9 +12,10 @@ export const BasicTable = () => {
     const data = useMemo(() => MOCK_DATA, [])
     
     const tableInstance = useTable({
-        columns,
-        data
-    })
+            columns,
+            data
+        },
+        useSortBy)
 
     const { 
         getTableProps, 
@@ -28,7 +31,12 @@ export const BasicTable = () => {
                 {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render('Header')}
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? <AiOutlineArrowDown/> : <AiOutlineArrowUp/>) : ''}
+                                    </span>
+                                </th>
                             ))}
                     </tr>
                 ))}                
