@@ -8,10 +8,10 @@
 }
 
 .bm-burger-button {
-  position: fixed;
+  position: absolute;
   width: 36px;
   height: 27px;
-  left: 36px;
+  left: 16px;
   top: 15px;
 }
 
@@ -129,4 +129,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 h4 {
   color: #38b6ff;
+}
+
+.table-container {
+  border: 1px solid lightgray;
+  box-shadow: 0 0 10px lightgray;
 }

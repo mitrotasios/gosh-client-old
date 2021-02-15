@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, Col} from 'reactstrap';
 import {FaSearch} from 'react-icons/fa'
 import AddReagent from './AddReagent';
+import { BasicTable } from './BasicTable';
 
 class Inventory extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class Inventory extends Component {
         return(
             <>
             <div id="page-wrap" className="container-fluid">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row text-center">
                         <div className="ml-auto">
                             <Form>
@@ -41,13 +42,9 @@ class Inventory extends Component {
                         </div>   
                     </div>                
                 </div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col ml-2">
-                            <h1>Inventory</h1>
-                            <AddReagent isSidebarOpen={this.state.isSidebarOpen} onSidebarToggle={this.toggleSidebar}/>                        
-                        </div>
-                    </div>                
+                <div className="table-container container-fluid">                    
+                    <BasicTable />
+                    <AddReagent isSidebarOpen={this.state.isSidebarOpen} onSidebarToggle={this.toggleSidebar}/>                                                            
                 </div>
             </div>
             </>
