@@ -43,6 +43,7 @@ export const Inventory = (props) => {
         <div id="page-wrap" className="container-fluid">
             <div className="container-fluid">
                 <div className="row text-center">
+                    <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
                     <div className="col-sm-4 ml-auto">
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
                     </div>                 
