@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Inventory from './Inventory'
 import TestHistory from './TestHistory'
 import Assays from './Assays'
 import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
+import { Inventory } from './FilteringTable'
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 
 class Main extends Component {

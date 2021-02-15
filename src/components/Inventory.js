@@ -6,7 +6,7 @@ import { BasicTable } from './BasicTable';
 import { FilteringTable } from './FilteringTable';
 
 
-class Inventory extends Component {
+class InventoryOld extends Component {
     constructor(props) {
         super(props);        
 
@@ -54,4 +54,4 @@ class Inventory extends Component {
     }
 }
 
-export default Inventory;
+export default InventoryOld;
