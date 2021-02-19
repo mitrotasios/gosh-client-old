@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import { useTable, useSortBy, useGlobalFilter, useRowSelect } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
 import { COLUMNS } from './columns'
 import './table.css';
@@ -7,6 +7,7 @@ import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
+import { Checkbox } from './CheckBox';
 
 export const Inventory = (props) => {
     
@@ -18,7 +19,25 @@ export const Inventory = (props) => {
             data
         },         
         useGlobalFilter,
-        useSortBy)
+        useSortBy,
+        useRowSelect,
+        (hooks) => {
+            hooks.visibleColumns.push((columns) => {
+                return [
+                    ...columns,
+                    {
+                        id: 'selection',
+                        Header: ({ getToggleAllRowsSelectedProps }) => (
+                            <Checkbox {...getToggleAllRowsSelectedProps()} />
+                        ),
+                        Cell: ({ row }) => (
+                            <Checkbox {...row.getToggleRowSelectedProps()}/>
+                        )
+                    }
+                    
+                ]
+            })
+        })
 
     const { 
         getTableProps, 
@@ -27,16 +46,33 @@ export const Inventory = (props) => {
         rows, 
         prepareRow,
         state,
-        setGlobalFilter
+        setGlobalFilter,
+        selectedFlatRows
     } = tableInstance
 
     const { globalFilter } = state
 
     const [isSidebarOpen, setToggleState] = useState(false)
+    const [selectedRow, setSelectRows] = useState('')
 
     const toggleSidebar = () => {
-        setToggleState(!isSidebarOpen)
+        setToggleState(!isSidebarOpen);
+        /*
+        alert(JSON.stringify(
+            {
+                selectedFlatRows: selectedFlatRows.map((row) => row.original),
+            },
+            null,
+            2))
+        */
     }    
+    /*
+    setSelectRows(
+        {
+            selectedFlatRows: selectedFlatRows.map((row) => row.original),
+        }
+    )
+    */
 
     return(
         <>        
@@ -48,7 +84,7 @@ export const Inventory = (props) => {
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
                     </div>                 
                     <div className="ml-auto">
-                        <Button className="btn-styled">Select</Button>{'  '}                        
+                        <Button className="btn-styled">Print QR</Button>{'  '}                        
                         <Button className="btn-styled" 
                             onClick={toggleSidebar}>Add New</Button>
                     </div>   
@@ -83,7 +119,11 @@ export const Inventory = (props) => {
                             })}                
                     </tbody>
                 </table>  
-                <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar}/>                                                            
+                <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
+                    selectedRow={
+                        { 
+                            selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]
+                        }}/>                                                            
             </div>
         </div>
         </>

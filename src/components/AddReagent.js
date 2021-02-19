@@ -5,11 +5,28 @@ import {FaTimes} from 'react-icons/fa'
 class AddReagent extends Component {
     constructor(props) {
       super(props);
-      this.state = {}
+      this.state = {
+        reagentName: ''
+      }
+          
     }
 
-    render() {
-      return (
+    componentWillReceiveProps(nextProps) {
+        this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.first_name : ''});
+    }
+
+    handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    render() {        
+      return (        
         <div className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
             <div className="container-fluid">
                 <div className="row mt-2">
@@ -27,7 +44,8 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="reagentName">Reagent Name</Label>                        
-                                        <Input id="reagentName" type="text" name="reagentName" placeholder="Reagent Name"/>                                        
+                                        <Input id="reagentName" type="text" name="reagentName" placeholder="Reagent Name"
+                                            value={this.state.reagentName} onChange={this.handleInputChange}/>                                        
                                     </FormGroup>
                                 </Col>
                             </Row>
