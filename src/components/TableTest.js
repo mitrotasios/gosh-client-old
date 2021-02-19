@@ -9,7 +9,7 @@ import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
 import { Checkbox } from './CheckBox';
 
-export const Inventory = (props) => {
+export const TableTest = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => MOCK_DATA, [])
@@ -49,7 +49,8 @@ export const Inventory = (props) => {
         state,
         setGlobalFilter,
         selectedFlatRows,
-        state: { expanded },
+        visibleColumns,
+        //state: { expanded },
     } = tableInstance
 
     const { globalFilter } = state
@@ -59,22 +60,20 @@ export const Inventory = (props) => {
 
     const toggleSidebar = () => {
         setToggleState(!isSidebarOpen);
-        /*
-        alert(JSON.stringify(
-            {
-                selectedFlatRows: selectedFlatRows.map((row) => row.original),
-            },
-            null,
-            2))
-        */
     }    
-    /*
-    setSelectRows(
-        {
-            selectedFlatRows: selectedFlatRows.map((row) => row.original),
-        }
-    )
-    */
+
+    const renderRowSubComponent = React.useCallback(
+        ({ row }) => (
+          <pre
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            <code>{JSON.stringify({ values: row.original }, null, 2)}</code>
+          </pre>
+        ),
+        []
+      )
 
     return(
         <>        
@@ -109,16 +108,39 @@ export const Inventory = (props) => {
                         ))}                
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {rows.map((row) => {
-                                prepareRow(row)
-                                return(
-                                    <tr {...row.getRowProps()}>
-                                        {row.cells.map((cell) => {
-                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        })}                                
-                                    </tr>
-                                );
-                            })}                
+                    {rows.map((row, i) => {
+                        prepareRow(row)
+                        return (
+                        // Use a React.Fragment here so the table markup is still valid
+                        <React.Fragment {...row.getRowProps()}>
+                            <tr>
+                            {row.cells.map(cell => {
+                                return (
+                                <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                )
+                            })}
+                            </tr>
+                            {/*
+                                If the row is in an expanded state, render a row with a
+                                column that fills the entire length of the table.
+                            */}
+                            {row.isExpanded ? (
+                            <tr>
+                                <td colSpan={visibleColumns.length}>
+                                {/*
+                                    Inside it, call our renderRowSubComponent function. In reality,
+                                    you could pass whatever you want as props to
+                                    a component like this, including the entire
+                                    table instance. But for this example, we'll just
+                                    pass the row
+                                    */}
+                                {renderRowSubComponent({ row })}
+                                </td>
+                            </tr>
+                            ) : null}
+                        </React.Fragment>
+                        )
+                    })}
                     </tbody>
                 </table>  
                 <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
