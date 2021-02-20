@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import {BiRightArrow, BiDownArrow} from 'react-icons/bi'
 
 export const COLUMNS = [
+    /*
     {
         // Make an expander cell
         Header: () => null, // No header
@@ -14,31 +15,45 @@ export const COLUMNS = [
             {row.isExpanded ? <BiDownArrow/> : <BiRightArrow/>}
           </span>
         ),
-      },
+    },
+    */
     {
         Header: 'Id',
-        accessor: 'id'
+        accessor: 'id',
+        canGroupBy: false,
+        aggregate: topValue,
     },
     {
         Header: 'First Name',
-        accessor: 'first_name'
+        accessor: 'first_name',
+        canGroupBy: false,
+        aggregate: topValue,
     },
     {
         Header: 'Last Name',
-        accessor: 'last_name'
+        accessor: 'last_name',
+        canGroupBy: false,
+        aggregate: topValue
     },
     {
         Header: 'Date of Birth',
         accessor: 'date_of_birth',
-        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')}
+        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
+        aggregate: topValue,
+        //Aggregated: ({})
+        //canGroupBy: false
     },
     {
-        Header: 'Country',
-        accessor: 'country'
+         Header: 'Country',
+         accessor: 'country',
+         disableSortBy: true
+
     },
     {
         Header: 'Phone',
-        accessor: 'phone'
+        accessor: 'phone',
+        canGroupBy: false,
+        aggregate: topValue
     }
 ]
 
@@ -53,3 +68,16 @@ const onRowClick = (state, rowInfo, column, instance) => {
         }
     }
 }
+
+function topValue(leafValues) {
+    let top = leafValues[0]
+  
+    /*
+    leafValues.forEach(value => {
+      min = Math.min(min, value)
+      max = Math.max(max, value)
+    })
+    */
+  
+    return top
+  }
