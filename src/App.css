@@ -144,3 +144,9 @@ svg {
 #logo {
   margin-left: 50px;
 }
+
+.btn.btn-white {
+  color: white;
+  background-color: white;
+  border: none;
+}

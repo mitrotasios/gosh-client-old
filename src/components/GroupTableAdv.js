@@ -26,7 +26,8 @@ export const AdvTable = (props) => {
                         id: 'date_rc',
                         desc: true
                     }
-                ]
+                ],
+                groupBy: ['lot_nr']
             }
         },         
         useGlobalFilter,
@@ -93,11 +94,11 @@ export const AdvTable = (props) => {
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
                     </div>                 
                     <div className="ml-auto">
-                        <Button className="btn-styled">Print QR</Button>{'  '}                        
+                        {selectedFlatRows[0] ? (<span><Button className="btn-styled">Print QR</Button> </span>) : <span><Button className="btn btn-white" disabled>Print QR</Button> </span>}
                         {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
-                            onClick={deleteRows}>Delete</Button> </span>) : ''}
-                        <Button className="btn-styled" 
-                            onClick={toggleSidebar}>Add New</Button>
+                            onClick={deleteRows}>Delete</Button> </span>) : <span><Button className="btn btn-white" disabled>Delete</Button> </span>}
+                        <span><Button className="btn-styled" 
+                            onClick={toggleSidebar}>Add New</Button></span>
                     </div>   
                 </div>                
             </div>
@@ -111,7 +112,7 @@ export const AdvTable = (props) => {
                             {column.canGroupBy ? (
                                 // If the column can be grouped, let's add a toggle
                                 <span {...column.getGroupByToggleProps()}>
-                                {column.isGrouped ? <AiOutlineUngroup/> : <AiOutlineGroup/>}
+                                {column.isGrouped ? <span><AiOutlineUngroup/> </span> : <span><AiOutlineGroup/> </span>}
                                 </span>                                                                
                             ) : null}         
                             {column.render('Header')}                            
