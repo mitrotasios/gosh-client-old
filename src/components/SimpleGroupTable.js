@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
-import { COLUMNS } from './columns'
+import { COLUMNS } from './columns_old'
 import './table.css';
 import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
 import { GlobalFilter } from './GlobalFilter';

@@ -13,11 +13,21 @@ import {BiRightArrow, BiDownArrow} from 'react-icons/bi'
 export const AdvTable = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
+    //const data = useMemo(() => MOCK_DATA, [])
+
+    const [data, setData] = useState(MOCK_DATA, []);
     
     const tableInstance = useTable({
             columns,
-            data
+            data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: 'date_rc',
+                        desc: true
+                    }
+                ]
+            }
         },         
         useGlobalFilter,
         useGroupBy,
@@ -65,6 +75,14 @@ export const AdvTable = (props) => {
         setToggleState(!isSidebarOpen);
     }    
 
+    const deleteRows = () => {
+        selectedFlatRows.forEach(row => {
+            const dataCopy = [...data];
+            dataCopy.splice(row.index, 1);
+            setData(dataCopy)
+        });
+    }
+
     return(
         <>        
         <div id="page-wrap" className="container-fluid">
@@ -76,6 +94,8 @@ export const AdvTable = (props) => {
                     </div>                 
                     <div className="ml-auto">
                         <Button className="btn-styled">Print QR</Button>{'  '}                        
+                        {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
+                            onClick={deleteRows}>Delete</Button> </span>) : ''}
                         <Button className="btn-styled" 
                             onClick={toggleSidebar}>Add New</Button>
                     </div>   

@@ -18,66 +18,43 @@ export const COLUMNS = [
     },
     */
     {
-        Header: 'Reagent Name',
-        accessor: 'reagent_name',
+        Header: 'Id',
+        accessor: 'id',
         canGroupBy: false,
         aggregate: topValue,
-        disableSortBy: true
     },
     {
-        Header: 'LOT Number',
-        id: 'lot_nr',
-        accessor: 'lot_number',
-        canGroupBy: true,
-        disableSortBy: true,
+        Header: 'First Name',
+        accessor: 'first_name',
+        canGroupBy: false,
         aggregate: topValue,
     },
     {
-        Header: 'CAT Number',
-        accessor: 'cat_number',
+        Header: 'Last Name',
+        accessor: 'last_name',
         canGroupBy: false,
         aggregate: topValue
     },
     {
-        Header: 'Date Received',
-        id: 'date_rc',
-        accessor: 'date_received',
+        Header: 'Date of Birth',
+        accessor: 'date_of_birth',
         Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
         aggregate: topValue,
-        canGroupBy: false
+        //Aggregated: ({})
+        //canGroupBy: false
     },
     {
-        Header: 'Expiry Date',
-        accessor: 'expiry_date',
-        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
-        aggregate: topValue,
-        canGroupBy: false
+         Header: 'Country',
+         accessor: 'country',
+         disableSortBy: true
+
     },
     {
-        Header: 'Supplier',
-        accessor: 'supplier',
-        disableSortBy: true,
-        aggregate: topValue,
-        canGroupBy: true
-    },
-    {
-        Header: 'Date of First Use',
-        accessor: 'date_of_use',
-        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
-        aggregate: topValue,
-        canGroupBy: false
-    },
-    {
-        Header: 'Last Used By',
-        accessor: 'last_used',
-        aggregate: topValue,
-        canGroupBy: false
-    },
-    {
-        Header: 'Assay',
-        accessor: 'assay',
+        Header: 'Phone',
+        accessor: 'phone',
         canGroupBy: false,
-    }    
+        aggregate: topValue
+    }
 ]
 
 const onRowClick = (state, rowInfo, column, instance) => {

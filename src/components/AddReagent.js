@@ -6,13 +6,24 @@ class AddReagent extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        reagentName: ''
+        reagentName: '',
+        lotNr: '',
+        catNr: '',
+        expDate: null,
+        receivedDate: null,
+        condition: null,
+        storageLocation: null,
+        action: '',
+        comment: '',
+        unit: null
       }
           
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.first_name : ''});
+        this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagent_name : ''});
+        this.setState({ lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lot_number : ''});
+        this.setState({ catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : ''});
     }
 
     handleInputChange = (event) => {
@@ -53,13 +64,15 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="lotNr">Lot Number</Label>                        
-                                        <Input id="lotNr" type="text" name="lotNr" placeholder="Lot Number"/>
+                                        <Input id="lotNr" type="text" name="lotNr" placeholder="Lot Number"
+                                            value={this.state.lotNr} onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>                       
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="catNr">Cat Number</Label>                        
-                                        <Input id="catNr" type="catNr" name="catNr" placeholder="Cat Number"/>
+                                        <Input id="catNr" type="catNr" name="catNr" placeholder="Cat Number"
+                                            value={this.state.catNr} onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>         
                             </Row>
@@ -67,33 +80,15 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="expDate">Expiry Date</Label>                        
-                                        <Input id="expDate" type="date" name="expDate" placeholder="date placeholder"/>
+                                        <Input id="expDate" type="date" name="expDate" placeholder="date placeholder"
+                                            onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="receivedDate">Date Received</Label>                        
-                                        <Input id="receivedDate" type="date" name="receivedDate" placeholder="date placeholder"/>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <FormGroup>
-                                        <Label forHTML="unit">Unit</Label>                        
-                                        <Input id="unit" type="number" name="unit" placeholder="-.-"/>
-                                    </FormGroup>
-                                </Col>
-                                <Col>
-                                    <FormGroup>
-                                        <Label forHTML="packNr">Pack Number</Label>                        
-                                        <Input id="packNr" type="number" name="packNr" placeholder="-.-"/>
-                                    </FormGroup>
-                                </Col>
-                                <Col>
-                                    <FormGroup>
-                                        <Label forHTML="outOf">Out Of</Label>                        
-                                        <Input id="outOf" type="number" name="outOf" placeholder="-.-"/>
+                                        <Input id="receivedDate" type="date" name="receivedDate" placeholder="date placeholder"
+                                            onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -101,17 +96,16 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="condition">Condition</Label>                        
-                                        <Input id="condition" type="select" name="condition">
+                                        <Input id="condition" type="select" name="condition" onChange={this.handleInputChange}>
                                             <option>GOOD</option>
-                                            <option>ACCEPTABLE</option>
-                                            <option>BAD</option>
+                                            <option>INACCEPTABLE</option>
                                         </Input>
                                     </FormGroup>
                                 </Col>
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="storageLocation">Storage Location</Label>                        
-                                        <Input id="storageLocation" type="select" name="storageLocation">
+                                        <Input id="storageLocation" type="select" name="storageLocation" onChange={this.handleInputChange}>
                                             <option>Met Prep Room</option>
                                             <option>Room 2</option>
                                             <option>Room 3</option>
@@ -123,7 +117,7 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="action">Action (If condition is unacceptable)</Label>                        
-                                        <Input rows="2" id="action" type="textarea" name="action"/>
+                                        <Input rows="2" id="action" type="textarea" name="action" onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -131,7 +125,17 @@ class AddReagent extends Component {
                                 <Col>
                                     <FormGroup>
                                         <Label forHTML="comment">Comment</Label>                        
-                                        <Input rows="5" id="comment" type="textarea" name="comment"/>
+                                        <Input rows="5" id="comment" type="textarea" name="comment"
+                                            onChange={this.handleInputChange}/>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={3}>
+                                    <FormGroup>
+                                        <Label forHTML="unit">Unit</Label>                        
+                                        <Input id="unit" type="number" name="unit" placeholder="-.-"
+                                            onChange={this.handleInputChange}/>
                                     </FormGroup>
                                 </Col>
                             </Row>
