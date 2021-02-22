@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import MOCK_DATA from './MOCK_DATA.json';
-import { COLUMNS } from './columns_old'
+import { COLUMNS } from './columns_th'
 import './table.css';
 import {FaArrowDown, FaArrowUp} from 'react-icons/fa'
 import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'

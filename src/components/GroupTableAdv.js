@@ -1,14 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded, useGroupBy } from 'react-table';
-import MOCK_DATA from './MOCK_DATA.json';
+import MOCK_DATA from './REAGENTS.json';
 import { COLUMNS } from './columns'
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
 import { Checkbox } from './CheckBox';
-import {AiOutlineArrowDown, AiOutlineArrowUp, AiOutlineGroup, AiOutlineUngroup} from 'react-icons/ai';
-import {BiRightArrow, BiDownArrow} from 'react-icons/bi'
+import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutlineRight, AiOutlineDown} from 'react-icons/ai';
 
 export const AdvTable = (props) => {
     
@@ -118,7 +117,7 @@ export const AdvTable = (props) => {
                             {column.render('Header')}                            
                             <span>
                             {column.canSort ? (
-                                column.isSorted ? (column.isSortedDesc ? <AiOutlineArrowDown/> : <AiOutlineArrowUp/>) : ''
+                                column.isSorted ? (column.isSortedDesc ? <AiFillCaretDown/> : <AiFillCaretUp/>) : ''
                             ) : null}
                             </span>
                             </th>          
@@ -144,7 +143,7 @@ export const AdvTable = (props) => {
                                     // If it's a grouped cell, add an expander and row count
                                     <>
                                     <span {...row.getToggleRowExpandedProps()}>
-                                        {row.isExpanded ? <BiDownArrow/> : <BiRightArrow/>}
+                                        {row.isExpanded ? <AiOutlineDown/> : <AiOutlineRight/>}
                                     </span>{' '}
                                     {cell.render('Cell')} ({row.subRows.length})
                                     </>

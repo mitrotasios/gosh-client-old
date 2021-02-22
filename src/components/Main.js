@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import TestHistory from './TestHistory'
+//import TestHistory from './TestHistory'
 import Assays from './Assays'
 import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
 import { Inventory } from './FilteringTable'
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
-import { TableTest } from './SimpleGroupTable';
+import { TestHistory } from './SimpleGroupTable';
 import { AdvTable } from './GroupTableAdv';
 
 class Main extends Component {

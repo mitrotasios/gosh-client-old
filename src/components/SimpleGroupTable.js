@@ -1,18 +1,19 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded } from 'react-table';
-import MOCK_DATA from './MOCK_DATA.json';
-import { COLUMNS } from './columns_old'
+import MOCK_DATA from './TEST_HISTORY.json';
+import { COLUMNS } from './columns_th'
 import './table.css';
-import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
+import {AiFillCaretDown, AiFillCaretUp} from 'react-icons/ai';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
 import { Checkbox } from './CheckBox';
 
-export const TableTest = (props) => {
+export const TestHistory = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
+    //const data = useMemo(() => MOCK_DATA, [])
+    const [data, setData] = useState(MOCK_DATA, []);
     
     const tableInstance = useTable({
             columns,
@@ -55,12 +56,15 @@ export const TableTest = (props) => {
 
     const { globalFilter } = state
 
-    const [isSidebarOpen, setToggleState] = useState(false)
     const [selectedRow, setSelectRows] = useState('')
 
-    const toggleSidebar = () => {
-        setToggleState(!isSidebarOpen);
-    }    
+    const deleteRows = () => {
+        selectedFlatRows.forEach(row => {
+            const dataCopy = [...data];
+            dataCopy.splice(row.index, 1);
+            setData(dataCopy)
+        });
+    }
 
     const renderRowSubComponent = React.useCallback(
         ({ row }) => (
@@ -85,9 +89,8 @@ export const TableTest = (props) => {
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
                     </div>                 
                     <div className="ml-auto">
-                        <Button className="btn-styled">Print QR</Button>{'  '}                        
-                        <Button className="btn-styled" 
-                            onClick={toggleSidebar}>Add New</Button>
+                    {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
+                            onClick={deleteRows}>Delete</Button> </span>) : <span><Button className="btn btn-white" disabled>Delete</Button> </span>}
                     </div>   
                 </div>                
             </div>
@@ -100,7 +103,7 @@ export const TableTest = (props) => {
                                         <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                             {column.render('Header')}
                                             <span>
-                                                {column.isSorted ? (column.isSortedDesc ? <AiOutlineArrowDown/> : <AiOutlineArrowUp/>) : ''}
+                                                {column.isSorted ? (column.isSortedDesc ? <AiFillCaretDown/> : <AiFillCaretUp/>) : ''}
                                             </span>
                                         </th>
                                     ))}
@@ -143,11 +146,6 @@ export const TableTest = (props) => {
                     })}
                     </tbody>
                 </table>  
-                <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
-                    selectedRow={
-                        { 
-                            selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]
-                        }}/>                                                            
             </div>
         </div>
         </>

@@ -1,8 +1,7 @@
 import { format } from 'date-fns';
-import {BiRightArrow, BiDownArrow} from 'react-icons/bi'
+import {AiOutlineRight, AiOutlineDown} from 'react-icons/ai'
 
 export const COLUMNS = [
-    /*
     {
         // Make an expander cell
         Header: () => null, // No header
@@ -12,48 +11,34 @@ export const COLUMNS = [
           // We can use the getToggleRowExpandedProps prop-getter
           // to build the expander.
           <span {...row.getToggleRowExpandedProps()}>
-            {row.isExpanded ? <BiDownArrow/> : <BiRightArrow/>}
+            {row.isExpanded ? <AiOutlineDown/> : <AiOutlineRight/>}
           </span>
         ),
     },
-    */
     {
-        Header: 'Id',
-        accessor: 'id',
-        canGroupBy: false,
-        aggregate: topValue,
+        Header: 'Test Name',
+        accessor: 'test_name',
+        //canGroupBy: false,
+        //aggregate: topValue,
     },
     {
-        Header: 'First Name',
-        accessor: 'first_name',
-        canGroupBy: false,
-        aggregate: topValue,
+        Header: 'Batch Nr',
+        accessor: 'batch_number',
+        //canGroupBy: false,
+        //aggregate: topValue
     },
     {
-        Header: 'Last Name',
-        accessor: 'last_name',
-        canGroupBy: false,
-        aggregate: topValue
-    },
+        Header: 'Date and Time',
+        accessor: 'date_time',
+        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')}
+        //canGroupBy: false,
+        //aggregate: topValue,
+    },    
     {
-        Header: 'Date of Birth',
-        accessor: 'date_of_birth',
-        Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
-        aggregate: topValue,
-        //Aggregated: ({})
-        //canGroupBy: false
-    },
-    {
-         Header: 'Country',
-         accessor: 'country',
-         disableSortBy: true
+         Header: 'Conducted By',
+         accessor: 'user_name',
+         //disableSortBy: true
 
-    },
-    {
-        Header: 'Phone',
-        accessor: 'phone',
-        canGroupBy: false,
-        aggregate: topValue
     }
 ]
 

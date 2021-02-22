@@ -7,6 +7,7 @@ class AddReagent extends Component {
       super(props);
       this.state = {
         reagentName: '',
+        supplier: '',
         lotNr: '',
         catNr: '',
         expDate: null,
@@ -22,6 +23,7 @@ class AddReagent extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagent_name : ''});
+        this.setState({ supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : ''});
         this.setState({ lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lot_number : ''});
         this.setState({ catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : ''});
     }
@@ -57,6 +59,15 @@ class AddReagent extends Component {
                                         <Label forHTML="reagentName">Reagent Name</Label>                        
                                         <Input id="reagentName" type="text" name="reagentName" placeholder="Reagent Name"
                                             value={this.state.reagentName} onChange={this.handleInputChange}/>                                        
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <FormGroup>
+                                        <Label forHTML="supplier">Supplier</Label>                        
+                                        <Input id="supplier" type="text" name="supplier" placeholder="Supplier Name"
+                                            value={this.state.supplier} onChange={this.handleInputChange}/>                                        
                                     </FormGroup>
                                 </Col>
                             </Row>
