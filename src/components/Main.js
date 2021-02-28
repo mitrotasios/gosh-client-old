@@ -1,12 +1,29 @@
 import React, { Component } from 'react';
-//import TestHistory from './TestHistory'
 import Assays from './Assays'
 import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
-import { Inventory } from './FilteringTable'
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
-import { TestHistory } from './SimpleGroupTable';
-import { AdvTable } from './GroupTableAdv';
+import { TestHistory } from './TestHistory';
+import { Inventory } from './Inventory';
+import {connect} from 'react-redux';
+//import {addComment, dishesLoading, fetchDishes} from '../redux/ActionCreators'
+import {actions} from 'react-redux-form';
+
+
+// const mapStateToProps = state => {
+//     return {
+//         dishes: state.dishes,
+//         comments: state.comments,
+//         promotions: state.promotions,
+//         leaders: state.leaders
+//     }     
+// }
+
+// const mapDispatchToProps = (dispatch) => ({    
+//     addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+//     fetchDishes: () => {dispatch(fetchDishes())},
+//     resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
+//});
 
 class Main extends Component {
     constructor(props) {
@@ -18,7 +35,7 @@ class Main extends Component {
             <div id="outer-container">
                 <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
                 <Switch>
-                    <Route path="/inventory" component={AdvTable}/>
+                    <Route path="/inventory" component={Inventory}/>
                     <Route exact path="/testhistory" component={TestHistory}/>
                     <Route exact path="/assays" component={Assays}/>
                     <Route exact path="/account" component={AccountDetails}/> 

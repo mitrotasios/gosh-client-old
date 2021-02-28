@@ -7,10 +7,10 @@ import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
 import { Checkbox } from './CheckBox';
-import { COLUMNS } from './columns'
+import { COLUMNS } from './columns_inventory'
 
 
-export const Inventory = (props) => {
+export const Test = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
     const data = useMemo(() => MOCK_DATA, [])

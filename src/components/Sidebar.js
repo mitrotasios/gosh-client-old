@@ -16,6 +16,9 @@ function Sidebar(props) {
       <a className="menu-item" href="/account">
         Account
       </a>
+      <a id="signout-link" className="menu-item" href="/account">
+        Sign Out
+      </a>
     </Menu>
   );
 };

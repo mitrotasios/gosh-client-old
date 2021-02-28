@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
 }
 
 #page-wrap {
@@ -42,7 +43,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .bm-menu {
-  background: lightgray;
+  background: whitesmoke;
   padding: 2.5em 1.5em 0;
   font-size: 1.15em;
 }
@@ -119,7 +120,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   top: 0;
   right: -100%;
   transition: 750ms;
-  background-color: lightgray;
+  background-color: whitesmoke;
 }
 
 .sidebar-content.open {
@@ -150,3 +151,4 @@ svg {
   background-color: white;
   border: none;
 }
+

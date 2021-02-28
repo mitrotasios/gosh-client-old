@@ -6,33 +6,22 @@ class Assays extends Component {
     }
 
     render() {
-        return(
-            <>
-            <div id="page-wrap" className="container">
-                <div className="row">
-                <div className="col">
-                    <h1>Assays</h1>
-                    <h2>Check out our offerings in the sidebar!</h2>
-                </div>
-                <div className="col">
-                    <h1>Cool Restaurant</h1>
-                    <h2>Check out our offerings in the sidebar!</h2>
-                </div>
-                </div>                
-            </div>
+        return(            
             <div id="page-wrap" className="container-fluid">
-                <div className="row">
-                <div className="col ml-2">
-                    <h1>Cool Restaurant</h1>
-                    <h2>Check out our offerings in the sidebar!</h2>
+                <div className="container-fluid">
+                    <div className="row text-center">
+                        <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
+                        <div className="col-sm-4 ml-auto">
+                          
+                        </div>                 
+                        <div className="ml-auto">
+                            
+                        </div>   
+                    </div>                
                 </div>
-                <div className="col ml-2">
-                    <h1>Cool Restaurant</h1>
-                    <h2>Check out our offerings in the sidebar!</h2>
+                <div className="table-container container-fluid">                    
                 </div>
-                </div>                
             </div>
-            </>
         );
     }
 }
