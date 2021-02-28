@@ -13,7 +13,7 @@ export const Reagents = (state = {
 
         case ActionTypes.ADD_REAGENTS:
             var reagent = action.payload;
-            return {...state, comments: state.reagents.concat(reagent)};
+            return {...state, reagents: state.reagents.concat(reagent)};
         default:
             return state;
     }

@@ -13,7 +13,7 @@ export const TestHistory = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
     //const data = useMemo(() => MOCK_DATA, [])
-    const [data, setData] = useState(MOCK_DATA, []);
+    const [data, setData] = useState(props.tests, []);
     
     const tableInstance = useTable({
             columns,
