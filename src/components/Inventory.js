@@ -12,9 +12,9 @@ import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutl
 export const Inventory = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
-    //const data = useMemo(() => MOCK_DATA, [])
+    const data = useMemo(() => props.reagents, [])
 
-    const [data, setData] = useState(props.reagents, []);
+    //const [data, setData] = useState(props.reagents, []);
     
     const tableInstance = useTable({
             columns,
@@ -26,7 +26,7 @@ export const Inventory = (props) => {
                         desc: true
                     }
                 ],
-                groupBy: ['lot_nr']
+                groupBy: ['lot_nr'],
             }
         },         
         useGlobalFilter,
@@ -63,13 +63,13 @@ export const Inventory = (props) => {
         setGlobalFilter,
         selectedFlatRows,
         visibleColumns,
-        state: { groupBy, expanded },
+        //state: { groupBy, expanded },
     } = tableInstance
 
     const { globalFilter } = state
 
     const [isSidebarOpen, setToggleState] = useState(false)
-    const [selectedRow, setSelectRows] = useState('')
+    //const [selectedRow, setSelectRows] = useState('')
 
     const toggleSidebar = () => {     
         setToggleState(!isSidebarOpen);           
