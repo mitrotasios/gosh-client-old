@@ -167,7 +167,7 @@ export const Inventory = (props) => {
                     selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
-                    untouchAddReagentForm={props.untouchAddReagentForm} />                                                            
+                    postReagents={props.postReagents} />                                                            
             </div>
         </div>
         </>

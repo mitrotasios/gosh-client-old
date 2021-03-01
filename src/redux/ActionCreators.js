@@ -20,6 +20,7 @@ export const postReagents = (
     date_received,
     condition,
     storage_location,
+    //action,
     comment
 ) => (dispatch) => {
 
@@ -29,16 +30,18 @@ export const postReagents = (
         lot_number: lot_number,
         cat_number: cat_number,
         expiry_date: expiry_date,
-        date_received: date_received,
+        date_received: date_received,        
         condition: condition,
         storage_location: storage_location,
+        //action: action,
         comment: comment,
-        date_of_use: '',
+        date_of_use: "2010-01-01T23:56:02Z",
+        last_used: "2010-01-01T23:56:02Z",
         assay: ''
     }
     //newComment.date = new Date().toISOString();
     
-    return fetch(baseUrl + 'comments', {
+    return fetch(baseUrl + 'reagents', {
         method: 'POST',
         body: JSON.stringify(newReagents),
         headers: {
