@@ -6,7 +6,7 @@ import './table.css';
 import {AiFillCaretDown, AiFillCaretUp} from 'react-icons/ai';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
-import { Button} from 'reactstrap';
+import { Button, ButtonGroup } from 'reactstrap';
 import { Checkbox } from './CheckBox';
 
 export const TestHistory = (props) => {
@@ -60,10 +60,21 @@ export const TestHistory = (props) => {
 
     const deleteRows = () => {
         selectedFlatRows.forEach(row => {
-            const dataCopy = [...data];
+            var dataCopy = [...data];
             dataCopy.splice(row.index, 1);
             setData(dataCopy)
         });
+    }
+
+    const switchToMyTests = () => {
+        var dataCopy = [...data];
+        const userName = 'Alyda Jarnell';
+        const myTests = dataCopy.filter(({user_name}) => user_name === userName);
+        props.switchTests(myTests);
+    }
+
+    const switchToAllTests = () => { 
+        props.fetchTests();
     }
 
     const renderRowSubComponent = React.useCallback(
@@ -89,8 +100,12 @@ export const TestHistory = (props) => {
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
                     </div>                 
                     <div className="ml-auto">
-                    {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
+                        {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
                             onClick={deleteRows}>Delete</Button> </span>) : <span><Button className="btn btn-white" disabled>Delete</Button> </span>}
+                        <ButtonGroup>
+                            <Button onClick={switchToMyTests}>My Tests</Button>
+                            <Button onClick={switchToAllTests}>All Tests</Button>
+                        </ButtonGroup>
                     </div>   
                 </div>                
             </div>

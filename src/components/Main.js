@@ -6,7 +6,7 @@ import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
-import { deleteReagents, postReagents, fetchReagents, fetchTests} from '../redux/ActionCreators'
+import { deleteReagents, postReagents, fetchReagents, fetchTests, switchTests} from '../redux/ActionCreators'
 import { actions } from 'react-redux-form';
 
 
@@ -33,6 +33,7 @@ const mapDispatchToProps = (dispatch) => ({
         comment) => dispatch(postReagents(reagent_name, supplier, lot_number, cat_number, expiry_date, date_received, condition, storage_location, /*action,*/ comment)),    
     fetchReagents: () => {dispatch(fetchReagents())},
     fetchTests: () => {dispatch(fetchTests())},
+    switchTests: (tests) => {dispatch(switchTests(tests))},
     resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
     changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))}
 });
@@ -62,7 +63,9 @@ class Main extends Component {
         const TestHistoryPage = () => {
             return(
                 <TestHistory tests={this.props.tests.tests} 
-                    testsErrMess={this.props.tests.errMess} />
+                    testsErrMess={this.props.tests.errMess} 
+                    switchTests={this.props.switchTests}
+                    fetchTests={this.props.fetchTests}/>
             );
         }
 

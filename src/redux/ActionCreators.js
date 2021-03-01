@@ -160,3 +160,8 @@ export const renderTests = (tests) => ({
     type: ActionTypes.RENDER_TESTS,
     payload: tests
 });
+
+export const switchTests = (tests) => ({
+    type: ActionTypes.SWITCH_TESTS,
+    payload: tests
+}) 

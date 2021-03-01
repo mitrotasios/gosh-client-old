@@ -12,10 +12,10 @@ import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutl
 export const Inventory = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => props.reagents, [])
+    //const data = useMemo(() => props.reagents, [])
 
-    //const [data, setData] = useState(props.reagents, []);
-    
+    const [data, setData] = useState(props.reagents, []);
+
     const tableInstance = useTable({
             columns,
             data,
@@ -27,13 +27,15 @@ export const Inventory = (props) => {
                     }
                 ],
                 groupBy: ['lot_nr'],
-            }
+            },
+            autoResetExpanded: false,
+            autoResetSelectedRows: false,
         },         
         useGlobalFilter,
         useGroupBy,
         useSortBy,
         useExpanded,
-        useRowSelect,        
+        useRowSelect,         
         (hooks) => {
             hooks.visibleColumns.push((columns) => {
                 return [                    
@@ -63,8 +65,14 @@ export const Inventory = (props) => {
         setGlobalFilter,
         selectedFlatRows,
         visibleColumns,
+        toggleAllRowsExpanded,
+        isAllRowsExpanded,   
+        toggleRowExpanded
         //state: { groupBy, expanded },
     } = tableInstance
+
+    //useMemo(() => toggleAllRowsExpanded(true), [toggleAllRowsExpanded]);
+
 
     const { globalFilter } = state
 
@@ -80,10 +88,9 @@ export const Inventory = (props) => {
             // const dataCopy = [...data];
             // dataCopy.splice(row.index, 1);            
             //setData(dataCopy)
-            //alert(row.original.id)                       
+            //alert(row.original.id)       
             props.deleteReagents(row.original.id)
         });
-
     }
 
     const renderRowSubComponent = React.useCallback(
@@ -117,7 +124,7 @@ export const Inventory = (props) => {
                     </div>   
                 </div>                
             </div>
-            <div className="table-container container-fluid">                    
+            <div className="table-container container-fluid" >                    
                 <table {...getTableProps()}>
                     <thead>
                     {headerGroups.map(headerGroup => (
@@ -144,9 +151,9 @@ export const Inventory = (props) => {
                     </thead>
                     <tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
-                        prepareRow(row)
+                        prepareRow(row)                        
                         return (
-                        <React.Fragment {...row.getRowProps()}>
+                        <React.Fragment {...row.getRowProps()}>                        
                         <tr>
                             {row.cells.map(cell => {
                             return (
@@ -175,7 +182,7 @@ export const Inventory = (props) => {
                                 </td>
                             )
                             })}
-                        </tr>
+                        </tr>                        
                         {row.isExpanded && !row.subRows.length ? (
                             <tr>
                                 <td colSpan={visibleColumns.length}>
@@ -189,9 +196,9 @@ export const Inventory = (props) => {
                                 {renderRowSubComponent({ row })}
                                 </td>
                             </tr>
-                            ) : null}
-                        </React.Fragment>
-                        )
+                            ) : null}                        
+                        </React.Fragment>                        
+                        )                        
                     })}
                     </tbody>
                 </table>

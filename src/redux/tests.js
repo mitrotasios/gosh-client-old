@@ -15,6 +15,9 @@ export const Tests = (state = {
         case ActionTypes.TESTS_FAILED:
             return {...state, isLoading: false, errMess: action.payload, tests: []}
 
+        case ActionTypes.SWITCH_TESTS:
+            return {...state, isLoading: false, errMess: null, tests: action.payload}
+
         default:
             return state;
     }

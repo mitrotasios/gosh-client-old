@@ -34,3 +34,41 @@ table th {
 #searchBar {
     border-radius: 25px;
 }
+
+.table.sticky {
+	overflow: scroll;
+}
+
+.table.sticky .header,
+    .table.sticky .footer {
+	position: sticky;
+	z-index: 1;
+	width: fit-content;
+}
+
+.table.sticky .header {
+	top: 0;
+	box-shadow: 0px 3px 3px #ccc;
+}
+
+.table.sticky .footer {
+	bottom: 0;
+	box-shadow: 0px -3px 3px #ccc;
+}
+
+.table.sticky .body {
+	position: relative;
+	z-index: 0;
+}
+
+.table.sticky [data-sticky-td] {
+	position: sticky;
+}
+
+.table.sticky [data-sticky-last-left-td] {
+	box-shadow: 2px 0px 3px #ccc;
+}
+
+.table.sticky [data-sticky-first-right-td] {
+	box-shadow: -2px 0px 3px #ccc;
+}
