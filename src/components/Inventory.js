@@ -71,8 +71,8 @@ export const Inventory = (props) => {
     const [isSidebarOpen, setToggleState] = useState(false)
     const [selectedRow, setSelectRows] = useState('')
 
-    const toggleSidebar = () => {
-        setToggleState(!isSidebarOpen);
+    const toggleSidebar = () => {     
+        setToggleState(!isSidebarOpen);           
     }    
 
     const deleteRows = () => {
@@ -164,10 +164,10 @@ export const Inventory = (props) => {
                     </tbody>
                 </table>  
                 <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
-                    selectedRow={
-                        { 
-                            selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]
-                        }}/>                                                            
+                    selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
+                    resetAddReagentForm={props.resetAddReagentForm}
+                    changeAddReagentForm={props.changeAddReagentForm} 
+                    untouchAddReagentForm={props.untouchAddReagentForm} />                                                            
             </div>
         </div>
         </>

@@ -1,3 +1,5 @@
+import * as ActionTypes from './ActionTypes';
+
 export const InitialReagentInfo = {
     reagentName: '',
     supplier: '',
@@ -9,6 +11,5 @@ export const InitialReagentInfo = {
     storageLocation: null,
     action: '',
     comment: '',
-    unit: null
+    // unit: null
 }
-

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col, Row} from 'reactstrap';
+//import { Button, Form, FormGroup, Label, Input, Col, Row} from 'reactstrap';
+import { Label, Button, Col, Row} from 'reactstrap';
 import {FaTimes} from 'react-icons/fa'
+import {Control, Form, Errors, actions} from 'react-redux-form';
+
+const required = (val) => val && val.length;
 
 class AddReagent extends Component {
     constructor(props) {
@@ -22,20 +26,26 @@ class AddReagent extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagent_name : ''});
-        this.setState({ supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : ''});
-        this.setState({ lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lot_number : ''});
-        this.setState({ catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : ''});
+        const data = {
+            reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagent_name : '', 
+            supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : '', 
+            lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lot_number : '', 
+            catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : '', 
+            expDate: null,
+            receivedDate: null,             
+            condition: null, 
+            storageLocation: null, 
+            comment: '',
+            action: ''
+        }
+        this.props.changeAddReagentForm(data)
+        console.log(nextProps)
     }
 
-    handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setState({
-            [name]: value
-        });
+    handleSubmit(values) {
+        console.log("Current State is: " + JSON.stringify(values));
+        alert("Current State is: " + JSON.stringify(values));
+        //this.props.resetAddReagentsForm();
     }
 
     render() {        
@@ -52,111 +62,171 @@ class AddReagent extends Component {
                 </div>
                 <div className="row ml-2 mt-2">
                     <div className="col-12">
-                        <Form>
-                            <Row>
+                        <Form model="addReagent" onSubmit={(values) => this.handleSubmit(values)}>
+                            <Row className="form-group">
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="reagentName">Reagent Name</Label>                        
-                                        <Input id="reagentName" type="text" name="reagentName" placeholder="Reagent Name"
-                                            value={this.state.reagentName} onChange={this.handleInputChange}/>                                        
-                                    </FormGroup>
+                                    <Label forHTML="reagentName">Reagent Name</Label>                        
+                                    <Control.text model=".reagentName" id="reagentName" name="reagentName"
+                                        placeholder="Reagent Name" 
+                                        className="form-control" 
+                                        validators={{
+                                            required
+                                        }} />  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".supplier"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="form-group">
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="supplier">Supplier</Label>                        
-                                        <Input id="supplier" type="text" name="supplier" placeholder="Supplier Name"
-                                            value={this.state.supplier} onChange={this.handleInputChange}/>                                        
-                                    </FormGroup>
+                                    <Label forHTML="supplier">Supplier</Label>                        
+                                    <Control.text model=".supplier" id="supplier" name="supplier"
+                                        placeholder="Supplier" 
+                                        className="form-control" 
+                                        validators={{
+                                            required
+                                        }} />  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".supplier"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>                                                                          
                                 </Col>
                             </Row>
-                            <Row>                                
+                            <Row className="form-group">                                
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="lotNr">Lot Number</Label>                        
-                                        <Input id="lotNr" type="text" name="lotNr" placeholder="Lot Number"
-                                            value={this.state.lotNr} onChange={this.handleInputChange}/>
-                                    </FormGroup>
-                                </Col>                       
+                                    <Label forHTML="lotNr">Lot Number</Label>                        
+                                    <Control.text model=".lotNr" id="lotNr" name="lotNr"
+                                        placeholder="Lot Number" 
+                                        className="form-control" 
+                                        validators={{
+                                            required
+                                        }} />  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".lotNr"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/> 
+                                </Col>                                                       
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="catNr">Cat Number</Label>                        
-                                        <Input id="catNr" type="catNr" name="catNr" placeholder="Cat Number"
-                                            value={this.state.catNr} onChange={this.handleInputChange}/>
-                                    </FormGroup>
-                                </Col>         
+                                    <Label forHTML="catNr">Cat Number</Label>                        
+                                    <Control.text model=".catNr" id="catNr" name="catNr"
+                                        placeholder="Cat Number" 
+                                        className="form-control" 
+                                        validators={{
+                                            required
+                                        }} />  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".catNr"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>                                        
+                                </Col>                                                       
                             </Row>
-                            <Row>
+                            <Row className="form-group">                                
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="expDate">Expiry Date</Label>                        
-                                        <Input id="expDate" type="date" name="expDate" placeholder="date placeholder"
-                                            onChange={this.handleInputChange}/>
-                                    </FormGroup>
+                                    <Label forHTML="expDate">Expiry Date</Label>                        
+                                    <Control type="date" model=".expDate" id="expDate" 
+                                        name="expDate" className="form-control"
+                                        validators={{
+                                            required
+                                        }}/>  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".expDate"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>                                        
                                 </Col>
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="receivedDate">Date Received</Label>                        
-                                        <Input id="receivedDate" type="date" name="receivedDate" placeholder="date placeholder"
-                                            onChange={this.handleInputChange}/>
-                                    </FormGroup>
+                                    <Label forHTML="receivedDate">Date Received</Label>                        
+                                    <Control type="date" model=".receivedDate" id="receivedDate" name="receivedDate" 
+                                        className="form-control"
+                                        validators={{
+                                            required
+                                        }}/>  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".receivedDate"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>                                        
+                                </Col>                                                       
+                            </Row>
+                            <Row className="form-group">
+                                <Col>
+                                    <Label forHTML="condition">Condition</Label>                            
+                                    <Control.select model=".condition" name="condition"                                 
+                                        className="form-control"
+                                        validators={{
+                                            required
+                                        }}>
+                                        <option>–</option>
+                                        <option>GOOD</option>
+                                        <option>INACCEPTABLE</option>                                                
+                                    </Control.select>
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".condition"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>   
+                                </Col>
+                                <Col >    
+                                    <Label forHTML="storageLocation">Storage Location</Label>
+                                    <Control.select model=".storageLocation" name="storageLocation"                                 
+                                        className="form-control"
+                                        validators={{
+                                            required
+                                        }}>
+                                        <option>–</option>
+                                        <option>ROOM1</option>
+                                        <option>ROOM2</option>
+                                        <option>ROOM3</option>                                                
+                                    </Control.select>
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".storageLocation"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>                                    
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="form-group">                                
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="condition">Condition</Label>                        
-                                        <Input id="condition" type="select" name="condition" onChange={this.handleInputChange}>
-                                            <option>GOOD</option>
-                                            <option>INACCEPTABLE</option>
-                                        </Input>
-                                    </FormGroup>
-                                </Col>
-                                <Col>
-                                    <FormGroup>
-                                        <Label forHTML="storageLocation">Storage Location</Label>                        
-                                        <Input id="storageLocation" type="select" name="storageLocation" onChange={this.handleInputChange}>
-                                            <option>Met Prep Room</option>
-                                            <option>Room 2</option>
-                                            <option>Room 3</option>
-                                        </Input>
-                                    </FormGroup>
+                                    <Label htmlFor="action">Action (If condition is unacceptable)</Label>
+                                    <Control.textarea model=".action" id="action" name="action" rows="3"
+                                        className="form-control"/>  
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="form-group">                                
                                 <Col>
-                                    <FormGroup>
-                                        <Label forHTML="action">Action (If condition is unacceptable)</Label>                        
-                                        <Input rows="2" id="action" type="textarea" name="action" onChange={this.handleInputChange}/>
-                                    </FormGroup>
+                                    <Label htmlFor="comment">Comment</Label>
+                                    <Control.textarea model=".comment" id="comment" name="comment" rows="3"
+                                        className="form-control"/>  
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col>
-                                    <FormGroup>
-                                        <Label forHTML="comment">Comment</Label>                        
-                                        <Input rows="5" id="comment" type="textarea" name="comment"
-                                            onChange={this.handleInputChange}/>
-                                    </FormGroup>
+                            <Row className="form-group">
+                                <Col md={{size:10}}>
+                                    <Button type="submit">
+                                    Add Reagent
+                                    </Button>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col md={3}>
-                                    <FormGroup>
-                                        <Label forHTML="unit">Unit</Label>                        
-                                        <Input id="unit" type="number" name="unit" placeholder="-.-"
-                                            onChange={this.handleInputChange}/>
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <FormGroup>
-                                        <Button>Submit</Button>
-                                    </FormGroup>                            
-                                </Col>
-                            </Row>                            
                         </Form>                        
                     </div>                    
                 </div>

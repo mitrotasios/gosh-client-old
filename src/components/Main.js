@@ -13,7 +13,8 @@ import { actions } from 'react-redux-form';
 const mapStateToProps = state => {
     return {
         reagents: state.reagents,
-        tests: state.tests        
+        tests: state.tests,
+        form: state.form       
     }     
 }
 
@@ -30,7 +31,8 @@ const mapDispatchToProps = (dispatch) => ({
         comment) => dispatch(postReagents(reagent_name, supplier, lot_number, cat_number, expiry_date, date_received, condition, storage_location, comment)),    
     fetchReagents: () => {dispatch(fetchReagents())},
     fetchTests: () => {dispatch(fetchTests())},
-    resetFeedbackForm: () => {dispatch(actions.reset('addReagent'))}
+    resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
+    changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))}
 });
 
 class Main extends Component {
@@ -48,7 +50,9 @@ class Main extends Component {
             return(
                 <Inventory reagents={this.props.reagents.reagents} 
                     reagentsErrMess={this.props.reagents.errMess}
-                    postReagents={this.props.postReagents} />
+                    postReagents={this.props.postReagents} 
+                    resetAddReagentForm={this.props.resetAddReagentForm}
+                    changeAddReagentForm= {this.props.changeAddReagentForm} />
             );
         }
 

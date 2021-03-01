@@ -14,6 +14,13 @@ export const Reagents = (state = {
         case ActionTypes.ADD_REAGENTS:
             var reagent = action.payload;
             return {...state, reagents: state.reagents.concat(reagent)};
+       
+        case ActionTypes.REMOVE_REAGENTS:
+            var reagent = action.payload;
+            return {...state, reagents: state.reagents.filter(
+                item => item !== reagent
+            )};
+
         default:
             return state;
     }

@@ -1,6 +1,11 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseURL';
 
+export const removeReagent = (reagent) => ({
+    type: ActionTypes.REMOVE_REAGENTS,
+    payload: reagent
+});
+
 export const addReagents = (reagents) => ({
     type: ActionTypes.ADD_REAGENTS,
     payload: reagents
