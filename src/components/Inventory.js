@@ -86,6 +86,19 @@ export const Inventory = (props) => {
 
     }
 
+    const renderRowSubComponent = React.useCallback(
+        ({ row }) => (
+          <pre
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            <code>{JSON.stringify({ values: row.original }, null, 2)}</code>
+          </pre>
+        ),
+        []
+    )
+
     return(
         <>        
         <div id="page-wrap" className="container-fluid">
@@ -133,7 +146,8 @@ export const Inventory = (props) => {
                     {rows.map((row, i) => {
                         prepareRow(row)
                         return (
-                        <tr {...row.getRowProps()}>
+                        <React.Fragment {...row.getRowProps()}>
+                        <tr>
                             {row.cells.map(cell => {
                             return (
                                 <td
@@ -162,10 +176,25 @@ export const Inventory = (props) => {
                             )
                             })}
                         </tr>
+                        {row.isExpanded && !row.subRows.length ? (
+                            <tr>
+                                <td colSpan={visibleColumns.length}>
+                                {/*
+                                    Inside it, call our renderRowSubComponent function. In reality,
+                                    you could pass whatever you want as props to
+                                    a component like this, including the entire
+                                    table instance. But for this example, we'll just
+                                    pass the row
+                                    */}
+                                {renderRowSubComponent({ row })}
+                                </td>
+                            </tr>
+                            ) : null}
+                        </React.Fragment>
                         )
                     })}
                     </tbody>
-                </table>  
+                </table>
                 <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
                     selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
                     resetAddReagentForm={props.resetAddReagentForm}
