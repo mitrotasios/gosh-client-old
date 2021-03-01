@@ -18,7 +18,7 @@ export const Reagents = (state = {
         case ActionTypes.REMOVE_REAGENTS:
             var reagent = action.payload;
             return {...state, reagents: state.reagents.filter(
-                item => item !== reagent
+                item => item.id !== reagent
             )};
 
         default:

@@ -1,10 +1,39 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseURL';
 
-export const removeReagent = (reagent) => ({
+export const removeReagents = (reagent) => ({    
     type: ActionTypes.REMOVE_REAGENTS,
     payload: reagent
 });
+
+export const deleteReagents = (
+    reagent_id
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'reagents/' + reagent_id, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(removeReagents(reagent_id))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
+        
+}
 
 export const addReagents = (reagents) => ({
     type: ActionTypes.ADD_REAGENTS,
@@ -36,7 +65,7 @@ export const postReagents = (
         //action: action,
         comment: comment,
         date_of_use: "2010-01-01T23:56:02Z",
-        last_used: "2010-01-01T23:56:02Z",
+        last_used: "",
         assay: ''
     }
     //newComment.date = new Date().toISOString();
@@ -66,7 +95,7 @@ export const postReagents = (
         .then(response => response.json())
         .then(response => dispatch(addReagents(response)))
         .catch(error => { console.log('Post reagents', error.message) 
-            alert('Your comment could not be posted\nError: '+ error.message)})
+            alert('Reagent could not be posted\nError: '+ error.message)})
         
 }
 

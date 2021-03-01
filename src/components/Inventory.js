@@ -75,12 +75,15 @@ export const Inventory = (props) => {
         setToggleState(!isSidebarOpen);           
     }    
 
-    const deleteRows = () => {
+    const deleteRows = () => { 
         selectedFlatRows.forEach(row => {
-            const dataCopy = [...data];
-            dataCopy.splice(row.index, 1);
-            setData(dataCopy)
+            // const dataCopy = [...data];
+            // dataCopy.splice(row.index, 1);            
+            //setData(dataCopy)
+            //alert(row.original.id)                       
+            props.deleteReagents(row.original.id)
         });
+
     }
 
     return(
