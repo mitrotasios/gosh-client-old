@@ -9,7 +9,5 @@ export const InitialReagentInfo = {
     receivedDate: null,
     condition: null,
     storageLocation: null,
-    action: '',
-    comment: '',
-    // unit: null
+    unit: null
 }

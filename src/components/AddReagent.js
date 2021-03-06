@@ -16,10 +16,7 @@ class AddReagent extends Component {
         catNr: '',
         expDate: null,
         receivedDate: null,
-        condition: null,
         storageLocation: null,
-        action: '',
-        comment: '',
         unit: null
       }
           
@@ -33,10 +30,8 @@ class AddReagent extends Component {
             catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : '', 
             expDate: null,
             receivedDate: null,             
-            condition: null, 
             storageLocation: null, 
-            comment: '',
-            action: ''
+            unit: null
         }
         this.props.changeAddReagentForm(data)
         console.log(nextProps)
@@ -48,16 +43,18 @@ class AddReagent extends Component {
         var expDate = "2010-01-01T23:56:02Z";
         var receivedDate = "2010-01-01T23:56:02Z";
 
-        this.props.postReagents(
-            values.reagentName, 
-            values.supplier,
-            values.lotNr,
-            values.catNr,
-            expDate,
-            receivedDate,
-            values.condition,
-            values.storageLocation,
-            values.comment)
+        var times = Number(values.unit);
+        
+        for (var i=0; i<times; i++) {
+            this.props.postReagents(
+                values.reagentName, 
+                values.supplier,
+                values.lotNr,
+                values.catNr,
+                expDate,
+                receivedDate,
+                values.storageLocation)
+        }        
         //this.props.resetAddReagentsForm();
     }
 
@@ -179,26 +176,7 @@ class AddReagent extends Component {
                                 </Col>                                                       
                             </Row>
                             <Row className="form-group">
-                                <Col>
-                                    <Label forHTML="condition">Condition</Label>                            
-                                    <Control.select model=".condition" name="condition"                                 
-                                        className="form-control"
-                                        validators={{
-                                            required
-                                        }}>
-                                        <option>–</option>
-                                        <option>GOOD</option>
-                                        <option>INACCEPTABLE</option>                                                
-                                    </Control.select>
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".condition"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>   
-                                </Col>
-                                <Col >    
+                                <Col md={6}>    
                                     <Label forHTML="storageLocation">Storage Location</Label>
                                     <Control.select model=".storageLocation" name="storageLocation"                                 
                                         className="form-control"
@@ -218,19 +196,20 @@ class AddReagent extends Component {
                                             required: 'Required',                                            
                                         }}/>                                    
                                 </Col>
-                            </Row>
-                            <Row className="form-group">                                
-                                <Col>
-                                    <Label htmlFor="action">Action (If condition is unacceptable)</Label>
-                                    <Control.textarea model=".action" id="action" name="action" rows="3"
-                                        className="form-control"/>  
-                                </Col>
-                            </Row>
-                            <Row className="form-group">                                
-                                <Col>
-                                    <Label htmlFor="comment">Comment</Label>
-                                    <Control.textarea model=".comment" id="comment" name="comment" rows="3"
-                                        className="form-control"/>  
+                                <Col md={2}>
+                                    <Label htmlFor="unit">Unit</Label>
+                                    <Control.text type="number" model=".unit" id="unit" name="unit"
+                                        min="1"
+                                        className="form-control"validators={{
+                                            required
+                                        }}/>  
+                                    <Errors 
+                                        className="text-danger"
+                                        model=".unit"
+                                        show="touched"
+                                        messages={{
+                                            required: 'Required',                                            
+                                        }}/>
                                 </Col>
                             </Row>
                             <Row className="form-group">
