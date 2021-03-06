@@ -1,20 +1,23 @@
 import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
+import { ImLab } from "react-icons/im";
+import { RiHistoryLine, RiTestTubeLine, RiAccountBoxLine } from "react-icons/ri";
+import { MdCreateNewFolder } from "react-icons/md";
 
 function Sidebar(props) {
   return (
     <Menu>
       <a className="menu-item" href="/invenotry">
-        Inventory
+        <span><RiTestTubeLine/>&nbsp;&nbsp;Inventory</span>
       </a>
       <a className="menu-item" href="/testhistory">
-        Test History
+      <span><RiHistoryLine/>&nbsp;&nbsp;Test History</span>
       </a>
       <a className="menu-item" href="/assays">
-        Assays
+      <span><MdCreateNewFolder/>&nbsp;&nbsp;Assays</span>
       </a>
       <a className="menu-item" href="/account">
-        Account
+      <span><RiAccountBoxLine/>&nbsp;&nbsp;Account</span>
       </a>
       <a id="signout-link" className="menu-item" href="/account">
         Sign Out

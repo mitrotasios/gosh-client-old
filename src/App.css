@@ -112,7 +112,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 }
 
 .sidebar-content {
-  width: 500px;
+  width: 600px;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -150,4 +150,9 @@ svg {
   color: white;
   background-color: white;
   border: none;
+}
+
+#signout-link {
+  font-weight: 400;
+  opacity: 0.8;
 }
