@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col, Row} from 'reactstrap';
+import { Button, Label, Input, Col, Row} from 'reactstrap';
+import {Control, Form, Errors, actions} from 'react-redux-form';
 
 class AccountDetails extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            fName: 'Anne',
-            lName: 'Miller',
-            email: 'anne.miller@gosh.nhs.uk',
-            role: 'Lab Supervisor'
+            // fName: 'Anne',
+            // lName: 'Miller',
+            // email: 'anne.miller@gosh.nhs.uk',
+            // role: 'Lab Supervisor',
+
+            inputs: [
+                'fName',
+                'lName',
+                'email',
+                'role',
+                'password'
+            ]
         }
     }
 
-    handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+    // handleInputChange = (event) => {
+    //     const target = event.target;
+    //     const value = target.type === 'checkbox' ? target.checked : target.value;
+    //     const name = target.name;
 
-        this.setState({
-            [name]: value
-        });
+    //     this.setState({
+    //         [name]: value
+    //     });
+    // }
+
+    handleSubmit = () => {
+
+    }
+
+    changePassword = () => {
+        this.setState(prevState => ({ inputs: prevState.inputs.concat(['oldPassword', 'newPassword']) }));
     }
 
     render() {
@@ -38,50 +55,80 @@ class AccountDetails extends Component {
                     <div className="container-fluid lm-3 ">
                         <div className="row">
                             <div className="col-md-6">
-                            <Form>
-                                <FormGroup row>
-                                    <Label md={2} forHTML="fName">First Name</Label>                        
-                                    <Col md={8}>
-                                        <Input id="fName" type="text" name="fName"
-                                            value={this.state.fName} onChange={this.handleInputChange}/>                                        
+                            <Form model="accountInfo" onSubmit={(values) => this.handleSubmit(values)}>
+                                {this.state.inputs.map(input => {
+                                    var label = '';
+                                    var inputName = '';
+                                    var validation = false;
+                                    var value = null;
+                                    
+                                    switch(input) {
+                                        case 'fName':
+                                            label = 'First Name'
+                                            inputName = 'fName';
+                                            validation = false;
+                                            value=this.state.fName;
+                                            break;
+                                        case 'lName':
+                                            label = 'Last Name'
+                                            inputName = 'lName';
+                                            validation = false;
+                                            value=this.state.lName;
+                                            break;
+                                        case 'email':
+                                            label = 'Email'
+                                            inputName = 'email';
+                                            validation = false;
+                                            value=this.state.email;
+                                            break;
+                                        case 'role':
+                                            label = 'Role'
+                                            inputName = 'role';
+                                            validation = false;
+                                            value=this.state.role;
+                                            break;
+                                        case 'password':
+                                            label = 'Password'
+                                            inputName = 'password';
+                                            validation = false;
+                                            value='********';
+                                            break;
+                                        case 'oldPassword':
+                                            label = 'Old Password'
+                                            inputName = 'oldPassword';
+                                            validation = true;
+                                            value=null
+                                            break;
+                                        case 'newPassword':
+                                            label = 'New Password'
+                                            inputName = 'newPassword';
+                                            validation = true;
+                                            value=null
+                                            break;
+                                    }   
+                                    return(
+                                        <Row className="form-group">
+                                            <Label md={2} forHTML={inputName}>{label}</Label>                        
+                                            <Col md={inputName=="password" ? 6 : 8}>
+                                                {inputName=="password" || inputName=="oldPassword" || inputName=="oldPassword" ? (
+                                                    <Control type="password" model={'.'+inputName} id={inputName} name={inputName}
+                                                    />                                            
+                                                ) : <Control.text model={'.'+inputName} id={inputName} name={inputName}
+                                                    />}                                        
+                                            </Col>
+                                            <Col>
+                                                {inputName=="password" ? <Button onClick={this.changePassword}>Edit</Button> : null}
+                                            </Col>                                            
+                                        </Row>
+                                    );                                                          
+                                })}
+                                <Row className="form-group">
+                                    <Col md={{size:10, offset:2}}>
+                                        <Button type="submit">
+                                            Save Changes
+                                        </Button>
                                     </Col>
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label md={2} forHTML="lName">Last Name</Label>                        
-                                    <Col md={8}>
-                                        <Input id="lName" type="text" name="lName"
-                                            value={this.state.lName} onChange={this.handleInputChange}/>                                        
-                                    </Col>                            
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label md={2} forHTML="email">Email</Label>                        
-                                    <Col md={8}>
-                                        <Input id="email" type="text" name="email"
-                                            value={this.state.email} onChange={this.handleInputChange}/>
-                                    </Col>                            
-                                </FormGroup>
-                                <FormGroup row>
-                                    <Label md={2} forHTML="role">Role</Label>        
-                                    <Col md={8}>
-                                        <Input id="role" type="text" name="role"
-                                            value={this.state.role} onChange={this.handleInputChange}/>
-                                    </Col>                
-                                </FormGroup>
-                                <FormGroup row> 
-                                    <Label md={2} forHTML="password">Password</Label>                                                    
-                                    <Col md={6}>
-                                        <Input id="password" type="text" name="password"
-                                            value='********' onChange={this.handleInputChange}/>
-                                    </Col>
-                                    <Col md={{size:4}}>
-                                        <Button>Edit</Button>
-                                    </Col>                            
-                                </FormGroup>                                
-                                <FormGroup row>
-                                    <Col md={{size:10, offset: 2}}>
-                                        <Button>Save Changes</Button>
-                                    </Col>
-                                </FormGroup>                            
+                                </Row>                        
                             </Form>
 
                             </div>

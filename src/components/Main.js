@@ -14,7 +14,7 @@ const mapStateToProps = state => {
     return {
         reagents: state.reagents,
         tests: state.tests,
-        form: state.form       
+        //form: state.form       
     }     
 }
 
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTests: () => {dispatch(fetchTests())},
     switchTests: (tests) => {dispatch(switchTests(tests))},
     resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
-    changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))}
+    changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))}    
 });
 
 class Main extends Component {

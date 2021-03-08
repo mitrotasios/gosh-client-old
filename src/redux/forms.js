@@ -11,3 +11,14 @@ export const InitialReagentInfo = {
     storageLocation: null,
     unit: null
 }
+
+export const InitialAccountInfo = {
+    fName: 'Anne',
+    lName: 'Miller',
+    email: 'anne.miller@gosh.nhs.com',
+    role: 'Lab Supervisor',
+    password: '1234',
+    oldPassword: null,
+    newPassword: null,
+}
+
