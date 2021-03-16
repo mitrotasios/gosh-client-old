@@ -21,6 +21,7 @@ export const InitialEditReagent = {
     receivedDate: null,
     condition: null,
     storageLocation: null,
+    comment: ''
 }
 
 export const InitialAccountInfo = {

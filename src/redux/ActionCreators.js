@@ -130,6 +130,41 @@ export const renderReagents = (reagents) => ({
     payload: reagents
 });
 
+
+export const deleteTests = (
+    test_id
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'tests/' + test_id, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(removeTests(test_id))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
+        
+}
+
+export const removeTests = (test) => ({    
+    type: ActionTypes.REMOVE_TESTS,
+    payload: test
+});
+
 export const fetchTests = () => (dispatch) => {
     return fetch(baseUrl + 'tests')
         .then(response => {

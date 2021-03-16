@@ -58,11 +58,13 @@ export const TestHistory = (props) => {
 
     const [selectedRow, setSelectRows] = useState('')
 
-    const deleteRows = () => {
+    const deleteRows = () => { 
         selectedFlatRows.forEach(row => {
-            var dataCopy = [...data];
-            dataCopy.splice(row.index, 1);
-            setData(dataCopy)
+            // const dataCopy = [...data];
+            // dataCopy.splice(row.index, 1);            
+            //setData(dataCopy)
+            //alert(row.original.id)       
+            props.deleteTests(row.original.id)
         });
     }
 
