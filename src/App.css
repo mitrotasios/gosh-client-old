@@ -156,3 +156,8 @@ svg {
   font-weight: 400;
   opacity: 0.8;
 }
+
+#hidden-qr {
+  margin-top: 0px;
+  display: "none"
+}
