@@ -46,11 +46,11 @@ export const Inventory = (props) => {
                     {
                         id: 'selection',
                         groupByBoundary: true,
-                        Header: ({ getToggleAllRowsSelectedProps }) => (
-                            <Checkbox {...getToggleAllRowsSelectedProps()} />
-                        ),
+                        // Header: ({ getToggleAllRowsSelectedProps }) => (
+                        //     <Checkbox {...getToggleAllRowsSelectedProps()} />
+                        // ),
                         Cell: ({ row }) => (
-                            <Checkbox {...row.getToggleRowSelectedProps()}/>
+                            row.subRows.length ? (null) : <Checkbox {...row.getToggleRowSelectedProps()}/>                            
                         )
                     }
                     
@@ -250,7 +250,7 @@ export const Inventory = (props) => {
                     })}
                     </tbody>
                 </table>
-                {/* <pre>
+                <pre>
                     <code>
                         {JSON.stringify({
                             selectedFlatRows: selectedFlatRows.map((row) => row.original),
@@ -259,7 +259,7 @@ export const Inventory = (props) => {
                         2
                         )}
                     </code>
-                </pre> */}
+                </pre>
                 <div id="hidden-qr">                    
                     {
                         selectedFlatRows.map(row => {
@@ -303,3 +303,4 @@ export const Inventory = (props) => {
         </>
     );
 }
+
