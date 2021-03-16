@@ -115,7 +115,7 @@ export const Inventory = (props) => {
         // const startDownload = () => {
         
         document.getElementById("hidden-qr").style.display = "block";
-        document.getElementById("hidden-qr").style.marginTop = "1500px";
+        //document.getElementById("hidden-qr").style.marginTop = "1500px";
 
         selectedFlatRows.forEach(row => {
             if (row.original != null) {
@@ -138,7 +138,7 @@ export const Inventory = (props) => {
         });
 
         document.getElementById("hidden-qr").style.display = "none";
-        document.getElementById("hidden-qr").style.marginTop = "0px";
+        //document.getElementById("hidden-qr").style.marginTop = "0px";
     }
     
     const renderRowSubComponent = React.useCallback(
@@ -179,12 +179,12 @@ export const Inventory = (props) => {
                         <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
                             <th {...column.getHeaderProps(column.getSortByToggleProps())} {...column.getHeaderProps()}>
-                            {column.canGroupBy ? (
+                            {/*column.canGroupBy ? (
                                 // If the column can be grouped, let's add a toggle
                                 <span {...column.getGroupByToggleProps()}>
                                 {column.isGrouped ? <span><AiOutlineUngroup/> </span> : <span><AiOutlineGroup/> </span>}
                                 </span>                                                                
-                            ) : null}         
+                            ) : null*/}         
                             {column.render('Header')}                            
                             <span>
                             {column.canSort ? (
@@ -252,12 +252,12 @@ export const Inventory = (props) => {
                 </table>
                 <pre>
                     <code>
-                        {JSON.stringify({
+                        {/*JSON.stringify({
                             selectedFlatRows: selectedFlatRows.map((row) => row.original),
                         },
                         null,
                         2
-                        )}
+                    )*/}
                     </code>
                 </pre>
                 <div id="hidden-qr">                    
