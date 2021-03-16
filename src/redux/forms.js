@@ -12,6 +12,17 @@ export const InitialReagentInfo = {
     unit: null
 }
 
+export const InitialEditReagent = {
+    reagentName: '',
+    supplier: '',
+    lotNr: '',
+    catNr: '',
+    expDate: '',
+    receivedDate: null,
+    condition: null,
+    storageLocation: null,
+}
+
 export const InitialAccountInfo = {
     fName: 'Anne',
     lName: 'Miller',

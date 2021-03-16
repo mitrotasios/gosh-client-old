@@ -4,7 +4,7 @@ import { Reagents } from "./reagents";
 import { Tests } from "./tests";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { InitialReagentInfo, InitialAccountInfo } from './forms';
+import { InitialReagentInfo, InitialAccountInfo, InitialEditReagent } from './forms';
 
 export const ConfigureStore = () => {
     const store = createStore(
@@ -13,6 +13,7 @@ export const ConfigureStore = () => {
             tests: Tests,
             ...createForms({
                 addReagent: InitialReagentInfo,
+                editReagent: InitialEditReagent,
                 accountInfo: InitialAccountInfo
             })
         }),
