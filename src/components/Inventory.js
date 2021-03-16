@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded, useGroupBy } from 'react-table';
 import MOCK_DATA from './REAGENTS.json';
 import { COLUMNS } from './columns_inventory'
@@ -8,6 +8,7 @@ import AddReagent from './AddReagent';
 import { Button} from 'reactstrap';
 import { Checkbox } from './CheckBox';
 import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutlineRight, AiOutlineDown} from 'react-icons/ai';
+import QRCode  from 'qrcode.react';
 
 export const Inventory = (props) => {
     
@@ -93,6 +94,43 @@ export const Inventory = (props) => {
         });
     }
 
+    //const downloadQR = () => {
+        // const renderQR = () => {
+        //     return(
+        //         <div style={{display: "none"}}>
+        //             <QRCode
+        //                 id="123456"
+        //                 value="123456"
+        //                 size={290}
+        //                 level={"H"}
+        //                 includeMargin={true}
+        //             />
+        //         </div>    
+
+        //     );  
+        // }
+
+        // const startDownload = () => {
+        //     const canvas = document.getElementById("123456");
+        //     const pngUrl = canvas
+        //         .toDataURL("image/png")
+        //         .replace("image/png", "image/octet-stream");
+        //     let downloadLink = document.createElement("a");
+        //     downloadLink.href = pngUrl;
+        //     downloadLink.download = "123456.png";
+        //     document.body.appendChild(downloadLink);
+        //     downloadLink.click();
+        //     document.body.removeChild(downloadLink);
+        //     document.body.removeChild(canvas);
+        // }
+
+        // selectedFlatRows.forEach(row => {
+        //     renderQR()
+        //     startDownload()
+        // })
+
+    //}
+    
     const renderRowSubComponent = React.useCallback(
         ({ row }) => (
           <pre
@@ -107,10 +145,19 @@ export const Inventory = (props) => {
     )
 
     return(
-        <>        
+        <>                
         <div id="page-wrap" className="container-fluid">
             <div className="container-fluid">
-                <div className="row text-center">
+                <div className="row text-center"> 
+                <div style={{display: "none"}}>
+                     <QRCode
+                        id="123456"
+                        value="123456"
+                        size={290}
+                        level={"H"}
+                        includeMargin={true}
+                    />
+                </div>                
                     <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
                     <div className="col-sm-4 ml-auto">
                         <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
@@ -206,7 +253,7 @@ export const Inventory = (props) => {
                     selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
-                    postReagents={props.postReagents} />                                                            
+                    postReagents={props.postReagents} />                                                           
             </div>
         </div>
         </>
