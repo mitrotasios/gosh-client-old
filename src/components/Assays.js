@@ -52,6 +52,7 @@ class Assays extends Component {
         this.state = {
             isModalOpen: false,
             reagentInputs: ['r_1'],
+            reagentDataInputs: ['rd_1'],
             otherInputs: ['o_1'],
             
             assays: [
@@ -131,6 +132,30 @@ class Assays extends Component {
         );
     }
 
+    addReagentDataInput = () => {
+        var curr =  this.state.reagentDataInputs[this.state.reagentDataInputs.length-1]
+        curr = String(Number(curr.split("_").pop())+1)
+        console.log("create", 'rd_'+curr)
+        this.setState(
+            prevState => ({ reagentDataInputs: prevState.reagentDataInputs.concat(['rd_'+curr])})
+        );
+    }
+
+    removeReagentDataInput = (num) => {
+        console.log("remove", num)
+        var tempArray = this.state.reagentDataInputs.slice();
+        var index = tempArray.indexOf(num);
+        console.log("The index is", index)
+        if (index !== -1) {
+            tempArray.splice(index, 1);
+        }
+        //tempArray.splice(-1,1);
+        console.log("TempArray", tempArray)
+        this.setState(
+            {reagentDataInputs: tempArray}
+        );
+    }
+
     addOtherInput = () => {
         var curr =  this.state.otherInputs[this.state.otherInputs.length-1]
         curr = String(Number(curr.split("_").pop())+1)
@@ -155,8 +180,9 @@ class Assays extends Component {
         );
     }
 
-    handleSubmit = () => {
-
+    handleSubmit = (values) => {
+        this.toggleModal();
+        alert("Current State is: " + JSON.stringify(values));
     }
 
     render() {
@@ -178,7 +204,7 @@ class Assays extends Component {
                                          
                     </div>
                 </div>
-                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} size="lg">
                     <ModalHeader toggle={this.toggleModal}>Add New Assay Type</ModalHeader>
                     <ModalBody>
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
@@ -187,7 +213,7 @@ class Assays extends Component {
                                     return(
                                         <Row className="form-group">
                                             <Col md={10}>                                            
-                                                <Control.text model={'.'+String(num)} id={String(num)} name={+String(num)}
+                                                <Control.text model={'.reagent_'+String(num)} id={'reagent_'+String(num)} name={'reagent_'+String(num)}
                                                 placeholder="Reagent Name" 
                                                 className="form-control"
                                                 withFieldValue={true}/>
@@ -204,23 +230,66 @@ class Assays extends Component {
                                         </Row>
                                     );                                                                                                   
                                 })}     
+                            <h4>Reagent Data</h4>    
+                                {this.state.reagentDataInputs.map(num => {  
+                                    return(
+                                        <Row className="form-group">
+                                            <Col md={5}>                                            
+                                                <Control.text model={'.rd_name_'+String(num)} id={'rd_name_'+String(num)} name={'rd_name_'+String(num)}
+                                                placeholder="Field Name" 
+                                                className="form-control"
+                                                withFieldValue={true}/>
+                                            </Col>
+                                            <Col md={2}>                                            
+                                                <Control.select model={'.rd_type_'+String(num)} id={'rd_type_'+String(num)} name={'rd_type_'+String(num)}                                 
+                                                className="form-control">
+                                                    <option>Text</option>
+                                                    <option>Date</option>
+                                                </Control.select>
+                                            </Col>    
+                                            <Col md={3}>                                            
+                                                <Control.select model={'.rd_req_'+String(num)} id={'rd_req_'+String(num)} name={'rd_req_'+String(num)}                                 
+                                                className="form-control">
+                                                    <option>Not Required</option>
+                                                    <option>Required</option>
+                                                </Control.select>
+                                            </Col> 
+                                            {num === this.state.reagentDataInputs[0] ? (                                                
+                                                <Col md={1}>
+                                                    <Button onClick={this.addReagentDataInput}>+</Button>
+                                                </Col>
+                                            ) : (
+                                                <Col md={1}>
+                                                    <Button color="danger" onClick={() => this.removeReagentDataInput(String(num))}>-</Button>
+                                                </Col>
+                                            )}                                
+                                        </Row>
+                                    );                                                                                                   
+                                })}    
                             <h4>Other</h4>    
                                 {this.state.otherInputs.map(num => {  
                                     return(
                                         <Row className="form-group">
                                             <Col md={5}>                                            
-                                                <Control.text model={'.name_'+String(num)} id={'name_'+String(num)} name={'name_'+String(num)}
+                                                <Control.text model={'.o_name_'+String(num)} id={'o_name_'+String(num)} name={'o_name_'+String(num)}
                                                 placeholder="Field Name" 
                                                 className="form-control"
                                                 withFieldValue={true}/>
                                             </Col>
-                                            <Col md={5}>                                            
-                                                <Control.select model={'.type_'+String(num)} id={'type_'+String(num)} name={'type_'+String(num)}                                 
+                                            <Col md={2}>                                            
+                                                <Control.select model={'.o_type_'+String(num)} id={'o_type_'+String(num)} name={'o_type_'+String(num)}                                 
                                                 className="form-control">
                                                     <option>Text</option>
                                                     <option>Date</option>
                                                 </Control.select>
-                                            </Col>     
+                                            </Col> 
+                                            <Col md={3}>                                            
+                                                <Control.select model={'.o_req_'+String(num)} id={'o_req_'+String(num)} name={'o_req_'+String(num)}                                 
+                                                className="form-control">
+                                                    <option>Not Required</option>
+                                                    <option>Required</option>
+                                                </Control.select>
+                                            </Col>    
                                             {num === this.state.otherInputs[0] ? (                                                
                                                 <Col md={1}>
                                                     <Button onClick={this.addOtherInput}>+</Button>
@@ -236,7 +305,7 @@ class Assays extends Component {
                                 <Row className="form-group">
                                     <Col>
                                         <Button type="submit" color="primary">
-                                        Submit
+                                            Add Assay
                                         </Button>
                                     </Col>
                                 </Row>
