@@ -17,15 +17,17 @@ export const Reagents = (state = {
 
         case ActionTypes.UPDATE_REAGENTS:
             var reagent = action.payload;
-            return {...state, reagents: state.reagents.concat(reagent)};
+            var reagentsCopy = state.reagents.slice()
+            var foundIndex = reagentsCopy.findIndex(x => x.id == reagent.id);
+            reagentsCopy[foundIndex] = reagent;
+            
+            return {...state, reagents: reagentsCopy}
        
         case ActionTypes.REMOVE_REAGENTS:
             var reagent = action.payload;
-            return {...state, reagents: state.reagents.forEach((item, i) => {
-                if (item.id == reagent.id) {
-                    state.reagents[i] = reagent;
-                }
-            })};
+            return {...state, reagents: state.reagents.filter(
+                item => item.id !== reagent
+            )};
 
         default:
             return state;

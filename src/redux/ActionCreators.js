@@ -63,13 +63,13 @@ export const putReagent = (
             throw errmess;
         })
         .then(response => response.json())
-        .then(response => dispatch(updateReagent(response)))
+        .then(response => {dispatch(updateReagent(response))})
         .catch(error => { console.log('Post reagents', error.message) 
             alert('Reagent could not be posted\nError: '+ error.message)})
 }
 
-export const updateReagents = (reagent) => ({
-    type: ActionTypes.ADD_REAGENTS,
+export const updateReagent = (reagent) => ({
+    type: ActionTypes.UPDATE_REAGENTS,
     payload: reagent
 });
 

@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({    
-    putReagents: (reagent) => {dispatch(putReagents(reagent))},
+    putReagent: (reagent) => {dispatch(putReagent(reagent))},
     deleteReagents: (reagent_id) => {dispatch(deleteReagents(reagent_id))},
     postReagents: (
         reagent_name,

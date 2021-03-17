@@ -12,6 +12,7 @@ import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutl
 import QRCode  from 'qrcode.react';
 import { Portal } from 'react-portal';
 import html2canvas from 'html2canvas';
+import { updateReagents } from '../redux/ActionCreators';
 
 const required = (val) => val && val.length;
 
@@ -114,6 +115,29 @@ export const Inventory = (props) => {
             //alert(row.original.id)       
             props.deleteReagents(row.original.id)
         });
+    }
+
+    const handleSubmit = (values) => {
+        var updatedReagent = {
+            id: selectedFlatRows[0].original.id,
+            reagent_name: values.reagentName,
+            lot_number: values.lotNr,
+            cat_number: values.catNr,
+            expiry_date: "2021-08-24T21:11:32Z",
+            date_received: "2021-02-07T07:11:13Z",
+            date_of_use: "2021-01-06T05:42:34Z",
+            last_used: selectedFlatRows[0].original.last_used,
+            storage_location: values.storageLocation,
+            condition: selectedFlatRows[0].original.condition,
+            comments: values.comment,
+            assay: selectedFlatRows[0].original.assay,
+            supplier: values.supplier
+        }
+
+        props.putReagent(updatedReagent);
+
+        toggleModal();
+
     }
 
     const downloadQR = () => {
@@ -310,7 +334,7 @@ export const Inventory = (props) => {
                     </ModalHeader>
                     <ModalBody>
                         <div className="col-12">
-                            <Form model="editReagent" onSubmit={(values) => this.handleSubmit(values)}>
+                            <Form model="editReagent" onSubmit={(values) => handleSubmit(values)}>
                                 <Row className="form-group">
                                     <Col>
                                         <Label forHTML="reagentName">Reagent Name</Label>                        
