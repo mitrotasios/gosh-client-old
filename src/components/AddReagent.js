@@ -38,8 +38,6 @@ class AddReagent extends Component {
     }
 
     handleSubmit(values) {
-        console.log("Current State is: " + JSON.stringify(values));
-        alert("Current State is: " + JSON.stringify(values));
         var expDate = "2010-01-01T23:56:02Z";
         var receivedDate = "2010-01-01T23:56:02Z";
 
