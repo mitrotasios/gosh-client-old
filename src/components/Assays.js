@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label} from 'reactstrap';
+import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label} from 'reactstrap';
 import {Control, LocalForm, Errors} from 'react-redux-form';
+import { max, min } from 'date-fns';
+import {Accordion, Card} from "react-bootstrap";
+
+
 
 function RenderAssay({ assay }) {
     return (
-        <div className="col-4">
-            <Card id={assay.assay_id}>                            
-                <CardBody>                    
-                    <CardTitle><h4>{assay.test_name}</h4></CardTitle>
+        <div className="col-4"> 
+            <Card id={assay.id}>                            
+            <CardBody>                    
+                <CardTitle><h4>{assay.assayName}</h4></CardTitle>
                     <CardText>
                         <h5>Reagents</h5>
                         <div className="container-fluid">
@@ -45,6 +49,25 @@ function RenderAssay({ assay }) {
     )
 }
 
+function AssayAccordionCard(props) {
+    return(
+        
+                props.assays.map(assay => {
+                    if (Number(assay.addedAt.substring(5,7)) == props.month) {
+                        return(
+                            <RenderAssay assay={assay}/>
+                        );
+                    }
+                    else {
+                        return(
+                            <div></div>
+                        );
+                    }
+                })
+            
+    );    
+}
+
 class Assays extends Component {
     constructor(props) {
         super(props);
@@ -54,52 +77,140 @@ class Assays extends Component {
             reagentInputs: ['r_1'],
             reagentDataInputs: ['rd_1'],
             otherInputs: ['o_1'],
+
+            months: [],
             
             assays: [
                 {
-                    test_name: 'Test Assay',
-                    assay_id: 1,
+                    id: 1,
+                    assayName: "PAA",
+                    addedAt: "2021-09-27T20:40:51Z",
                     metadata: [
-                        {
-                            key: 'reagents',
-                            type: 'group',
-                            children: [
-                                {
-                                    key: 'int_std_lot',
-                                    type: 'input',
-                                    label: 'INT STD LOT',
-                                    required: false
-                                },
-                                {
-                                    key: 'acn_lot',
-                                    type: 'input',
-                                    label: 'ACN LOT',
-                                    required: false
-                                },
-                                {
-                                    key: 'meqh_lot',
-                                    type: 'input',
-                                    label: 'MEQH LOT',
-                                    required: false
-                                },
-                            ] 
-                        },
-                        {
-                            key: 'other',
-                            type: 'group',
-                            children: [
-                                {
-                                    key: 'seal_wash_date_lot',
-                                    type: 'date',
-                                    label: 'Seal Wash Date',
-                                    required: false
-                                },
-                            ]
-                        }
+                      {
+                        key: "reagents",
+                        children: [
+                          {
+                            key: "int_std_lot",
+                            type: "input",
+                            label: "INT STD LOT",
+                            required: false
+                          },
+                          {
+                              key: "acn_lot",
+                              type: "input",
+                              label: "ACN LOT",
+                              required: false
+                          },
+                          {
+                              key: "meqh_lot",
+                              type: "input",
+                              label: "MEQH LOT",
+                              required: "false"
+                          }
+                        ]
+                      },
+                      {
+                        key: "reagentData",
+                        children: [
+                          {
+                            key: "seal_wash_date",
+                            type: "date",
+                            label: "Seal Wash Date",
+                            required: false
+                          }
+                        ]
+                      },
+                      {
+                        key: "other",
+                        children: [
+                          {
+                            key: "other_input",
+                            type: "date",
+                            label: "Other Input",
+                            required: false
+                          }
+                        ]
+                      }
                     ]
-                }
+                  },
+                  {
+                    id: 2,
+                    assayName: "ABC",
+                    addedAt: "2021-07-27T20:40:51Z",
+                    metadata: [
+                      {
+                        key: "reagents",
+                        children: [
+                          {
+                            key: "int_std_lot",
+                            type: "input",
+                            label: "INT STD LOT",
+                            required: "false"
+                          },
+                          {
+                              key: "acn_lot",
+                              type: "input",
+                              label: "ACN LOT",
+                              required: false
+                          },
+                          {
+                              key: "meqh_lot",
+                              type: "input",
+                              label: "MEQH LOT",
+                              required: false
+                          }
+                        ]
+                      },
+                      {
+                        key: "reagentData",
+                        children: [
+                          {
+                            key: "seal_wash_date",
+                            type: "date",
+                            label: "Test",
+                            required: false
+                          }
+                        ]
+                      },
+                      {
+                        key: "other",
+                        children: [
+                          {
+                            key: "other_input",
+                            type: "date",
+                            label: "Other Input",
+                            required: false
+                          }
+                        ]
+                      }
+                    ]
+                  }
             ]
         }
+    }
+
+
+
+    componentDidMount() {
+        var minMonth = 0;
+        var minYear = 0;
+        var maxMonth = 12;
+        var maxYear = 3000;
+        this.state.assays.forEach(assay => {
+           minMonth = Math.min(minMonth, Number(assay.addedAt.substring(5, 7)))
+           minYear = Math.min(minYear, Number(assay.addedAt.substring(0, 4)))
+
+           maxMonth = Math.max(minMonth, Number(assay.addedAt.substring(5, 7)))
+           maxYear = Math.max(maxYear, Number(assay.addedAt.substring(0, 4)))
+
+        });
+
+        minMonth = 7
+        maxMonth = 9
+        var months = [9,8,7]
+        this.setState({
+            months: months
+        });        
     }
 
     toggleModal = () => {
@@ -198,10 +309,34 @@ class Assays extends Component {
                 </div>
                 <div className="table-container container-fluid">                    
                     <div className="row">
-                        {this.state.assays.map(assay => {
+                        {/*this.state.assays.map(assay => {
                             return <RenderAssay assay={assay}/>
-                        })}
-                                         
+                        })*/}
+                        <div className="col-12">
+                            <Accordion defaultActiveKey={this.state.months[0] ? (
+                                String(this.state.months[0])
+                            ):''}>
+                                {
+                                    this.state.months.map(month => {
+                                        var mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"]
+                                        return(
+                                            <Card>
+                                                <Card.Header>
+                                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={String(month)}>
+                                                        {String(mapping[month-1])}
+                                                    </Accordion.Toggle>
+                                                    <Accordion.Collapse eventKey={String(month)}>
+                                                        <Card.Body>
+                                                            <AssayAccordionCard assays={this.state.assays} month={month}/>
+                                                        </Card.Body>                                                    
+                                                    </Accordion.Collapse>
+                                                </Card.Header>
+                                            </Card>
+                                        );
+                                    })
+                                }                                         
+                            </Accordion>                        
+                        </div>                        
                     </div>
                 </div>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} size="lg">
