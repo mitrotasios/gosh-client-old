@@ -6,7 +6,7 @@ import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
-import { deleteReagents, postReagents, fetchReagents, deleteTests, fetchTests, switchTests} from '../redux/ActionCreators'
+import { deleteReagents, postReagents, fetchReagents, deleteTests, fetchTests, switchTests, fetchTestTypes} from '../redux/ActionCreators'
 import { actions } from 'react-redux-form';
 
 
@@ -14,7 +14,7 @@ const mapStateToProps = state => {
     return {
         reagents: state.reagents,
         tests: state.tests,
-        //form: state.form       
+        testTypes: state.testTypes
     }     
 }
 
@@ -32,6 +32,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTests: () => {dispatch(fetchTests())},
     switchTests: (tests) => {dispatch(switchTests(tests))},
     deleteTests: (test_id) => {dispatch(deleteTests(test_id))},
+    fetchTestTypes: () => {dispatch(fetchTestTypes())},
     resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
     changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))},
     resetEditReagentForm: () => {dispatch(actions.reset('editReagent'))},
@@ -46,6 +47,7 @@ class Main extends Component {
     componentDidMount() {
         this.props.fetchReagents();
         this.props.fetchTests();
+        this.props.fetchTestTypes();
     }
 
     render() {
@@ -72,13 +74,20 @@ class Main extends Component {
             );
         }
 
+        const AssayPage = () => {
+            return(
+                <Assays testTypes={this.props.testTypes.testTypes} 
+                    testTypesErrMess={this.props.testTypes.errMess} />
+            );
+        }
+
         return(
             <div id="outer-container">
                 <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
                 <Switch>
                     <Route path="/inventory" component={InventoryPage}/>
                     <Route exact path="/testhistory" component={TestHistoryPage}/>
-                    <Route exact path="/assays" component={Assays}/>
+                    <Route exact path="/assays" component={AssayPage}/>
                     <Route exact path="/account" component={AccountDetails}/> 
                     <Redirect to="/inventory"/>
                 </Switch>

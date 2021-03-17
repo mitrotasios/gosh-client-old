@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseURL';
+import { TestTypes } from './testTypes';
 
 export const removeReagents = (reagent) => ({    
     type: ActionTypes.REMOVE_REAGENTS,
@@ -200,3 +201,34 @@ export const switchTests = (tests) => ({
     type: ActionTypes.SWITCH_TESTS,
     payload: tests
 }) 
+
+export const fetchTestTypes = () => (dispatch) => {
+    return fetch(baseUrl + 'testTypes')
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(testTypes => dispatch(renderTestTypes(testTypes)))
+        .catch(error => dispatch(reagentsFailed(error.message)));
+}
+
+export const testTypesFailed = (errmess) => ({
+    type: ActionTypes.TESTTYPES_FAILED,
+    payload: errmess
+});
+
+export const renderTestTypes = (testTypes) => ({
+    type: ActionTypes.RENDER_TESTTYPES,
+    payload: testTypes
+});

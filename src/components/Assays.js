@@ -51,20 +51,18 @@ function RenderAssay({ assay }) {
 
 function AssayAccordionCard(props) {
     return(
-        
-                props.assays.map(assay => {
-                    if (Number(assay.addedAt.substring(5,7)) == props.month) {
-                        return(
-                            <RenderAssay assay={assay}/>
-                        );
-                    }
-                    else {
-                        return(
-                            <div></div>
-                        );
-                    }
-                })
-            
+        props.assays.map(assay => {
+            if (Number(assay.addedAt.substring(5,7)) == props.month) {
+                return(
+                    <RenderAssay assay={assay}/>
+                );
+            }
+            else {
+                return(
+                    <div></div>
+                );
+            }
+        })  
     );    
 }
 
@@ -80,112 +78,7 @@ class Assays extends Component {
 
             months: [],
             
-            assays: [
-                {
-                    id: 1,
-                    assayName: "PAA",
-                    addedAt: "2021-09-27T20:40:51Z",
-                    metadata: [
-                      {
-                        key: "reagents",
-                        children: [
-                          {
-                            key: "int_std_lot",
-                            type: "input",
-                            label: "INT STD LOT",
-                            required: false
-                          },
-                          {
-                              key: "acn_lot",
-                              type: "input",
-                              label: "ACN LOT",
-                              required: false
-                          },
-                          {
-                              key: "meqh_lot",
-                              type: "input",
-                              label: "MEQH LOT",
-                              required: "false"
-                          }
-                        ]
-                      },
-                      {
-                        key: "reagentData",
-                        children: [
-                          {
-                            key: "seal_wash_date",
-                            type: "date",
-                            label: "Seal Wash Date",
-                            required: false
-                          }
-                        ]
-                      },
-                      {
-                        key: "other",
-                        children: [
-                          {
-                            key: "other_input",
-                            type: "date",
-                            label: "Other Input",
-                            required: false
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    id: 2,
-                    assayName: "ABC",
-                    addedAt: "2021-07-27T20:40:51Z",
-                    metadata: [
-                      {
-                        key: "reagents",
-                        children: [
-                          {
-                            key: "int_std_lot",
-                            type: "input",
-                            label: "INT STD LOT",
-                            required: "false"
-                          },
-                          {
-                              key: "acn_lot",
-                              type: "input",
-                              label: "ACN LOT",
-                              required: false
-                          },
-                          {
-                              key: "meqh_lot",
-                              type: "input",
-                              label: "MEQH LOT",
-                              required: false
-                          }
-                        ]
-                      },
-                      {
-                        key: "reagentData",
-                        children: [
-                          {
-                            key: "seal_wash_date",
-                            type: "date",
-                            label: "Test",
-                            required: false
-                          }
-                        ]
-                      },
-                      {
-                        key: "other",
-                        children: [
-                          {
-                            key: "other_input",
-                            type: "date",
-                            label: "Other Input",
-                            required: false
-                          }
-                        ]
-                      }
-                    ]
-                  }
-            ]
+            assays: props.testTypes
         }
     }
 

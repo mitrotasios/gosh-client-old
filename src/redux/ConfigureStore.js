@@ -2,6 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {createForms} from 'react-redux-form';
 import { Reagents } from "./reagents";
 import { Tests } from "./tests";
+import { TestTypes } from "./testTypes";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { InitialReagentInfo, InitialAccountInfo, InitialEditReagent } from './forms';
@@ -11,6 +12,7 @@ export const ConfigureStore = () => {
         combineReducers({
             reagents: Reagents,
             tests: Tests,
+            testTypes: TestTypes,
             ...createForms({
                 addReagent: InitialReagentInfo,
                 editReagent: InitialEditReagent,

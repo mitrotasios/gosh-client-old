@@ -11,7 +11,8 @@ export const RENDER_TESTS = 'RENDER_TESTS' // x
 export const TESTS_FAILED = 'TESTS_FAILED' // 
 export const REMOVE_TESTS = 'REMOVE_TESTS' // x
 export const SWITCH_TESTS = 'SWITCH_TESTS' // x
-export const RENDER_ASSAYS = 'RENDER_ASSAYS'
-export const ASSAYS_FAILED = 'ASSAYS_FAILED' // 
-export const ADD_ASSAY = 'ADD_ASSAY'
+export const RENDER_TESTTYPES = 'RENDER_TESTTYPES'
+export const TESTTYPES_FAILED = 'TESTTYPES_FAILED' // 
+export const ADD_TESTTYPE = 'ADD_TESTTYPE'
+export const REMOVE_TESTTYPE = 'REMOVE_TESTTYPE'
 
