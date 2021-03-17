@@ -208,7 +208,7 @@ class Assays extends Component {
                         <div className="col-12">
                             <Accordion defaultActiveKey={this.state.months[0] ? (
                                 String(this.state.months[0])
-                            ):''}>
+                            ):'9'}>
                                 {
                                     this.state.months.map(month => {
                                         var mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"]

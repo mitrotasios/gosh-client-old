@@ -36,6 +36,43 @@ export const deleteReagents = (
         
 }
 
+export const putReagent = (
+    updatedReagent
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'reagents/' + updatedReagent.id, {
+        method: 'PUT',
+        body: JSON.stringify(updatedReagent),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => dispatch(updateReagent(response)))
+        .catch(error => { console.log('Post reagents', error.message) 
+            alert('Reagent could not be posted\nError: '+ error.message)})
+}
+
+export const updateReagents = (reagent) => ({
+    type: ActionTypes.ADD_REAGENTS,
+    payload: reagent
+});
+
 export const addReagents = (reagents) => ({
     type: ActionTypes.ADD_REAGENTS,
     payload: reagents

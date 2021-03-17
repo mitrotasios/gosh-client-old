@@ -14,12 +14,18 @@ export const Reagents = (state = {
         case ActionTypes.ADD_REAGENTS:
             var reagent = action.payload;
             return {...state, reagents: state.reagents.concat(reagent)};
+
+        case ActionTypes.UPDATE_REAGENTS:
+            var reagent = action.payload;
+            return {...state, reagents: state.reagents.concat(reagent)};
        
         case ActionTypes.REMOVE_REAGENTS:
             var reagent = action.payload;
-            return {...state, reagents: state.reagents.filter(
-                item => item.id !== reagent
-            )};
+            return {...state, reagents: state.reagents.forEach((item, i) => {
+                if (item.id == reagent.id) {
+                    state.reagents[i] = reagent;
+                }
+            })};
 
         default:
             return state;
