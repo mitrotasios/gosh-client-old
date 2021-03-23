@@ -21,15 +21,15 @@ export const Reagents = (state = {
         case ActionTypes.UPDATE_REAGENT:
             var reagent = action.payload;
             var reagentsCopy = state.reagents.slice()
-            var foundIndex = reagentsCopy.findIndex(x => x.id == reagent.id);
+            var foundIndex = reagentsCopy.findIndex(entry => entry._id == reagent._id);
             reagentsCopy[foundIndex] = reagent;
             
             return {...state, reagents: reagentsCopy}
        
         case ActionTypes.REMOVE_REAGENT:
-            var reagent = action.payload;
+            var reagent = action.payload._id;
             return {...state, reagents: state.reagents.filter(
-                item => item.id !== reagent
+                item => item._id !== reagent
             )};
 
         default:

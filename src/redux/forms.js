@@ -17,7 +17,6 @@ export const InitialEditReagent = {
     catNr: '',
     expiryDate: '',
     dateReceived: null,
-    assayName: '',
     condition: null,
     storageLocation: null,
     comment: '',

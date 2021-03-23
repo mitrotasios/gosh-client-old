@@ -98,7 +98,6 @@ export const Inventory = (props) => {
             supplier: selectedFlatRows[0] ? selectedFlatRows[0].original.supplier : '', 
             lotNr: selectedFlatRows[0] ? selectedFlatRows[0].original.lotNr : '', 
             catNr: selectedFlatRows[0] ? selectedFlatRows[0].original.catNr : '', 
-            assayName: selectedFlatRows[0] ? selectedFlatRows[0].original.assayName : '', 
             expiryDate: selectedFlatRows[0] ? selectedFlatRows[0].original.exppiryDate.substring(0, 10) : '',
             dateReceived: selectedFlatRows[0] ? selectedFlatRows[0].original.dateReceived.substring(0, 10) : '',             
             storageLocation: selectedFlatRows[0] ? selectedFlatRows[0].original.storageLocation : '',
@@ -115,29 +114,28 @@ export const Inventory = (props) => {
             // const dataCopy = [...data];
             // dataCopy.splice(row.index, 1);            
             //setData(dataCopy)
-            //alert(row.original.id)       
-            props.deleteReagents(row.original.id)
+            //alert(row.original._id)       
+            props.deleteReagent(row.original._id)
         });
     }
 
     const handleSubmit = (values) => {
         var updatedReagent = {
-            id: selectedFlatRows[0].original.id,
+            _id: selectedFlatRows[0].original._id,
             reagentName: values.reagentName,
             lotNr: values.lotNr,
             catNr: values.catNr,
             expiryDate: "2021-08-24T21:11:32Z",
             dateReceived: "2021-02-07T07:11:13Z",
-            dateOfFirstUse: "2021-01-06T05:42:34Z",
-            last_used: selectedFlatRows[0].original.last_used,
             storageLocation: values.storageLocation,
-            condition: selectedFlatRows[0].original.condition,
+            condition: values.condition,
             comment: values.comment,
-            assayName: selectedFlatRows[0].original.assayName,
+            action: values.action,
             supplier: values.supplier
         }
 
-        props.putReagent(updatedReagent);
+        const action = "editDetails"
+        props.putReagent(updatedReagent, action);
 
         toggleModal();
 
@@ -150,7 +148,7 @@ export const Inventory = (props) => {
 
         selectedFlatRows.forEach(row => {
             if (row.original != null) {
-                var elemId = String(row.original.id)+"-ext" 
+                var elemId = String(row.original._id)+"-ext" 
                 var elem = document.getElementById(`${elemId}`)
                 elem.style.display = "block";           
                 html2canvas(elem).then(function(canvas) {
@@ -300,21 +298,21 @@ export const Inventory = (props) => {
                             } 
                             else {
                                 return( 
-                                    <div style={{display: "none"}} key={row.original.id} id={String(row.original.id)+"-ext"} className="container">
+                                    <div style={{display: "none"}} key={row.original._id} id={String(row.original._id)+"-ext"} className="container">
                                         <div className="row">                                            
                                             <h5><b>LOT Number</b>: {row.original.lotNr} {"\n"}</h5>                                                                                                                                                                                            
                                         </div>               
                                         <div className="row">                                    
                                             <QRCode
-                                                id={String(row.original.id)}
-                                                value={String(row.original.id)}
+                                                id={String(row.original._id)}
+                                                value={String(row.original._id)}
                                                 size={290}
                                                 level={"H"}
                                                 includeMargin={false}
                                             />
                                         </div>              
                                         <div className="row">
-                                            <p><b>Unique ID</b>: {row.original.id}</p>{' '}    
+                                            <p><b>Unique ID</b>: {row.original._id}</p>{' '}    
                                         </div>                        
                                         <div className="row">
                                             <p><b>Pack No</b>: 1/5</p>                                                                                                    
@@ -451,7 +449,7 @@ export const Inventory = (props) => {
                                             <option>–</option>
                                             <option>Room 1</option>
                                             <option>Room 2</option>
-                                            <option>Room 3</option>                                                
+                                            <option>Room 3</option>
                                         </Control.select>
                                         <Errors 
                                             className="text-danger"
@@ -463,10 +461,38 @@ export const Inventory = (props) => {
                                     </Col>
                                 </Row>
                                 <Row className="form-group">
+                                    <Col md={6}>    
+                                        <Label forHTML="condition">Storage Location</Label>
+                                        <Control.select model=".condition" name="condition"                                 
+                                            className="form-control"
+                                            validators={{
+                                                required
+                                            }}>
+                                            <option>–</option>
+                                            <option>ACCEPTABLE</option>
+                                            <option>INACCEPTABLE</option>
+                                        </Control.select>
+                                        <Errors 
+                                            className="text-danger"
+                                            model=".condition"
+                                            show="touched"
+                                            messages={{
+                                                required: 'Required',                                            
+                                            }}/>                                    
+                                    </Col>
+                                </Row>
+                                <Row className="form-group">
                                     <Col>
                                         <Label forHTML="comment">Supplier</Label>                        
                                         <Control.textarea rows="5" model=".comment" id="comment" name="comment"
                                             placeholder="Comment" 
+                                            className="form-control" 
+                                            />  
+                                    </Col>
+                                    <Col>
+                                        <Label forHTML="action">Supplier</Label>                        
+                                        <Control.textarea rows="5" model=".action" id="action" name="action"
+                                            placeholder="Action" 
                                             className="form-control" 
                                             />  
                                     </Col>

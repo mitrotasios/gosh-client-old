@@ -18,7 +18,7 @@ export const Tests = (state = {
         case ActionTypes.SWITCH_TESTS:
             return {...state, isLoading: false, errMess: null, tests: action.payload}
 
-        case ActionTypes.REMOVE_TESTS:
+        case ActionTypes.REMOVE_TEST:
             var test = action.payload;
             return {...state, tests: state.tests.filter(
                 item => item.id !== test

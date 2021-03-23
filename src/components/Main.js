@@ -6,7 +6,7 @@ import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagents, postReagent, fetchReagents, deleteTests, fetchTests, switchTests, fetchTestTypes} from '../redux/AC_TMP'
+import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTests, fetchTests, switchTests, fetchTestTypes} from '../redux/AC_TMP'
 import { actions } from 'react-redux-form';
 
 
@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => ({    
     putReagent: (reagent) => {dispatch(putReagent(reagent))},
-    deleteReagents: (reagent_id) => {dispatch(deleteReagents(reagent_id))},
+    deleteReagent: (reagent_id) => {dispatch(deleteReagent(reagent_id))},
     postReagent: (
         unit,
         reagentName,
@@ -59,7 +59,7 @@ class Main extends Component {
                 <Inventory reagents={this.props.reagents.reagents} 
                     reagentsErrMess={this.props.reagents.errMess}
                     postReagent={this.props.postReagent}
-                    deleteReagents={this.props.deleteReagents} 
+                    deleteReagent={this.props.deleteReagent} 
                     resetAddReagentForm={this.props.resetAddReagentForm}
                     changeAddReagentForm= {this.props.changeAddReagentForm}
                     resetEditReagentForm={this.props.resetEditReagentForm}

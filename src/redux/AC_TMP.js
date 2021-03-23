@@ -60,7 +60,6 @@ export const postReagent = (
         dateReceived: dateReceived,
         storageLocation: storageLocation
     }
-    //newComment.date = new Date().toISOString();
     
     return fetch(baseUrl + 'reagents', {
         method: 'POST',
@@ -95,3 +94,75 @@ export const addReagent = (reagent) => ({
     payload: reagent
 });
 
+// PUT
+export const putReagent = (
+    updatedReagent, action
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'reagents/' + updatedReagent._id 
+    + "?action=" + action, {
+        method: 'PUT',
+        body: JSON.stringify(updatedReagent),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(updateReagent(response))})
+        .catch(error => { console.log('Post reagents', error.message) 
+            alert('Reagent could not be posted\nError: '+ error.message)})
+}
+
+export const updateReagent = (reagent) => ({
+    type: ActionTypes.UPDATE_REAGENT,
+    payload: reagent
+});
+
+export const deleteReagent = (
+    reagent_id
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'reagents/' + reagent_id, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(removeReagents(response))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
+        
+}
+
+export const removeReagent = (reagent) => ({    
+    type: ActionTypes.REMOVE_REAGENTS,
+    payload: reagent
+});
