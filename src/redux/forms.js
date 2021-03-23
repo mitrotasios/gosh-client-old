@@ -5,11 +5,9 @@ export const InitialReagentInfo = {
     supplier: '',
     lotNr: '',
     catNr: '',
-    expDate: null,
-    receivedDate: null,
-    condition: null,
+    expiryDate: null,
+    dateReceived: null,
     storageLocation: null,
-    unit: null
 }
 
 export const InitialEditReagent = {
@@ -17,11 +15,13 @@ export const InitialEditReagent = {
     supplier: '',
     lotNr: '',
     catNr: '',
-    expDate: '',
-    receivedDate: null,
+    expiryDate: '',
+    dateReceived: null,
+    assayName: '',
     condition: null,
     storageLocation: null,
-    comment: ''
+    comment: '',
+    action: '',
 }
 
 export const InitialAccountInfo = {

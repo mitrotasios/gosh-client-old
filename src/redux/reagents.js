@@ -14,11 +14,11 @@ export const Reagents = (state = {
         case ActionTypes.REAGENTS_FAILED:
             return {...state, isLoading: false, errMess: action.payload, reagents: []}
 
-        case ActionTypes.ADD_REAGENTS:
+        case ActionTypes.ADD_REAGENT:
             var reagent = action.payload;
             return {...state, reagents: state.reagents.concat(reagent)};
 
-        case ActionTypes.UPDATE_REAGENTS:
+        case ActionTypes.UPDATE_REAGENT:
             var reagent = action.payload;
             var reagentsCopy = state.reagents.slice()
             var foundIndex = reagentsCopy.findIndex(x => x.id == reagent.id);
@@ -26,7 +26,7 @@ export const Reagents = (state = {
             
             return {...state, reagents: reagentsCopy}
        
-        case ActionTypes.REMOVE_REAGENTS:
+        case ActionTypes.REMOVE_REAGENT:
             var reagent = action.payload;
             return {...state, reagents: state.reagents.filter(
                 item => item.id !== reagent

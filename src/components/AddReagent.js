@@ -14,10 +14,9 @@ class AddReagent extends Component {
         supplier: '',
         lotNr: '',
         catNr: '',
-        expDate: null,
-        receivedDate: null,
+        expiryDate: null,
+        dateReceived: null,
         storageLocation: null,
-        unit: null
       }
           
     }
@@ -28,8 +27,8 @@ class AddReagent extends Component {
             supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : '', 
             lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lot_number : '', 
             catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.cat_number : '', 
-            expDate: null,
-            receivedDate: null,             
+            expiryDate: null,
+            dateReceived: null,             
             storageLocation: null, 
             unit: null
         }
@@ -38,19 +37,21 @@ class AddReagent extends Component {
     }
 
     handleSubmit(values) {
-        var expDate = "2010-01-01T23:56:02Z";
-        var receivedDate = "2010-01-01T23:56:02Z";
+        var expiryDate = "2010-01-01T23:56:02Z";
+        var dateReceived = "2010-01-01T23:56:02Z";
 
         var times = Number(values.unit);
         
         for (var i=0; i<times; i++) {
-            this.props.postReagents(
+            var unit = String(i+1) + "/" + String(times)
+            this.props.postReagent(
+                unit,
                 values.reagentName, 
                 values.supplier,
                 values.lotNr,
                 values.catNr,
-                expDate,
-                receivedDate,
+                expiryDate,
+                dateReceived,
                 values.storageLocation)
         }        
         //this.props.resetAddReagentsForm();
@@ -143,30 +144,30 @@ class AddReagent extends Component {
                             </Row>
                             <Row className="form-group">                                
                                 <Col>
-                                    <Label forHTML="expDate">Expiry Date</Label>                        
-                                    <Control type="date" model=".expDate" id="expDate" 
-                                        name="expDate" className="form-control"
+                                    <Label forHTML="expiryDate">Expiry Date</Label>                        
+                                    <Control type="date" model=".expiryDate" id="expiryDate" 
+                                        name="expiryDate" className="form-control"
                                         validators={{
                                             required
                                         }}/>  
                                     <Errors 
                                         className="text-danger"
-                                        model=".expDate"
+                                        model=".expiryDate"
                                         show="touched"
                                         messages={{
                                             required: 'Required',                                            
                                         }}/>                                        
                                 </Col>
                                 <Col>
-                                    <Label forHTML="receivedDate">Date Received</Label>                        
-                                    <Control type="date" model=".receivedDate" id="receivedDate" name="receivedDate" 
+                                    <Label forHTML="dateReceived">Date Received</Label>                        
+                                    <Control type="date" model=".dateReceived" id="dateReceived" name="dateReceived" 
                                         className="form-control"
                                         validators={{
                                             required
                                         }}/>  
                                     <Errors 
                                         className="text-danger"
-                                        model=".receivedDate"
+                                        model=".dateReceived"
                                         show="touched"
                                         messages={{
                                             required: 'Required',                                            

@@ -6,7 +6,7 @@ import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagents, postReagents, fetchReagents, deleteTests, fetchTests, switchTests, fetchTestTypes} from '../redux/ActionCreators'
+import { putReagent, deleteReagents, postReagent, fetchReagents, deleteTests, fetchTests, switchTests, fetchTestTypes} from '../redux/AC_TMP'
 import { actions } from 'react-redux-form';
 
 
@@ -21,14 +21,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({    
     putReagent: (reagent) => {dispatch(putReagent(reagent))},
     deleteReagents: (reagent_id) => {dispatch(deleteReagents(reagent_id))},
-    postReagents: (
-        reagent_name,
+    postReagent: (
+        unit,
+        reagentName,
         supplier,
-        lot_number,
-        cat_number,
-        expiry_date,
-        date_received,
-        storage_location) => dispatch(postReagents(reagent_name, supplier, lot_number, cat_number, expiry_date, date_received, storage_location)),    
+        lotNr,
+        catNr,
+        expiryDate,
+        dateReceived,
+        storageLocation
+        ) => dispatch(postReagent(unit, reagentName, supplier, lotNr, catNr, expiryDate, dateReceived, storageLocation)),    
     fetchReagents: () => {dispatch(fetchReagents())},
     fetchTests: () => {dispatch(fetchTests())},
     switchTests: (tests) => {dispatch(switchTests(tests))},
@@ -56,7 +58,7 @@ class Main extends Component {
             return(
                 <Inventory reagents={this.props.reagents.reagents} 
                     reagentsErrMess={this.props.reagents.errMess}
-                    postReagents={this.props.postReagents}
+                    postReagent={this.props.postReagent}
                     deleteReagents={this.props.deleteReagents} 
                     resetAddReagentForm={this.props.resetAddReagentForm}
                     changeAddReagentForm= {this.props.changeAddReagentForm}

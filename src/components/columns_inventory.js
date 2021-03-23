@@ -18,37 +18,44 @@ export const COLUMNS = [
         )
     },
     {
+        Header: 'Unit',
+        accessor: 'unit',
+        canGroupBy: false,
+        aggregate: topValue,
+        disableSortBy: true
+    },
+    {
         Header: 'Reagent Name',
-        accessor: 'reagent_name',
+        accessor: 'reagentName',
         canGroupBy: false,
         aggregate: topValue,
         disableSortBy: true
     },
     {
         Header: 'LOT Number',
-        id: 'lot_nr',
-        accessor: 'lot_number',
+        id: 'lotNr',
+        accessor: 'lotNr',
         canGroupBy: true,
         disableSortBy: true,
         aggregate: topValue,
     },
     {
         Header: 'CAT Number',
-        accessor: 'cat_number',
+        accessor: 'catNr',
         canGroupBy: false,
         aggregate: topValue
     },
     {
         Header: 'Date Received',
-        id: 'date_rc',
-        accessor: 'date_received',
+        id: 'dateReceived',
+        accessor: 'dateReceived',
         Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
         aggregate: topValue,
         canGroupBy: false
     },
     {
         Header: 'Expiry Date',
-        accessor: 'expiry_date',
+        accessor: 'expiryDate',
         Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
         aggregate: topValue,
         canGroupBy: false
@@ -62,20 +69,20 @@ export const COLUMNS = [
     },
     {
         Header: 'Date of First Use',
-        accessor: 'date_of_use',
+        accessor: 'dateOfFirstUse',
         Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')},
         aggregate: topValue,
         canGroupBy: false
     },
     {
-        Header: 'Last Used By',
-        accessor: 'last_used',
+        Header: 'First Used By',
+        accessor: 'firstUsedBy',
         aggregate: topValue,
         canGroupBy: false
     },
     {
         Header: 'Assay',
-        accessor: 'assay',
+        accessor: 'assayName',
         canGroupBy: false,
     }    
 ]

@@ -29,11 +29,11 @@ export const Inventory = (props) => {
             initialState: {
                 sortBy: [
                     {
-                        id: 'date_rc',
+                        id: 'dateReceived',
                         desc: true
                     }
                 ],
-                groupBy: ['lot_nr'],
+                groupBy: ['lotNr'],
             },
             autoResetExpanded: false,
             autoResetSelectedRows: false,
@@ -94,16 +94,19 @@ export const Inventory = (props) => {
         setModalState(!isModalOpen);
         props.resetEditReagentForm();   
         const data = {
-            reagentName: selectedFlatRows[0] ? selectedFlatRows[0].original.reagent_name : '', 
+            reagentName: selectedFlatRows[0] ? selectedFlatRows[0].original.reagentName : '', 
             supplier: selectedFlatRows[0] ? selectedFlatRows[0].original.supplier : '', 
-            lotNr: selectedFlatRows[0] ? selectedFlatRows[0].original.lot_number : '', 
-            catNr: selectedFlatRows[0] ? selectedFlatRows[0].original.cat_number : '', 
-            expDate: selectedFlatRows[0] ? selectedFlatRows[0].original.expiry_date.substring(0, 10) : '',
-            receivedDate: selectedFlatRows[0] ? selectedFlatRows[0].original.date_received.substring(0, 10) : '',             
-            storageLocation: selectedFlatRows[0] ? selectedFlatRows[0].original.storage_location : '',
-            comment: selectedFlatRows[0] ? selectedFlatRows[0].original.comments : '' 
+            lotNr: selectedFlatRows[0] ? selectedFlatRows[0].original.lotNr : '', 
+            catNr: selectedFlatRows[0] ? selectedFlatRows[0].original.catNr : '', 
+            assayName: selectedFlatRows[0] ? selectedFlatRows[0].original.assayName : '', 
+            expiryDate: selectedFlatRows[0] ? selectedFlatRows[0].original.exppiryDate.substring(0, 10) : '',
+            dateReceived: selectedFlatRows[0] ? selectedFlatRows[0].original.dateReceived.substring(0, 10) : '',             
+            storageLocation: selectedFlatRows[0] ? selectedFlatRows[0].original.storageLocation : '',
+            condition: selectedFlatRows[0] ? selectedFlatRows[0].original.condition : '', 
+            comment: selectedFlatRows[0] ? selectedFlatRows[0].original.comment : '',
+            action: selectedFlatRows[0] ? selectedFlatRows[0].original.action : ''  
         }
-        console.log(selectedFlatRows[0].original.storage_location);
+        console.log(selectedFlatRows[0].original.storageLocation);
         props.changeEditReagentForm(data);        
     }
 
@@ -120,17 +123,17 @@ export const Inventory = (props) => {
     const handleSubmit = (values) => {
         var updatedReagent = {
             id: selectedFlatRows[0].original.id,
-            reagent_name: values.reagentName,
-            lot_number: values.lotNr,
-            cat_number: values.catNr,
-            expiry_date: "2021-08-24T21:11:32Z",
-            date_received: "2021-02-07T07:11:13Z",
-            date_of_use: "2021-01-06T05:42:34Z",
+            reagentName: values.reagentName,
+            lotNr: values.lotNr,
+            catNr: values.catNr,
+            expiryDate: "2021-08-24T21:11:32Z",
+            dateReceived: "2021-02-07T07:11:13Z",
+            dateOfFirstUse: "2021-01-06T05:42:34Z",
             last_used: selectedFlatRows[0].original.last_used,
-            storage_location: values.storageLocation,
+            storageLocation: values.storageLocation,
             condition: selectedFlatRows[0].original.condition,
-            comments: values.comment,
-            assay: selectedFlatRows[0].original.assay,
+            comment: values.comment,
+            assayName: selectedFlatRows[0].original.assayName,
             supplier: values.supplier
         }
 
@@ -299,7 +302,7 @@ export const Inventory = (props) => {
                                 return( 
                                     <div style={{display: "none"}} key={row.original.id} id={String(row.original.id)+"-ext"} className="container">
                                         <div className="row">                                            
-                                            <h5><b>LOT Number</b>: {row.original.lot_number} {"\n"}</h5>                                                                                                                                                                                            
+                                            <h5><b>LOT Number</b>: {row.original.lotNr} {"\n"}</h5>                                                                                                                                                                                            
                                         </div>               
                                         <div className="row">                                    
                                             <QRCode
@@ -326,7 +329,7 @@ export const Inventory = (props) => {
                     selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
-                    postReagents={props.postReagents} />                                                           
+                    postReagent={props.postReagent} />                                                           
 
                 <Modal isOpen={isModalOpen} toggle={toggleModal}>
                     <ModalHeader>
@@ -407,30 +410,30 @@ export const Inventory = (props) => {
                                 </Row>
                                 <Row className="form-group">                                
                                     <Col>
-                                        <Label forHTML="expDate">Expiry Date</Label>                        
-                                        <Control type="date" model=".expDate" id="expDate" 
-                                            name="expDate" className="form-control"
+                                        <Label forHTML="expiryDate">Expiry Date</Label>                        
+                                        <Control type="date" model=".expiryDate" id="expiryDate" 
+                                            name="expiryDate" className="form-control"
                                             validators={{
                                                 required
                                             }}/>  
                                         <Errors 
                                             className="text-danger"
-                                            model=".expDate"
+                                            model=".expiryDate"
                                             show="touched"
                                             messages={{
                                                 required: 'Required',                                            
                                             }}/>                                        
                                     </Col>
                                     <Col>
-                                        <Label forHTML="receivedDate">Date Received</Label>                        
-                                        <Control type="date" model=".receivedDate" id="receivedDate" name="receivedDate" 
+                                        <Label forHTML="dateReceived">Date Received</Label>                        
+                                        <Control type="date" model=".dateReceived" id="dateReceived" name="dateReceived" 
                                             className="form-control"
                                             validators={{
                                                 required
                                             }}/>  
                                         <Errors 
                                             className="text-danger"
-                                            model=".receivedDate"
+                                            model=".dateReceived"
                                             show="touched"
                                             messages={{
                                                 required: 'Required',                                            
