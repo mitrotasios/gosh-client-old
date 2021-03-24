@@ -16,27 +16,27 @@ export const COLUMNS = [
         ),
     },
     {
-        Header: 'Test Name',
-        accessor: 'test_name',
+        Header: 'Assay Name',
+        accessor: 'assayName',
         //canGroupBy: false,
         //aggregate: topValue,
     },
     {
         Header: 'Batch Nr',
-        accessor: 'batch_number',
+        accessor: 'batchNr',
         //canGroupBy: false,
         //aggregate: topValue
     },
     {
         Header: 'Date and Time',
-        accessor: 'date_time',
+        accessor: 'createdAt',
         Cell: ({value}) => {return format(new Date(value), 'dd/MM/yyyy')}
         //canGroupBy: false,
         //aggregate: topValue,
     },    
     {
          Header: 'Conducted By',
-         accessor: 'user_name',
+         accessor: 'conductedBy',
          //disableSortBy: true
 
     }

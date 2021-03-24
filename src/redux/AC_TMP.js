@@ -197,7 +197,7 @@ export const fetchTests = () => (dispatch) => {
         .catch(error => dispatch(testsFailed(error.message)));
 }
 
-export const reagentsLoading = () => ({
+export const testsLoading = () => ({
     type: ActionTypes.TESTS_LOADING
 });
 
@@ -235,7 +235,7 @@ export const deleteTest = (
             throw errmess;
         })
         .then(response => response.json())
-        .then(response => {dispatch(removeTests(response))})
+        .then(response => {dispatch(removeTest(response))})
         .catch(error => { console.log('Delete reagents', error.message) 
             alert('Reagent could not be deleted\nError: '+ error.message)})
         

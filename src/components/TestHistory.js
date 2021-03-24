@@ -63,14 +63,14 @@ export const TestHistory = (props) => {
             // dataCopy.splice(row.index, 1);            
             //setData(dataCopy)
             //alert(row.original.id)       
-            props.deleteTests(row.original.id)
+            props.deleteTest(row.original._id)
         });
     }
 
     const switchToMyTests = () => {
         var dataCopy = [...data];
         const userName = 'Alyda Jarnell';
-        const myTests = dataCopy.filter(({user_name}) => user_name === userName);
+        const myTests = dataCopy.filter(({conductedBy}) => conductedBy === userName);
         props.switchTests(myTests);
     }
 

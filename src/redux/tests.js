@@ -21,7 +21,7 @@ export const Tests = (state = {
         case ActionTypes.REMOVE_TEST:
             var test = action.payload._id;
             return {...state, tests: state.tests.filter(
-                item => item.id !== test
+                item => item._id !== test
             )};
 
         default:
