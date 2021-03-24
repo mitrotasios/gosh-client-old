@@ -35,8 +35,7 @@ export const TestHistory = (props) => {
                         Cell: ({ row }) => (
                             <Checkbox {...row.getToggleRowSelectedProps()}/>
                         )
-                    }
-                    
+                    }    
                 ]
             })
         })

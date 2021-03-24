@@ -20,11 +20,18 @@ export const Reagents = (state = {
 
         case ActionTypes.UPDATE_REAGENT:
             var reagent = action.payload;
-            var reagentsCopy = state.reagents.slice()
-            var foundIndex = reagentsCopy.findIndex(entry => entry._id == reagent._id);
-            reagentsCopy[foundIndex] = reagent;
-            
-            return {...state, reagents: reagentsCopy}
+            if (reagent.status == "DELETED") {
+                return {...state, reagents: state.reagents.filter(
+                    item => item._id !== reagent._id
+                )};
+            }
+            else {
+                var reagentsCopy = state.reagents.slice()
+                var foundIndex = reagentsCopy.findIndex(entry => entry._id == reagent._id);
+                reagentsCopy[foundIndex] = reagent;
+                
+                return {...state, reagents: reagentsCopy}
+            }
        
         case ActionTypes.REMOVE_REAGENT:
             var reagent = action.payload._id;

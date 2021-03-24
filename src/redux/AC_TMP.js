@@ -2,6 +2,9 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseURL';
 import { TestTypes } from './testTypes';
 
+///////////////////////////////////////////////////
+// PRIMARY REAGENTS
+///////////////////
 // GET
 export const fetchReagents = () => (dispatch) => {
     return fetch(baseUrl + 'reagents')
@@ -96,7 +99,7 @@ export const addReagent = (reagent) => ({
 
 // PUT
 export const putReagent = (
-    updatedReagent, action
+    updatedReagent, action = ""
 ) => (dispatch) => {
     
     return fetch(baseUrl + 'reagents/' + updatedReagent._id 
@@ -133,6 +136,7 @@ export const updateReagent = (reagent) => ({
     payload: reagent
 });
 
+// DELETE
 export const deleteReagent = (
     reagent_id
 ) => (dispatch) => {
@@ -163,6 +167,81 @@ export const deleteReagent = (
 }
 
 export const removeReagent = (reagent) => ({    
-    type: ActionTypes.REMOVE_REAGENTS,
+    type: ActionTypes.REMOVE_REAGENT,
     payload: reagent
+});
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+// TESTS
+////////
+// GET
+export const fetchTests = () => (dispatch) => {
+    return fetch(baseUrl + 'tests')
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(tests => dispatch(renderTests(tests)))
+        .catch(error => dispatch(testsFailed(error.message)));
+}
+
+export const reagentsLoading = () => ({
+    type: ActionTypes.TESTS_LOADING
+});
+
+export const renderTests = (tests) => ({
+    type: ActionTypes.RENDER_TESTS,
+    payload: tests
+});
+
+export const testsFailed = (errmess) => ({
+    type: ActionTypes.TESTS_FAILED,
+    payload: errmess
+});
+
+// DELETE
+export const deleteTest = (
+    test_id
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'tests/' + test_id, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(removeTests(response))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
+        
+}
+
+export const removeTest = (test) => ({    
+    type: ActionTypes.REMOVE_TEST,
+    payload: test
 });

@@ -115,7 +115,11 @@ export const Inventory = (props) => {
             // dataCopy.splice(row.index, 1);            
             //setData(dataCopy)
             //alert(row.original._id)       
-            props.deleteReagent(row.original._id)
+            update = {
+                _id = row.original._id,
+                status = "DELETED"
+            }
+            props.putReagent(update);
         });
     }
 

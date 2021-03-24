@@ -9,8 +9,8 @@ export const Tests = (state = {
         case ActionTypes.RENDER_TESTS:
             return {...state, isLoading: false, errMess: null, tests: action.payload}
 
-        //case ActionTypes.TESTS_LOADIG:
-        //    return {...state, isLoading: true, errMess: null, tests: []}
+        case ActionTypes.TESTS_LOADIG:
+           return {...state, isLoading: true, errMess: null, tests: []}
 
         case ActionTypes.TESTS_FAILED:
             return {...state, isLoading: false, errMess: action.payload, tests: []}
@@ -19,7 +19,7 @@ export const Tests = (state = {
             return {...state, isLoading: false, errMess: null, tests: action.payload}
 
         case ActionTypes.REMOVE_TEST:
-            var test = action.payload;
+            var test = action.payload._id;
             return {...state, tests: state.tests.filter(
                 item => item.id !== test
             )};
