@@ -2,17 +2,74 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseURL';
 import { TestTypes } from './testTypes';
 
-export const removeReagents = (reagent) => ({    
-    type: ActionTypes.REMOVE_REAGENTS,
-    payload: reagent
+///////////////////////////////////////////////////
+// PRIMARY REAGENTS
+///////////////////
+// GET
+export const fetchReagents = () => (dispatch) => {
+    return fetch(baseUrl + 'reagents')
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(reagents => dispatch(renderReagents(reagents)))
+        .catch(error => dispatch(reagentsFailed(error.message)));
+}
+
+export const reagentsLoading = () => ({
+    type: ActionTypes.REAGENTS_LOADING
 });
 
-export const deleteReagents = (
-    reagent_id
+export const renderReagents = (reagents) => ({
+    type: ActionTypes.RENDER_REAGENTS,
+    payload: reagents
+});
+
+export const reagentsFailed = (errmess) => ({
+    type: ActionTypes.REAGENTS_FAILED,
+    payload: errmess
+});
+
+// POST
+export const postReagent = (
+    unit,
+    reagentName,
+    supplier,
+    lotNr,
+    catNr,
+    expiryDate,
+    dateReceived,
+    storageLocation
 ) => (dispatch) => {
+
+    const newReagent = {
+        unit: unit,
+        reagentName: reagentName,
+        supplier: supplier,
+        lotNr: lotNr,
+        catNr: catNr,
+        expiryDate: expiryDate,
+        dateReceived: dateReceived,
+        storageLocation: storageLocation
+    }
     
-    return fetch(baseUrl + 'reagents/' + reagent_id, {
-        method: 'DELETE',
+    return fetch(baseUrl + 'reagents', {
+        method: 'POST',
+        body: JSON.stringify(newReagent),
+        headers: {
+            'Content-Type': 'application/json'
+        },
         credentials: 'same-origin'
         })
         .then(response => {
@@ -30,17 +87,23 @@ export const deleteReagents = (
             throw errmess;
         })
         .then(response => response.json())
-        .then(response => {dispatch(removeReagents(reagent_id))})
-        .catch(error => { console.log('Delete reagents', error.message) 
-            alert('Reagent could not be deleted\nError: '+ error.message)})
-        
+        .then(response => dispatch(addReagent(response)))
+        .catch(error => { console.log('Post reagents', error.message) 
+            alert('Reagent could not be posted\nError: '+ error.message)})
 }
 
+export const addReagent = (reagent) => ({
+    type: ActionTypes.ADD_REAGENT,
+    payload: reagent
+});
+
+// PUT
 export const putReagent = (
-    updatedReagent
+    updatedReagent, action = ""
 ) => (dispatch) => {
     
-    return fetch(baseUrl + 'reagents/' + updatedReagent.id, {
+    return fetch(baseUrl + 'reagents/' + updatedReagent._id 
+    + "?action=" + action, {
         method: 'PUT',
         body: JSON.stringify(updatedReagent),
         headers: {
@@ -69,51 +132,17 @@ export const putReagent = (
 }
 
 export const updateReagent = (reagent) => ({
-    type: ActionTypes.UPDATE_REAGENTS,
+    type: ActionTypes.UPDATE_REAGENT,
     payload: reagent
 });
 
-export const addReagents = (reagents) => ({
-    type: ActionTypes.ADD_REAGENTS,
-    payload: reagents
-});
-
-export const postReagents = (
-    reagent_name,
-    supplier,
-    lot_number,
-    cat_number,
-    expiry_date,
-    date_received,
-    condition,
-    storage_location,
-    //action,
-    comment
+// DELETE
+export const deleteReagent = (
+    reagent_id
 ) => (dispatch) => {
-
-    const newReagents = {
-        reagent_name : reagent_name,
-        supplier: supplier,
-        lot_number: lot_number,
-        cat_number: cat_number,
-        expiry_date: expiry_date,
-        date_received: date_received,        
-        condition: condition,
-        storage_location: storage_location,
-        //action: action,
-        comment: comment,
-        date_of_use: "2010-01-01T23:56:02Z",
-        last_used: "",
-        assay: ''
-    }
-    //newComment.date = new Date().toISOString();
     
-    return fetch(baseUrl + 'reagents', {
-        method: 'POST',
-        body: JSON.stringify(newReagents),
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return fetch(baseUrl + 'reagents/' + reagent_id, {
+        method: 'DELETE',
         credentials: 'same-origin'
         })
         .then(response => {
@@ -131,14 +160,24 @@ export const postReagents = (
             throw errmess;
         })
         .then(response => response.json())
-        .then(response => dispatch(addReagents(response)))
-        .catch(error => { console.log('Post reagents', error.message) 
-            alert('Reagent could not be posted\nError: '+ error.message)})
+        .then(response => {dispatch(removeReagent(response))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
         
 }
 
-export const fetchReagents = () => (dispatch) => {
-    return fetch(baseUrl + 'reagents')
+export const removeReagent = (reagent) => ({    
+    type: ActionTypes.REMOVE_REAGENT,
+    payload: reagent
+});
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+// TESTS
+////////
+// GET
+export const fetchTests = () => (dispatch) => {
+    return fetch(baseUrl + 'tests')
         .then(response => {
             if (response.ok) {
                 return response
@@ -154,22 +193,26 @@ export const fetchReagents = () => (dispatch) => {
             throw errmess;
         })
         .then(response => response.json())
-        .then(reagents => dispatch(renderReagents(reagents)))
-        .catch(error => dispatch(reagentsFailed(error.message)));
+        .then(tests => dispatch(renderTests(tests)))
+        .catch(error => dispatch(testsFailed(error.message)));
 }
 
-export const reagentsFailed = (errmess) => ({
-    type: ActionTypes.REAGENTS_FAILED,
+export const testsLoading = () => ({
+    type: ActionTypes.TESTS_LOADING
+});
+
+export const renderTests = (tests) => ({
+    type: ActionTypes.RENDER_TESTS,
+    payload: tests
+});
+
+export const testsFailed = (errmess) => ({
+    type: ActionTypes.TESTS_FAILED,
     payload: errmess
 });
 
-export const renderReagents = (reagents) => ({
-    type: ActionTypes.RENDER_REAGENTS,
-    payload: reagents
-});
-
-
-export const deleteTests = (
+// DELETE
+export const deleteTest = (
     test_id
 ) => (dispatch) => {
     
@@ -192,53 +235,22 @@ export const deleteTests = (
             throw errmess;
         })
         .then(response => response.json())
-        .then(response => {dispatch(removeTests(test_id))})
+        .then(response => {dispatch(removeTest(response))})
         .catch(error => { console.log('Delete reagents', error.message) 
             alert('Reagent could not be deleted\nError: '+ error.message)})
         
 }
 
-export const removeTests = (test) => ({    
-    type: ActionTypes.REMOVE_TESTS,
+export const removeTest = (test) => ({    
+    type: ActionTypes.REMOVE_TEST,
     payload: test
 });
+///////////////////////////////////////////////////
 
-export const fetchTests = () => (dispatch) => {
-    return fetch(baseUrl + 'tests')
-        .then(response => {
-            if (response.ok) {
-                return response
-            }
-            else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText)
-                error.response = response;
-                throw error;
-            }
-        }, 
-        error => {
-            var errmess = new Error(error.message);
-            throw errmess;
-        })
-        .then(response => response.json())
-        .then(tests => dispatch(renderTests(tests)))
-        .catch(error => dispatch(testsFailed(error.message)));
-}
-
-export const testsFailed = (errmess) => ({
-    type: ActionTypes.TESTS_FAILED,
-    payload: errmess
-});
-
-export const renderTests = (tests) => ({
-    type: ActionTypes.RENDER_TESTS,
-    payload: tests
-});
-
-export const switchTests = (tests) => ({
-    type: ActionTypes.SWITCH_TESTS,
-    payload: tests
-}) 
-
+///////////////////////////////////////////////////
+// TEST TYPES
+/////////////
+// GET
 export const fetchTestTypes = () => (dispatch) => {
     return fetch(baseUrl + 'testTypes')
         .then(response => {
@@ -260,12 +272,16 @@ export const fetchTestTypes = () => (dispatch) => {
         .catch(error => dispatch(reagentsFailed(error.message)));
 }
 
-export const testTypesFailed = (errmess) => ({
-    type: ActionTypes.TESTTYPES_FAILED,
-    payload: errmess
+export const testTypesLoading = () => ({
+    type: ActionTypes.TESTTYPES_LOADING
 });
 
 export const renderTestTypes = (testTypes) => ({
     type: ActionTypes.RENDER_TESTTYPES,
     payload: testTypes
+});
+
+export const testTypesFailed = (errmess) => ({
+    type: ActionTypes.TESTTYPES_FAILED,
+    payload: errmess
 });

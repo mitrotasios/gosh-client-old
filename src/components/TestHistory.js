@@ -71,7 +71,7 @@ export const TestHistory = (props) => {
         var dataCopy = [...data];
         const userName = 'Alyda Jarnell';
         const myTests = dataCopy.filter(({conductedBy}) => conductedBy === userName);
-        props.switchTests(myTests);
+        //props.switchTests(myTests);
     }
 
     const switchToAllTests = () => { 

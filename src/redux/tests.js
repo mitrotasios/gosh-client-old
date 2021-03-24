@@ -9,7 +9,7 @@ export const Tests = (state = {
         case ActionTypes.RENDER_TESTS:
             return {...state, isLoading: false, errMess: null, tests: action.payload}
 
-        case ActionTypes.TESTS_LOADIG:
+        case ActionTypes.TESTS_LOADING:
            return {...state, isLoading: true, errMess: null, tests: []}
 
         case ActionTypes.TESTS_FAILED:

@@ -12,7 +12,7 @@ import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutl
 import QRCode  from 'qrcode.react';
 import { Portal } from 'react-portal';
 import html2canvas from 'html2canvas';
-import { updateReagents } from '../redux/ActionCreators';
+import { updateReagents } from '../redux/OLD_ActionCreators';
 
 const required = (val) => val && val.length;
 
@@ -98,7 +98,7 @@ export const Inventory = (props) => {
             supplier: selectedFlatRows[0] ? selectedFlatRows[0].original.supplier : '', 
             lotNr: selectedFlatRows[0] ? selectedFlatRows[0].original.lotNr : '', 
             catNr: selectedFlatRows[0] ? selectedFlatRows[0].original.catNr : '', 
-            expiryDate: selectedFlatRows[0] ? selectedFlatRows[0].original.exppiryDate.substring(0, 10) : '',
+            expiryDate: selectedFlatRows[0] ? selectedFlatRows[0].original.expiryDate.substring(0, 10) : '',
             dateReceived: selectedFlatRows[0] ? selectedFlatRows[0].original.dateReceived.substring(0, 10) : '',             
             storageLocation: selectedFlatRows[0] ? selectedFlatRows[0].original.storageLocation : '',
             condition: selectedFlatRows[0] ? selectedFlatRows[0].original.condition : '', 
@@ -115,9 +115,9 @@ export const Inventory = (props) => {
             // dataCopy.splice(row.index, 1);            
             //setData(dataCopy)
             //alert(row.original._id)       
-            update = {
-                _id = row.original._id,
-                status = "DELETED"
+            var update = {
+                _id: row.original._id,
+                status: "DELETED"
             }
             props.putReagent(update);
         });
@@ -466,7 +466,7 @@ export const Inventory = (props) => {
                                 </Row>
                                 <Row className="form-group">
                                     <Col md={6}>    
-                                        <Label forHTML="condition">Storage Location</Label>
+                                        <Label forHTML="condition">Condition</Label>
                                         <Control.select model=".condition" name="condition"                                 
                                             className="form-control"
                                             validators={{
@@ -487,14 +487,14 @@ export const Inventory = (props) => {
                                 </Row>
                                 <Row className="form-group">
                                     <Col>
-                                        <Label forHTML="comment">Supplier</Label>                        
+                                        <Label forHTML="comment">Comment</Label>                        
                                         <Control.textarea rows="5" model=".comment" id="comment" name="comment"
                                             placeholder="Comment" 
                                             className="form-control" 
                                             />  
                                     </Col>
                                     <Col>
-                                        <Label forHTML="action">Supplier</Label>                        
+                                        <Label forHTML="action">Action</Label>                        
                                         <Control.textarea rows="5" model=".action" id="action" name="action"
                                             placeholder="Action" 
                                             className="form-control" 

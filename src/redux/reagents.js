@@ -6,6 +6,7 @@ export const Reagents = (state = {
 }, action) => {
     switch(action.type) {
         case ActionTypes.RENDER_REAGENTS:
+            console.log(action.payload);
             return {...state, isLoading: false, errMess: null, reagents: action.payload}
         
         case ActionTypes.REAGENTS_LOADING:
