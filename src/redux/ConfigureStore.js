@@ -12,12 +12,7 @@ export const ConfigureStore = () => {
         combineReducers({
             reagents: Reagents,
             tests: Tests,
-            testTypes: TestTypes,
-            ...createForms({
-                addReagent: InitialReagentInfo,
-                editReagent: InitialEditReagent,
-                accountInfo: InitialAccountInfo
-            })
+            testTypes: TestTypes
         }),
         // supply as args, once we do it they become available within the app
         applyMiddleware(thunk, logger)

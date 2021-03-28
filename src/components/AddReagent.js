@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 //import { Button, Form, FormGroup, Label, Input, Col, Row} from 'reactstrap';
 import { Label, Button, Col, Row} from 'reactstrap';
 import {FaTimes} from 'react-icons/fa'
-import {Control, Form, Errors, actions} from 'react-redux-form';
+//import {Control, Form, Errors, actions} from 'react-redux-form';
+import { Form, Field } from 'react-final-form';
+import equal from "fast-deep-equal";
 
-const required = (val) => val && val.length;
+const required = value => (value ? undefined : 'Required')
 
 class AddReagent extends Component {
     constructor(props) {
@@ -17,28 +19,44 @@ class AddReagent extends Component {
         expiryDate: null,
         dateReceived: null,
         storageLocation: null,
+        unit: null
       }
-          
     }
+
+    // componentDidUpdate(prevProps) {
+    //     if(!equal(this.props.selectedRow, prevProps.selectedRow)) {
+    //       this.updateFormValues();
+    //     }
+    // } 
+    
+    // static getDerivedStateFromProps(nextProps) {
+    //     console.log("NEXT PROPS", nextProps.selectedRow);
+    //     this.setState({
+    //         reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagentName : '', 
+    //         supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : '', 
+    //         lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lotNr : '', 
+    //         catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.catNr : '', 
+    //         expiryDate: null,
+    //         dateReceived: null,             
+    //         storageLocation: null, 
+    //         unit: null
+    //     });
+    //     console.log(this.state.reagentName)
+    // }
+
 
     componentWillReceiveProps(nextProps) {
-        const data = {
-            reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagentName : '', 
-            supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : '', 
-            lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lotNr : '', 
-            catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.catNr : '', 
-            expiryDate: null,
-            dateReceived: null,             
-            storageLocation: null, 
-            unit: null
-        }
-        this.props.changeAddReagentForm(data)
-        console.log(nextProps)
+        this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagentName : ''});
+        this.setState({ supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : ''});
+        this.setState({ lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lotNr : ''});
+        this.setState({ catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.catNr : ''});
     }
 
-    handleSubmit(values) {
-        var expiryDate = "2010-01-01T23:56:02Z";
-        var dateReceived = "2010-01-01T23:56:02Z";
+    handleSubmit = async values => {
+        var expiryDate = new Date(values.expiryDate);
+        expiryDate = expiryDate.toISOString();
+        var dateReceived = new Date(values.dateReceived);
+        dateReceived = dateReceived.toISOString();
 
         var times = Number(values.unit);
         
@@ -54,224 +72,175 @@ class AddReagent extends Component {
                 dateReceived,
                 values.storageLocation)
         }        
-        //this.props.resetAddReagentsForm();
+
+        window.alert(expiryDate)
+    }
+
+    onSubmit = async values => {
+    
+        window.alert(JSON.stringify(values, 0, 2))
     }
 
     render() {        
       return (        
         <div className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
-            <div className="container-fluid">
+                        <Form
+                            onSubmit={this.handleSubmit}
+                            initialValues={{ 
+                                reagentName: this.state.reagentName,
+                                supplier: this.state.supplier,
+                                lotNr: this.state.lotNr,
+                                catNr: this.state.catNr,
+                                unit: 1
+                            }}
+                            render={({ handleSubmit, form, submitting, pristine, values }) => (
+                                <div className="container-fluid">
                 <div className="row mt-2">
                     <div className="col-1">
-                        <a onClick={this.props.onSidebarToggle}><FaTimes /></a>
+                        <a onClick={() => {
+                            this.props.onSidebarToggle();
+                            var fields = form.getRegisteredFields()
+                            fields.map(field => form.resetFieldState(field));
+                            }}><FaTimes /></a>
                     </div>                                        
                     <div className="col text-center">
                         <h4>Add New Reagent</h4>
                     </div>
                 </div>
                 <div className="row ml-2 mt-2">
-                    <div className="col-12">
-                    {/*<Form
-                        onSubmit={onSubmit}
-                        render={({ handleSubmit, form, submitting, pristine, values }) => (
-                            <form onSubmit={handleSubmit}>
-                            <Field name="firstName" validate={required}>
-                                {({ input, meta }) => (
-                                <div>
-                                    <label>First Name</label>
-                                    <input {...input} type="text" placeholder="First Name" />
-                                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                                </div>
-                                )}
-                            </Field>
-                            <Field name="lastName" validate={required}>
-                                {({ input, meta }) => (
-                                <div>
-                                    <label>Last Name</label>
-                                    <input {...input} type="text" placeholder="Last Name" />
-                                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                                </div>
-                                )}
-                            </Field>
-                            <Field
-                                name="age"
-                                validate={composeValidators(required, mustBeNumber, minValue(18))}
-                            >
-                                {({ input, meta }) => (
-                                <div>
-                                    <label>Age</label>
-                                    <input {...input} type="text" placeholder="Age" />
-                                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                                </div>
-                                )}
-                            </Field>
-                            <div className="buttons">
-                                <button type="submit" disabled={submitting}>
-                                Submit
-                                </button>
-                                <button
-                                type="button"
-                                onClick={form.reset}
-                                disabled={submitting || pristine}
-                                >
-                                Reset
-                                </button>
-                            </div>
-                            <pre>{JSON.stringify(values, 0, 2)}</pre>
-                            </form>
-                        )}
-                    />*/}
-                        {<Form model="addReagent" onSubmit={(values) => this.handleSubmit(values)}>
-                            <Row className="form-group">
-                                <Col>
-                                    <Label forHTML="reagentName">Reagent Name</Label>                        
-                                    <Control.text model=".reagentName" id="reagentName" name="reagentName"
-                                        placeholder="Reagent Name" 
-                                        className="form-control" 
-                                        validators={{
-                                            required
-                                        }} />  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".supplier"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>
-                                </Col>
-                            </Row>
-                            <Row className="form-group">
-                                <Col>
-                                    <Label forHTML="supplier">Supplier</Label>                        
-                                    <Control.text model=".supplier" id="supplier" name="supplier"
-                                        placeholder="Supplier" 
-                                        className="form-control" 
-                                        validators={{
-                                            required
-                                        }} />  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".supplier"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>                                                                          
-                                </Col>
-                            </Row>
-                            <Row className="form-group">                                
-                                <Col>
-                                    <Label forHTML="lotNr">Lot Number</Label>                        
-                                    <Control.text model=".lotNr" id="lotNr" name="lotNr"
-                                        placeholder="Lot Number" 
-                                        className="form-control" 
-                                        validators={{
-                                            required
-                                        }} />  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".lotNr"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/> 
-                                </Col>                                                       
-                                <Col>
-                                    <Label forHTML="catNr">Cat Number</Label>                        
-                                    <Control.text model=".catNr" id="catNr" name="catNr"
-                                        placeholder="Cat Number" 
-                                        className="form-control" 
-                                        validators={{
-                                            required
-                                        }} />  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".catNr"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>                                        
-                                </Col>                                                       
-                            </Row>
-                            <Row className="form-group">                                
-                                <Col>
-                                    <Label forHTML="expiryDate">Expiry Date</Label>                        
-                                    <Control type="date" model=".expiryDate" id="expiryDate" 
-                                        name="expiryDate" className="form-control"
-                                        validators={{
-                                            required
-                                        }}/>  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".expiryDate"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>                                        
-                                </Col>
-                                <Col>
-                                    <Label forHTML="dateReceived">Date Received</Label>                        
-                                    <Control type="date" model=".dateReceived" id="dateReceived" name="dateReceived" 
-                                        className="form-control"
-                                        validators={{
-                                            required
-                                        }}/>  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".dateReceived"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>                                        
-                                </Col>                                                       
-                            </Row>
-                            <Row className="form-group">
-                                <Col md={6}>    
-                                    <Label forHTML="storageLocation">Storage Location</Label>
-                                    <Control.select model=".storageLocation" name="storageLocation"                                 
-                                        className="form-control"
-                                        validators={{
-                                            required
-                                        }}>
-                                        <option>–</option>
-                                        <option>ROOM1</option>
-                                        <option>ROOM2</option>
-                                        <option>ROOM3</option>                                                
-                                    </Control.select>
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".storageLocation"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>                                    
-                                </Col>
-                                <Col md={2}>
-                                    <Label htmlFor="unit">Unit</Label>
-                                    <Control.text type="number" model=".unit" id="unit" name="unit"
-                                        min="1"
-                                        className="form-control"validators={{
-                                            required
-                                        }}/>  
-                                    <Errors 
-                                        className="text-danger"
-                                        model=".unit"
-                                        show="touched"
-                                        messages={{
-                                            required: 'Required',                                            
-                                        }}/>
-                                </Col>
-                            </Row>
-                            <Row className="form-group">
-                                <Col md={{size:10}}>
-                                    <Button type="submit">
-                                    Add Reagent
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Form>}                        
-                    </div>                    
+                    <div className="container">
+                                <form id="addReagentForm" onSubmit={handleSubmit}>
+                                    <div className="row">
+                                        <Field
+                                        name="reagentName"
+                                        component="input"
+                                        type="text"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-12">
+                                                <label>Reagent Name</label>
+                                                <input {...input} placeholder="Reagent Name"/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                    </div>
+                                    <div className="row">
+                                        <Field
+                                        name="supplier"
+                                        component="input"
+                                        type="text"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-12">
+                                                <label>Supplier</label>
+                                                <input {...input} placeholder="Supplier"/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                    </div>
+                                    <div className="row">
+                                        <Field
+                                        name="lotNr"
+                                        component="input"
+                                        type="text"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-6">
+                                                <label>Lot Number</label>
+                                                <input {...input} placeholder="Lot Number"/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                        <Field
+                                        name="catNr"
+                                        component="input"
+                                        type="text"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-6">
+                                                <label>Cat Number</label>
+                                                <input {...input} placeholder="Cat Number"/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                    </div>
+                                    <div className="row">
+                                        <Field
+                                        name="expiryDate"
+                                        component="input"
+                                        type="date"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-6">
+                                                <label>Expiry Date</label>
+                                                <input {...input}/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                        <Field
+                                        name="dateReceived"
+                                        component="input"
+                                        type="date"
+                                        validate={required}
+                                        >
+                                        {({ input, meta }) => (
+                                            <div className="col-6">
+                                                <label>Date Received</label>
+                                                <input {...input}/>
+                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                            </div>
+                                        )}
+                                        </Field>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <label>Storage Location</label>
+                                            <Field
+                                            name="storageLocation"
+                                            component="select"
+                                            defaultValue="Room 1"
+                                            >
+                                                <option selected value="Room 1">Room 1</option>
+                                                <option value="Room 2">Room 2</option>
+                                                <option value="Room 3">Room 3</option>
+                                            </Field>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <label>Unit</label>
+                                            <Field
+                                            name="unit"
+                                            component="input"
+                                            type="number"
+                                            min="1"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <button type="submit" disabled={submitting || pristine}>
+                                                Add Reagents
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>                                               
                 </div>
-            </div>          
+            </div>
+                            )}
+                        />
+                              
         </div>
       );
     }

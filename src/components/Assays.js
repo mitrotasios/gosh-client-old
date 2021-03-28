@@ -199,31 +199,29 @@ class Assays extends Component {
                                                     </button>
                                                 </div>
                                             </div>
-                                            
-                                                <FieldArray name="reagents">
-                                                    {({ fields }) =>
-                                                        fields.map((name, index) => (
-                                                        <div className="row" key={name}>
-                                                            {/*<label>Reagent #{index + 1}</label>*/}
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.label`}
-                                                                component="input"
-                                                                placeholder="Reagent Name"
-                                                                />
-                                                            
-                                                                <span
-                                                                onClick={() => fields.remove(index)}
-                                                                style={{ cursor: 'pointer' }}
-                                                                >
-                                                                ❌
-                                                                </span>
-                                                            </div>
+                                            <FieldArray name="reagents">
+                                                {({ fields }) =>
+                                                    fields.map((name, index) => (
+                                                    <div className="row" key={name}>
+                                                        {/*<label>Reagent #{index + 1}</label>*/}
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.label`}
+                                                            component="input"
+                                                            placeholder="Reagent Name"
+                                                            />
+                                                        
+                                                            <span
+                                                            onClick={() => fields.remove(index)}
+                                                            style={{ cursor: 'pointer' }}
+                                                            >
+                                                            ❌
+                                                            </span>
                                                         </div>
-                                                        ))
-                                                    }
-                                                </FieldArray>
-                                            
+                                                    </div>
+                                                    ))
+                                                }
+                                            </FieldArray> 
                                         </div>
                                         <div className="container">
                                             <div className="row">
@@ -239,49 +237,48 @@ class Assays extends Component {
                                                     </button>
                                                 </div>
                                             </div>
-
-                                                <FieldArray name="reagentData">
-                                                    {({ fields }) =>
-                                                        fields.map((name, index) => (
-                                                        <div className="row" key={name}>
-                                                            {/*<label>{index + 1}</label>*/}
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.label`}
-                                                                component="input"
-                                                                placeholder="Input Name"
-                                                                />
-                                                            </div>
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.type`}
-                                                                component="select"
-                                                                defaultValue="text"
-                                                                >
-                                                                    <option selected value="text">Text</option>
-                                                                    <option value="false">Date</option>
-                                                                </Field>
-                                                            </div>
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.required`}
-                                                                component="select"
-                                                                defaultValue="true"
-                                                                >
-                                                                    <option selected value="true">Required</option>
-                                                                    <option value="false">Not Required</option>
-                                                                </Field>
-                                                                <span
-                                                                onClick={() => fields.remove(index)}
-                                                                style={{ cursor: 'pointer' }}
-                                                                >
-                                                                ❌
-                                                                </span>
-                                                            </div>
+                                            <FieldArray name="reagentData">
+                                                {({ fields }) =>
+                                                    fields.map((name, index) => (
+                                                    <div className="row" key={name}>
+                                                        {/*<label>{index + 1}</label>*/}
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.label`}
+                                                            component="input"
+                                                            placeholder="Input Name"
+                                                            />
                                                         </div>
-                                                        ))
-                                                    }
-                                                </FieldArray>
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.type`}
+                                                            component="select"
+                                                            defaultValue="text"
+                                                            >
+                                                                <option selected value="text">Text</option>
+                                                                <option value="false">Date</option>
+                                                            </Field>
+                                                        </div>
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.required`}
+                                                            component="select"
+                                                            defaultValue="true"
+                                                            >
+                                                                <option selected value="true">Required</option>
+                                                                <option value="false">Not Required</option>
+                                                            </Field>
+                                                            <span
+                                                            onClick={() => fields.remove(index)}
+                                                            style={{ cursor: 'pointer' }}
+                                                            >
+                                                            ❌
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    ))
+                                                }
+                                            </FieldArray>
                                             <div className="row">
                                                 <div className="col"><h4>Other Inputs</h4></div>
                                                 <div className="col">
@@ -295,48 +292,48 @@ class Assays extends Component {
                                                     </button>
                                                 </div>
                                             </div>
-                                                <FieldArray name="other">
-                                                    {({ fields }) =>
-                                                        fields.map((name, index) => (
-                                                        <div className="row" key={name}>
-                                                            {/*<label>{index + 1}</label>*/}
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.label`}
-                                                                component="input"
-                                                                placeholder="Input Name"
-                                                                />
-                                                            </div>
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.type`}
-                                                                component="select"
-                                                                defaultValue="text"
-                                                                >
-                                                                    <option selected value="text">Text</option>
-                                                                    <option value="false">Date</option>
-                                                                </Field>
-                                                            </div>
-                                                            <div className="col">
-                                                                <Field
-                                                                name={`${name}.required`}
-                                                                component="select"
-                                                                defaultValue="true"
-                                                                >
-                                                                    <option selected value="true">Required</option>
-                                                                    <option value="false">Not Required</option>
-                                                                </Field>
-                                                                <span
-                                                                onClick={() => fields.remove(index)}
-                                                                style={{ cursor: 'pointer' }}
-                                                                >
-                                                                ❌
-                                                                </span>
-                                                            </div>
+                                            <FieldArray name="other">
+                                                {({ fields }) =>
+                                                    fields.map((name, index) => (
+                                                    <div className="row" key={name}>
+                                                        {/*<label>{index + 1}</label>*/}
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.label`}
+                                                            component="input"
+                                                            placeholder="Input Name"
+                                                            />
                                                         </div>
-                                                        ))
-                                                    }
-                                                </FieldArray>
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.type`}
+                                                            component="select"
+                                                            defaultValue="text"
+                                                            >
+                                                                <option selected value="text">Text</option>
+                                                                <option value="false">Date</option>
+                                                            </Field>
+                                                        </div>
+                                                        <div className="col">
+                                                            <Field
+                                                            name={`${name}.required`}
+                                                            component="select"
+                                                            defaultValue="true"
+                                                            >
+                                                                <option selected value="true">Required</option>
+                                                                <option value="false">Not Required</option>
+                                                            </Field>
+                                                            <span
+                                                            onClick={() => fields.remove(index)}
+                                                            style={{ cursor: 'pointer' }}
+                                                            >
+                                                            ❌
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    ))
+                                                }
+                                            </FieldArray>
                                             <div className="container">
                                                 <div className="row">
                                                     <button type="submit" disabled={submitting || pristine}>

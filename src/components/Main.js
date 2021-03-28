@@ -14,7 +14,7 @@ const mapStateToProps = state => {
     return {
         reagents: state.reagents,
         tests: state.tests,
-        testTypes: state.testTypes
+        testTypes: state.testTypes,
     }     
 }
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
     resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
     changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))},
     resetEditReagentForm: () => {dispatch(actions.reset('editReagent'))},
-    changeEditReagentForm: (data) => {dispatch(actions.change('editReagent', data))}    
+    changeEditReagentForm: (data) => {dispatch(actions.change('editReagent', data))},    
 });
 
 class Main extends Component {
@@ -61,10 +61,11 @@ class Main extends Component {
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
                     resetAddReagentForm={this.props.resetAddReagentForm}
-                    changeAddReagentForm= {this.props.changeAddReagentForm}
+                    changeAddReagentForm={this.props.changeAddReagentForm}
                     resetEditReagentForm={this.props.resetEditReagentForm}
-                    changeEditReagentForm= {this.props.changeEditReagentForm} 
-                    putReagent={this.props.putReagent}/>
+                    changeEditReagentForm={this.props.changeEditReagentForm} 
+                    putReagent={this.props.putReagent}
+                    />
             );
         }
 

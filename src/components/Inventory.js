@@ -50,9 +50,9 @@ export const Inventory = (props) => {
                     {
                         id: 'selection',
                         groupByBoundary: true,
-                        // Header: ({ getToggleAllRowsSelectedProps }) => (
-                        //     <Checkbox {...getToggleAllRowsSelectedProps()} />
-                        // ),
+                        Header: ({ getToggleAllRowsSelectedProps }) => (
+                            <Checkbox {...getToggleAllRowsSelectedProps()} />
+                        ),
                         Cell: ({ row }) => (
                             row.subRows.length ? (null) : <Checkbox {...row.getToggleRowSelectedProps()}/>                            
                         )
@@ -86,8 +86,8 @@ export const Inventory = (props) => {
     const [isSidebarOpen, setSidebarState] = useState(false)
     const [isModalOpen, setModalState] = useState(false)
 
-    const toggleSidebar = () => {     
-        setSidebarState(!isSidebarOpen);           
+    const toggleSidebar = (form=null) => {     
+        setSidebarState(!isSidebarOpen);
     }    
 
     const toggleModal = () => {             
@@ -235,8 +235,8 @@ export const Inventory = (props) => {
                     {rows.map((row, i) => {
                         prepareRow(row)                        
                         return (
-                        <React.Fragment {...row.getRowProps()}>                        
-                        <tr>
+                        <React.Fragment key={row.getRowProps().key}>                        
+                        <tr> 
                             {row.cells.map(cell => {
                             return (
                                 <td
@@ -286,19 +286,19 @@ export const Inventory = (props) => {
                 </table>
                 <pre>
                     <code>
-                        {/*JSON.stringify({
+                        {JSON.stringify({
                             selectedFlatRows: selectedFlatRows.map((row) => row.original),
                         },
                         null,
                         2
-                    )*/}
+                    )}
                     </code>
                 </pre>
                 <div id="hidden-qr">                    
                     {
                         selectedFlatRows.map(row => {
                             if (row.original == null) {
-                                return <div></div>
+                                return null
                             } 
                             else {
                                 return( 
@@ -328,7 +328,9 @@ export const Inventory = (props) => {
                     }
                 </div>
                 <AddReagent isSidebarOpen={isSidebarOpen} onSidebarToggle={toggleSidebar} 
-                    selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0]}}
+                    selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0] != null ? 
+                        selectedFlatRows.map((row) => row.original)[0] : 
+                        selectedFlatRows.map((row) => row.original)[1]}}
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
                     postReagent={props.postReagent} />                                                           
