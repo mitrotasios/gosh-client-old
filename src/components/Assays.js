@@ -3,7 +3,9 @@ import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, R
 import {Control, LocalForm, Errors} from 'react-redux-form';
 import { max, min } from 'date-fns';
 import {Accordion, Card} from "react-bootstrap";
-
+import { Form, Field } from 'react-final-form';
+import arrayMutators from 'final-form-arrays'
+import { FieldArray } from 'react-final-form-arrays'
 
 
 function RenderAssay({ assay }) {
@@ -82,8 +84,6 @@ class Assays extends Component {
         }
     }
 
-
-
     componentDidMount() {
         var minMonth = 0;
         var minYear = 0;
@@ -112,81 +112,14 @@ class Assays extends Component {
         });
     }
 
-    addReagentInput = () => {
-        var curr =  this.state.reagentInputs[this.state.reagentInputs.length-1]
-        curr = String(Number(curr.split("_").pop())+1)
-        console.log("create", 'r_'+curr)
-        this.setState(
-            prevState => ({ reagentInputs: prevState.reagentInputs.concat(['r_'+curr])})
-        );
-    }
+    // onSubmit = (values) => {
+    //     this.toggleModal();
+    //     alert("Current State is: " + JSON.stringify(values));
+    // }
 
-    removeReagentInput = (num) => {
-        console.log("remove", num)
-        var tempArray = this.state.reagentInputs.slice();
-        var index = tempArray.indexOf(num);
-        console.log("The index is", index)
-        if (index !== -1) {
-            tempArray.splice(index, 1);
-        }
-        //tempArray.splice(-1,1);
-        console.log("TempArray", tempArray)
-        this.setState(
-            {reagentInputs: tempArray}
-        );
-    }
-
-    addReagentDataInput = () => {
-        var curr =  this.state.reagentDataInputs[this.state.reagentDataInputs.length-1]
-        curr = String(Number(curr.split("_").pop())+1)
-        console.log("create", 'rd_'+curr)
-        this.setState(
-            prevState => ({ reagentDataInputs: prevState.reagentDataInputs.concat(['rd_'+curr])})
-        );
-    }
-
-    removeReagentDataInput = (num) => {
-        console.log("remove", num)
-        var tempArray = this.state.reagentDataInputs.slice();
-        var index = tempArray.indexOf(num);
-        console.log("The index is", index)
-        if (index !== -1) {
-            tempArray.splice(index, 1);
-        }
-        //tempArray.splice(-1,1);
-        console.log("TempArray", tempArray)
-        this.setState(
-            {reagentDataInputs: tempArray}
-        );
-    }
-
-    addOtherInput = () => {
-        var curr =  this.state.otherInputs[this.state.otherInputs.length-1]
-        curr = String(Number(curr.split("_").pop())+1)
-        console.log("create", 'o_'+curr)
-        this.setState(
-            prevState => ({ otherInputs: prevState.otherInputs.concat(['o_'+curr])})
-        );
-    }
-
-    removeOtherInput = (num) => {
-        console.log("remove", num)
-        var tempArray = this.state.otherInputs.slice();
-        var index = tempArray.indexOf(num);
-        console.log("The index is", index)
-        if (index !== -1) {
-            tempArray.splice(index, 1);
-        }
-        //tempArray.splice(-1,1);
-        console.log("TempArray", tempArray)
-        this.setState(
-            {otherInputs: tempArray}
-        );
-    }
-
-    handleSubmit = (values) => {
-        this.toggleModal();
-        alert("Current State is: " + JSON.stringify(values));
+    onSubmit = async values => {
+        //await sleep(300)
+        window.alert(JSON.stringify(values, 0, 2))
     }
 
     render() {
@@ -235,109 +168,187 @@ class Assays extends Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} size="lg">
                     <ModalHeader toggle={this.toggleModal}>Add New Assay Type</ModalHeader>
                     <ModalBody>
-                        <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
-                            <h4>Reagents</h4>               
-                                {this.state.reagentInputs.map(num => {  
-                                    return(
-                                        <Row className="form-group">
-                                            <Col md={10}>                                            
-                                                <Control.text model={'.reagent_'+String(num)} id={'reagent_'+String(num)} name={'reagent_'+String(num)}
-                                                placeholder="Reagent Name" 
-                                                className="form-control"
-                                                withFieldValue={true}/>
-                                            </Col>     
-                                            {num === this.state.reagentInputs[0] ? (                                                
-                                                <Col md={1}>
-                                                    <Button onClick={this.addReagentInput}>+</Button>
-                                                </Col>
-                                            ) : (
-                                                <Col md={1}>
-                                                    <Button color="danger" onClick={() => this.removeReagentInput(String(num))}>-</Button>
-                                                </Col>
-                                            )}                                
-                                        </Row>
-                                    );                                                                                                   
-                                })}     
-                            <h4>Reagent Data</h4>    
-                                {this.state.reagentDataInputs.map(num => {  
-                                    return(
-                                        <Row className="form-group">
-                                            <Col md={5}>                                            
-                                                <Control.text model={'.rd_name_'+String(num)} id={'rd_name_'+String(num)} name={'rd_name_'+String(num)}
-                                                placeholder="Field Name" 
-                                                className="form-control"
-                                                withFieldValue={true}/>
-                                            </Col>
-                                            <Col md={2}>                                            
-                                                <Control.select model={'.rd_type_'+String(num)} id={'rd_type_'+String(num)} name={'rd_type_'+String(num)}                                 
-                                                className="form-control">
-                                                    <option>Text</option>
-                                                    <option>Date</option>
-                                                </Control.select>
-                                            </Col>    
-                                            <Col md={3}>                                            
-                                                <Control.select model={'.rd_req_'+String(num)} id={'rd_req_'+String(num)} name={'rd_req_'+String(num)}                                 
-                                                className="form-control">
-                                                    <option>Not Required</option>
-                                                    <option>Required</option>
-                                                </Control.select>
-                                            </Col> 
-                                            {num === this.state.reagentDataInputs[0] ? (                                                
-                                                <Col md={1}>
-                                                    <Button onClick={this.addReagentDataInput}>+</Button>
-                                                </Col>
-                                            ) : (
-                                                <Col md={1}>
-                                                    <Button color="danger" onClick={() => this.removeReagentDataInput(String(num))}>-</Button>
-                                                </Col>
-                                            )}                                
-                                        </Row>
-                                    );                                                                                                   
-                                })}    
-                            <h4>Other</h4>    
-                                {this.state.otherInputs.map(num => {  
-                                    return(
-                                        <Row className="form-group">
-                                            <Col md={5}>                                            
-                                                <Control.text model={'.o_name_'+String(num)} id={'o_name_'+String(num)} name={'o_name_'+String(num)}
-                                                placeholder="Field Name" 
-                                                className="form-control"
-                                                withFieldValue={true}/>
-                                            </Col>
-                                            <Col md={2}>                                            
-                                                <Control.select model={'.o_type_'+String(num)} id={'o_type_'+String(num)} name={'o_type_'+String(num)}                                 
-                                                className="form-control">
-                                                    <option>Text</option>
-                                                    <option>Date</option>
-                                                </Control.select>
-                                            </Col> 
-                                            <Col md={3}>                                            
-                                                <Control.select model={'.o_req_'+String(num)} id={'o_req_'+String(num)} name={'o_req_'+String(num)}                                 
-                                                className="form-control">
-                                                    <option>Not Required</option>
-                                                    <option>Required</option>
-                                                </Control.select>
-                                            </Col>    
-                                            {num === this.state.otherInputs[0] ? (                                                
-                                                <Col md={1}>
-                                                    <Button onClick={this.addOtherInput}>+</Button>
-                                                </Col>
-                                            ) : (
-                                                <Col md={1}>
-                                                    <Button color="danger" onClick={() => this.removeOtherInput(String(num))}>-</Button>
-                                                </Col>
-                                            )}                                
-                                        </Row>
-                                    );                                                                                                   
-                                })}
-                                <Row className="form-group">
-                                    <Col>
-                                        <Button type="submit" color="primary">
-                                            Add Assay
-                                        </Button>
-                                    </Col>
-                                </Row>
-                        </LocalForm>    
+                        <Form 
+                            onSubmit={this.onSubmit}
+                            mutators={{
+                              ...arrayMutators
+                            }}
+                            render={({
+                              handleSubmit,
+                              form: {
+                                mutators: { push, pop }
+                              }, // injected from final-form-arrays above
+                              pristine,
+                              form,
+                              submitting,
+                              values
+                            }) => {
+                                return(
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col"><h4>Reagents</h4></div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => push('reagents', undefined)}>
+                                                        Add
+                                                    </button>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => pop('reagents')}>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                                <FieldArray name="reagents">
+                                                    {({ fields }) =>
+                                                        fields.map((name, index) => (
+                                                        <div className="row" key={name}>
+                                                            {/*<label>Reagent #{index + 1}</label>*/}
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.label`}
+                                                                component="input"
+                                                                placeholder="Reagent Name"
+                                                                />
+                                                            
+                                                                <span
+                                                                onClick={() => fields.remove(index)}
+                                                                style={{ cursor: 'pointer' }}
+                                                                >
+                                                                ❌
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        ))
+                                                    }
+                                                </FieldArray>
+                                            
+                                        </div>
+                                        <div className="container">
+                                            <div className="row">
+                                                <div className="col"><h4>Reagent Data</h4></div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => push('reagentData', undefined)}>
+                                                        Add
+                                                    </button>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => pop('reagentData')}>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                                <FieldArray name="reagentData">
+                                                    {({ fields }) =>
+                                                        fields.map((name, index) => (
+                                                        <div className="row" key={name}>
+                                                            {/*<label>{index + 1}</label>*/}
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.label`}
+                                                                component="input"
+                                                                placeholder="Input Name"
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.type`}
+                                                                component="select"
+                                                                defaultValue="text"
+                                                                >
+                                                                    <option selected value="text">Text</option>
+                                                                    <option value="false">Date</option>
+                                                                </Field>
+                                                            </div>
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.required`}
+                                                                component="select"
+                                                                defaultValue="true"
+                                                                >
+                                                                    <option selected value="true">Required</option>
+                                                                    <option value="false">Not Required</option>
+                                                                </Field>
+                                                                <span
+                                                                onClick={() => fields.remove(index)}
+                                                                style={{ cursor: 'pointer' }}
+                                                                >
+                                                                ❌
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        ))
+                                                    }
+                                                </FieldArray>
+                                            <div className="row">
+                                                <div className="col"><h4>Other Inputs</h4></div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => push('other', undefined)}>
+                                                        Add
+                                                    </button>
+                                                </div>
+                                                <div className="col">
+                                                    <button type="button" onClick={() => pop('other')}>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                                <FieldArray name="other">
+                                                    {({ fields }) =>
+                                                        fields.map((name, index) => (
+                                                        <div className="row" key={name}>
+                                                            {/*<label>{index + 1}</label>*/}
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.label`}
+                                                                component="input"
+                                                                placeholder="Input Name"
+                                                                />
+                                                            </div>
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.type`}
+                                                                component="select"
+                                                                defaultValue="text"
+                                                                >
+                                                                    <option selected value="text">Text</option>
+                                                                    <option value="false">Date</option>
+                                                                </Field>
+                                                            </div>
+                                                            <div className="col">
+                                                                <Field
+                                                                name={`${name}.required`}
+                                                                component="select"
+                                                                defaultValue="true"
+                                                                >
+                                                                    <option selected value="true">Required</option>
+                                                                    <option value="false">Not Required</option>
+                                                                </Field>
+                                                                <span
+                                                                onClick={() => fields.remove(index)}
+                                                                style={{ cursor: 'pointer' }}
+                                                                >
+                                                                ❌
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        ))
+                                                    }
+                                                </FieldArray>
+                                            <div className="container">
+                                                <div className="row">
+                                                    <button type="submit" disabled={submitting || pristine}>
+                                                        Submit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                )
+                            }
+                        }/>
                     </ModalBody>
                 </Modal>
             </div>

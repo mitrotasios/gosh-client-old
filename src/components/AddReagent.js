@@ -71,7 +71,57 @@ class AddReagent extends Component {
                 </div>
                 <div className="row ml-2 mt-2">
                     <div className="col-12">
-                        <Form model="addReagent" onSubmit={(values) => this.handleSubmit(values)}>
+                    {/*<Form
+                        onSubmit={onSubmit}
+                        render={({ handleSubmit, form, submitting, pristine, values }) => (
+                            <form onSubmit={handleSubmit}>
+                            <Field name="firstName" validate={required}>
+                                {({ input, meta }) => (
+                                <div>
+                                    <label>First Name</label>
+                                    <input {...input} type="text" placeholder="First Name" />
+                                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                                </div>
+                                )}
+                            </Field>
+                            <Field name="lastName" validate={required}>
+                                {({ input, meta }) => (
+                                <div>
+                                    <label>Last Name</label>
+                                    <input {...input} type="text" placeholder="Last Name" />
+                                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                                </div>
+                                )}
+                            </Field>
+                            <Field
+                                name="age"
+                                validate={composeValidators(required, mustBeNumber, minValue(18))}
+                            >
+                                {({ input, meta }) => (
+                                <div>
+                                    <label>Age</label>
+                                    <input {...input} type="text" placeholder="Age" />
+                                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                                </div>
+                                )}
+                            </Field>
+                            <div className="buttons">
+                                <button type="submit" disabled={submitting}>
+                                Submit
+                                </button>
+                                <button
+                                type="button"
+                                onClick={form.reset}
+                                disabled={submitting || pristine}
+                                >
+                                Reset
+                                </button>
+                            </div>
+                            <pre>{JSON.stringify(values, 0, 2)}</pre>
+                            </form>
+                        )}
+                    />*/}
+                        {<Form model="addReagent" onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Col>
                                     <Label forHTML="reagentName">Reagent Name</Label>                        
@@ -218,7 +268,7 @@ class AddReagent extends Component {
                                     </Button>
                                 </Col>
                             </Row>
-                        </Form>                        
+                        </Form>}                        
                     </div>                    
                 </div>
             </div>          
