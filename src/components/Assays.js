@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-//import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label } from 'reactstrap';
-import { max, min } from 'date-fns';
 import { Accordion, Card, Modal, Button}  from "react-bootstrap";
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays'
@@ -105,12 +103,6 @@ class Assays extends Component {
         });        
     }
 
-    toggleModal = () => {
-        this.setState({
-            isModalOpen: !this.state.isModalOpen
-        });
-    }
-
     handleModalShow = () => {
         this.setState({
             isModalOpen: true
@@ -140,7 +132,7 @@ class Assays extends Component {
                     <div className="row text-center">
                         <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
                         <div className="ml-auto">
-                            <Button onClick={this.toggleModal}>Add Assay</Button>
+                            <Button onClick={this.handleModalShow}>Add Assay</Button>
                         </div>                 
                     </div>                
                 </div>

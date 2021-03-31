@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
-//import {Control, Form, Errors, actions} from 'react-redux-form';
+import { Modal, Button}  from "react-bootstrap";
 import { Form, Field } from 'react-final-form';
 
 const required = value => (value ? undefined : 'Required')
@@ -70,18 +69,18 @@ class EditReagent extends Component {
         const action = "editDetails"
         this.props.putReagent(updatedReagent, action);
 
-        this.props.toggleModal();
+        this.props.handleModalClose();
 
     }
 
 
     render() {
         return(
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggleModal}>
-                <ModalHeader>
+            <Modal show={this.props.isModalOpen} onHide={this.props.handleModalClose}>
+                <Modal.Header closeButton>
                     <h4>Edit Reagent</h4>
-                </ModalHeader>
-                <ModalBody>
+                </Modal.Header>
+                <Modal.Body>
                     <div className="col-12">
                         <Form
                             onSubmit={this.handleSubmit}
@@ -245,7 +244,7 @@ class EditReagent extends Component {
                                                         </button>
                                                         <button type="button"
                                                             onClick={() => {
-                                                                this.props.toggleModal();
+                                                                this.props.handleModalClose();
                                                                 var fields = form.getRegisteredFields()
                                                                 fields.map(field => form.resetFieldState(field))}}>
                                                             Cancel
@@ -259,7 +258,7 @@ class EditReagent extends Component {
                             )}
                         />
                     </div>
-                </ModalBody>
+                </Modal.Body>
             </Modal>
         );
     }

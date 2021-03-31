@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FaTimes} from 'react-icons/fa'
+import { FaTimes } from 'react-icons/fa'
 import { Form, Field } from 'react-final-form';
 import equal from "fast-deep-equal";
 

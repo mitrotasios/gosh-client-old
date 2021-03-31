@@ -1,17 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded, useGroupBy } from 'react-table';
-import MOCK_DATA from './REAGENTS.json';
-import { COLUMNS } from './columns_inventory'
+import { COLUMNS } from './ColumnsInventory'
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
-import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
+import { Button }  from "react-bootstrap";
 import { Checkbox } from './CheckBox';
-import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutlineRight, AiOutlineDown} from 'react-icons/ai';
+import {AiFillCaretDown, AiFillCaretUp, AiOutlineRight, AiOutlineDown} from 'react-icons/ai';
 import QRCode  from 'qrcode.react';
-import { Portal } from 'react-portal';
+//import { Portal } from 'react-portal';
 import html2canvas from 'html2canvas';
-import { updateReagents } from '../redux/OLD_ActionCreators';
 import EditReagent from './EditReagent';
 
 export const Inventory = (props) => {
@@ -88,18 +86,16 @@ export const Inventory = (props) => {
         setSidebarState(!isSidebarOpen);
     }    
 
-    const toggleModal = () => {             
-        setModalState(!isModalOpen);
-        props.resetEditReagentForm();   
-        
+    const handleModalShow = () => {
+        setModalState(true);
+    }
+
+    const handleModalClose = () => {
+        setModalState(false);
     }
 
     const deleteRows = () => { 
-        selectedFlatRows.forEach(row => {
-            // const dataCopy = [...data];
-            // dataCopy.splice(row.index, 1);            
-            //setData(dataCopy)
-            //alert(row.original._id)       
+        selectedFlatRows.forEach(row => {     
             var update = {
                 _id: row.original._id,
                 status: "DELETED"
@@ -163,7 +159,7 @@ export const Inventory = (props) => {
                         {selectedFlatRows[0] ? (<span><Button onClick={downloadQR} className="btn-styled">Print QR</Button> </span>) : <span><Button className="btn btn-white" disabled>Print QR</Button> </span>}
                         {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
                             onClick={deleteRows}>Delete</Button> </span>) : <span><Button className="btn btn-white" disabled>Delete</Button> </span>}
-                        {selectedFlatRows[0] ? (<span><Button onClick={toggleModal} className="btn-styled">Edit</Button> </span>) : <span><Button className="btn btn-white" disabled>Edit</Button> </span>}
+                        {selectedFlatRows[0] ? (<span><Button onClick={handleModalShow} className="btn-styled">Edit</Button> </span>) : <span><Button className="btn btn-white" disabled>Edit</Button> </span>}
                         <span><Button className="btn-styled" 
                             onClick={toggleSidebar}>Add New</Button></span>
                     </div>   
@@ -297,7 +293,7 @@ export const Inventory = (props) => {
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
                     postReagent={props.postReagent} />        
-                <EditReagent isOpen={isModalOpen} toggleModal={toggleModal} 
+                <EditReagent isModalOpen={isModalOpen} handleModalClose={handleModalClose} handleModalOpen={handleModalShow} 
                     selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0] != null ? 
                         selectedFlatRows.map((row) => row.original)[0] : 
                         selectedFlatRows.map((row) => row.original)[1]}} 
