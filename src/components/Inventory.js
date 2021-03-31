@@ -6,15 +6,13 @@ import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
 import { Button, Modal, ModalHeader, ModalBody, Label, Row, Col } from 'reactstrap';
-import {Control, Form, Errors, actions} from 'react-redux-form';
 import { Checkbox } from './CheckBox';
 import {AiFillCaretDown, AiFillCaretUp, AiOutlineGroup, AiOutlineUngroup, AiOutlineRight, AiOutlineDown} from 'react-icons/ai';
 import QRCode  from 'qrcode.react';
 import { Portal } from 'react-portal';
 import html2canvas from 'html2canvas';
 import { updateReagents } from '../redux/OLD_ActionCreators';
-
-const required = (val) => val && val.length;
+import EditReagent from './EditReagent';
 
 export const Inventory = (props) => {
     
@@ -93,20 +91,7 @@ export const Inventory = (props) => {
     const toggleModal = () => {             
         setModalState(!isModalOpen);
         props.resetEditReagentForm();   
-        const data = {
-            reagentName: selectedFlatRows[0] ? selectedFlatRows[0].original.reagentName : '', 
-            supplier: selectedFlatRows[0] ? selectedFlatRows[0].original.supplier : '', 
-            lotNr: selectedFlatRows[0] ? selectedFlatRows[0].original.lotNr : '', 
-            catNr: selectedFlatRows[0] ? selectedFlatRows[0].original.catNr : '', 
-            expiryDate: selectedFlatRows[0] ? selectedFlatRows[0].original.expiryDate.substring(0, 10) : '',
-            dateReceived: selectedFlatRows[0] ? selectedFlatRows[0].original.dateReceived.substring(0, 10) : '',             
-            storageLocation: selectedFlatRows[0] ? selectedFlatRows[0].original.storageLocation : '',
-            condition: selectedFlatRows[0] ? selectedFlatRows[0].original.condition : '', 
-            comment: selectedFlatRows[0] ? selectedFlatRows[0].original.comment : '',
-            action: selectedFlatRows[0] ? selectedFlatRows[0].original.action : ''  
-        }
-        console.log(selectedFlatRows[0].original.storageLocation);
-        props.changeEditReagentForm(data);        
+        
     }
 
     const deleteRows = () => { 
@@ -121,28 +106,6 @@ export const Inventory = (props) => {
             }
             props.putReagent(update);
         });
-    }
-
-    const handleSubmit = (values) => {
-        var updatedReagent = {
-            _id: selectedFlatRows[0].original._id,
-            reagentName: values.reagentName,
-            lotNr: values.lotNr,
-            catNr: values.catNr,
-            expiryDate: "2021-08-24T21:11:32Z",
-            dateReceived: "2021-02-07T07:11:13Z",
-            storageLocation: values.storageLocation,
-            condition: values.condition,
-            comment: values.comment,
-            action: values.action,
-            supplier: values.supplier
-        }
-
-        const action = "editDetails"
-        props.putReagent(updatedReagent, action);
-
-        toggleModal();
-
     }
 
     const downloadQR = () => {
@@ -333,192 +296,12 @@ export const Inventory = (props) => {
                         selectedFlatRows.map((row) => row.original)[1]}}
                     resetAddReagentForm={props.resetAddReagentForm}
                     changeAddReagentForm={props.changeAddReagentForm} 
-                    postReagent={props.postReagent} />                                                           
-
-                <Modal isOpen={isModalOpen} toggle={toggleModal}>
-                    <ModalHeader>
-                        <h4>Edit Reagent</h4>
-                    </ModalHeader>
-                    <ModalBody>
-                        <div className="col-12">
-                            <Form model="editReagent" onSubmit={(values) => handleSubmit(values)}>
-                                <Row className="form-group">
-                                    <Col>
-                                        <Label forHTML="reagentName">Reagent Name</Label>                        
-                                        <Control.text model=".reagentName" id="reagentName" name="reagentName"
-                                            placeholder="Reagent Name" 
-                                            className="form-control" 
-                                            validators={{
-                                                required
-                                            }} />  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".supplier"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Col>
-                                        <Label forHTML="supplier">Supplier</Label>                        
-                                        <Control.text model=".supplier" id="supplier" name="supplier"
-                                            placeholder="Supplier" 
-                                            className="form-control" 
-                                            validators={{
-                                                required
-                                            }} />  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".supplier"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                                                          
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">                                
-                                    <Col>
-                                        <Label forHTML="lotNr">Lot Number</Label>                        
-                                        <Control.text model=".lotNr" id="lotNr" name="lotNr"
-                                            placeholder="Lot Number" 
-                                            className="form-control" 
-                                            validators={{
-                                                required
-                                            }} />  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".lotNr"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/> 
-                                    </Col>                                                       
-                                    <Col>
-                                        <Label forHTML="catNr">Cat Number</Label>                        
-                                        <Control.text model=".catNr" id="catNr" name="catNr"
-                                            placeholder="Cat Number" 
-                                            className="form-control" 
-                                            validators={{
-                                                required
-                                            }} />  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".catNr"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                        
-                                    </Col>                                                       
-                                </Row>
-                                <Row className="form-group">                                
-                                    <Col>
-                                        <Label forHTML="expiryDate">Expiry Date</Label>                        
-                                        <Control type="date" model=".expiryDate" id="expiryDate" 
-                                            name="expiryDate" className="form-control"
-                                            validators={{
-                                                required
-                                            }}/>  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".expiryDate"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                        
-                                    </Col>
-                                    <Col>
-                                        <Label forHTML="dateReceived">Date Received</Label>                        
-                                        <Control type="date" model=".dateReceived" id="dateReceived" name="dateReceived" 
-                                            className="form-control"
-                                            validators={{
-                                                required
-                                            }}/>  
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".dateReceived"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                        
-                                    </Col>                                                       
-                                </Row>
-                                <Row className="form-group">
-                                    <Col md={6}>    
-                                        <Label forHTML="storageLocation">Storage Location</Label>
-                                        <Control.select model=".storageLocation" name="storageLocation"                                 
-                                            className="form-control"
-                                            validators={{
-                                                required
-                                            }}>
-                                            <option>–</option>
-                                            <option>Room 1</option>
-                                            <option>Room 2</option>
-                                            <option>Room 3</option>
-                                        </Control.select>
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".storageLocation"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                    
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Col md={6}>    
-                                        <Label forHTML="condition">Condition</Label>
-                                        <Control.select model=".condition" name="condition"                                 
-                                            className="form-control"
-                                            validators={{
-                                                required
-                                            }}>
-                                            <option>–</option>
-                                            <option>ACCEPTABLE</option>
-                                            <option>INACCEPTABLE</option>
-                                        </Control.select>
-                                        <Errors 
-                                            className="text-danger"
-                                            model=".condition"
-                                            show="touched"
-                                            messages={{
-                                                required: 'Required',                                            
-                                            }}/>                                    
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Col>
-                                        <Label forHTML="comment">Comment</Label>                        
-                                        <Control.textarea rows="5" model=".comment" id="comment" name="comment"
-                                            placeholder="Comment" 
-                                            className="form-control" 
-                                            />  
-                                    </Col>
-                                    <Col>
-                                        <Label forHTML="action">Action</Label>                        
-                                        <Control.textarea rows="5" model=".action" id="action" name="action"
-                                            placeholder="Action" 
-                                            className="form-control" 
-                                            />  
-                                    </Col>
-                                </Row>
-                                <Row className="form-group">
-                                    <Col md={{size:6}}>
-                                        <Button type="submit">
-                                            Save Changes
-                                        </Button>
-                                    </Col>
-                                    <Col md={{size:6}}>
-                                        <Button onClick={toggleModal}>
-                                            Cancel
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Form>
-                        </div>
-                    </ModalBody>
-                </Modal>  
+                    postReagent={props.postReagent} />        
+                <EditReagent isOpen={isModalOpen} toggleModal={toggleModal} 
+                    selectedRow={{selectedFlatRows: selectedFlatRows.map((row) => row.original)[0] != null ? 
+                        selectedFlatRows.map((row) => row.original)[0] : 
+                        selectedFlatRows.map((row) => row.original)[1]}} 
+                        putReagent={props.putReagent} />                                                   
             </div>
         </div>
         </>

@@ -22,12 +22,6 @@ class AddReagent extends Component {
         unit: null
       }
     }
-
-    // componentDidUpdate(prevProps) {
-    //     if(!equal(this.props.selectedRow, prevProps.selectedRow)) {
-    //       this.updateFormValues();
-    //     }
-    // } 
     
     // static getDerivedStateFromProps(nextProps) {
     //     console.log("NEXT PROPS", nextProps.selectedRow);
@@ -84,31 +78,31 @@ class AddReagent extends Component {
     render() {        
       return (        
         <div className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
-                        <Form
-                            onSubmit={this.handleSubmit}
-                            initialValues={{ 
-                                reagentName: this.state.reagentName,
-                                supplier: this.state.supplier,
-                                lotNr: this.state.lotNr,
-                                catNr: this.state.catNr,
-                                unit: 1
-                            }}
-                            render={({ handleSubmit, form, submitting, pristine, values }) => (
-                                <div className="container-fluid">
-                <div className="row mt-2">
-                    <div className="col-1">
-                        <a onClick={() => {
-                            this.props.onSidebarToggle();
-                            var fields = form.getRegisteredFields()
-                            fields.map(field => form.resetFieldState(field));
-                            }}><FaTimes /></a>
-                    </div>                                        
-                    <div className="col text-center">
-                        <h4>Add New Reagent</h4>
-                    </div>
-                </div>
-                <div className="row ml-2 mt-2">
-                    <div className="container">
+            <Form
+                onSubmit={this.handleSubmit}
+                initialValues={{ 
+                    reagentName: this.state.reagentName,
+                    supplier: this.state.supplier,
+                    lotNr: this.state.lotNr,
+                    catNr: this.state.catNr,
+                    unit: 1
+                }}
+                render={({ handleSubmit, form, submitting, pristine, values }) => (
+                    <div className="container-fluid">
+                        <div className="row mt-2">
+                            <div className="col-1">
+                                <a onClick={() => {
+                                    this.props.onSidebarToggle();
+                                    var fields = form.getRegisteredFields()
+                                    fields.map(field => form.resetFieldState(field));
+                                    }}><FaTimes /></a>
+                            </div>                                        
+                            <div className="col text-center">
+                                <h4>Add New Reagent</h4>
+                            </div>
+                        </div>
+                        <div className="row ml-2 mt-2">
+                            <div className="container">
                                 <form id="addReagentForm" onSubmit={handleSubmit}>
                                     <div className="row">
                                         <Field
@@ -235,12 +229,11 @@ class AddReagent extends Component {
                                         </div>
                                     </div>
                                 </form>
-                                </div>                                               
-                </div>
-            </div>
-                            )}
-                        />
-                              
+                            </div>                                               
+                        </div>
+                    </div>
+                )}
+            />                     
         </div>
       );
     }
