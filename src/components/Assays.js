@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label} from 'reactstrap';
-import {Control, LocalForm, Errors} from 'react-redux-form';
 import { max, min } from 'date-fns';
 import {Accordion, Card} from "react-bootstrap";
 import { Form, Field } from 'react-final-form';

@@ -1,145 +1,140 @@
 import React, { Component } from 'react';
-import { Button, Label, Input, Col, Row} from 'reactstrap';
-import {Control, Form, Errors, actions} from 'react-redux-form';
+import { Form, Field } from 'react-final-form';
+
+const required = value => (value ? undefined : 'Required')
+const matchesOldPassword = oldPassword => value => ( value == oldPassword ? undefined : 'Does not match old password' )
+const newPasswordsMatch = newPassword => value => ( value == newPassword ? undefined : 'Passwords do not match' )
+const composeValidators = (...validators) => value =>
+  validators.reduce((error, validator) => error || validator(value), undefined)
 
 class AccountDetails extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            // fName: 'Anne',
-            // lName: 'Miller',
-            // email: 'anne.miller@gosh.nhs.uk',
-            // role: 'Lab Supervisor',
-
-            inputs: [
-                'fName',
-                'lName',
-                'email',
-                'role',
-                'password'
-            ]
+            firstName: 'Anne',
+            lastName: 'Miller',
+            username: 'anne.miller@gosh.nhs.uk',
+            role: 'Lab Supervisor',
+            oldPassword: '1234567',
+            editPassword: false,
         }
     }
 
-    // handleInputChange = (event) => {
-    //     const target = event.target;
-    //     const value = target.type === 'checkbox' ? target.checked : target.value;
-    //     const name = target.name;
-
-    //     this.setState({
-    //         [name]: value
-    //     });
-    // }
-
-    handleSubmit = () => {
-
+    editPassword = () => {
+        this.setState({
+            editPassword: true
+        });
     }
 
-    changePassword = () => {
-        this.setState(prevState => ({ inputs: prevState.inputs.concat(['oldPassword', 'newPassword']) }));
+    handleSubmit = async values => {
+        alert(values);
     }
 
-    render() {
-        return(
-            <>
-            <div id="page-wrap" className="container-fluid">
-                <div className="container-fluid">
-                    <div className="row text-center">
-                        <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
-                        <div className="ml-auto">
-                        </div>   
-                    </div>                
+    render() {
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col">
+                        First Name
+                    </div>
+                    <div className="col">
+                        {this.state.firstName}
+                    </div>
                 </div>
-                <div className="table-container container-fluid">    
-                    <div className="container-fluid lm-3 ">
-                        <div className="row">
-                            <div className="col-md-6">
-                            <Form model="accountInfo" onSubmit={(values) => this.handleSubmit(values)}>
-                                {this.state.inputs.map(input => {
-                                    var label = '';
-                                    var inputName = '';
-                                    var validation = false;
-                                    var value = null;
-                                    
-                                    switch(input) {
-                                        case 'fName':
-                                            label = 'First Name'
-                                            inputName = 'fName';
-                                            validation = false;
-                                            value=this.state.fName;
-                                            break;
-                                        case 'lName':
-                                            label = 'Last Name'
-                                            inputName = 'lName';
-                                            validation = false;
-                                            value=this.state.lName;
-                                            break;
-                                        case 'email':
-                                            label = 'Email'
-                                            inputName = 'email';
-                                            validation = false;
-                                            value=this.state.email;
-                                            break;
-                                        case 'role':
-                                            label = 'Role'
-                                            inputName = 'role';
-                                            validation = false;
-                                            value=this.state.role;
-                                            break;
-                                        case 'password':
-                                            label = 'Password'
-                                            inputName = 'password';
-                                            validation = false;
-                                            value='********';
-                                            break;
-                                        case 'oldPassword':
-                                            label = 'Old Password'
-                                            inputName = 'oldPassword';
-                                            validation = true;
-                                            value=null
-                                            break;
-                                        case 'newPassword':
-                                            label = 'New Password'
-                                            inputName = 'newPassword';
-                                            validation = true;
-                                            value=null
-                                            break;
-                                    }   
-                                    return(
-                                        <Row className="form-group">
-                                            <Label md={2} forHTML={inputName}>{label}</Label>                        
-                                            <Col md={inputName=="password" ? 6 : 8}>
-                                                {inputName=="password" || inputName=="oldPassword" || inputName=="oldPassword" ? (
-                                                    <Control type="password" model={'.'+inputName} id={inputName} name={inputName}
-                                                    />                                            
-                                                ) : <Control.text model={'.'+inputName} id={inputName} name={inputName}
-                                                    />}                                        
-                                            </Col>
-                                            <Col>
-                                                {inputName=="password" ? <Button onClick={this.changePassword}>Edit</Button> : null}
-                                            </Col>                                            
-                                        </Row>
-                                    );                                                          
-                                })}
-                                <Row className="form-group">
-                                    <Col md={{size:10, offset:2}}>
-                                        <Button type="submit">
-                                            Save Changes
-                                        </Button>
-                                    </Col>
-                                </Row>                        
-                            </Form>
-
+                <div className="row">
+                    <div className="col">
+                        Last Name
+                    </div>
+                    <div className="col">
+                        {this.state.lastName}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        Username
+                    </div>
+                    <div className="col">
+                        {this.state.username}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        Password
+                    </div>
+                    <div className="col">
+                        <button onClick={this.editPassword}>
+                            Edit
+                        </button>
+                    </div>
+                </div>
+                {!this.state.editPassword ? <div></div> : (
+                    <Form
+                        onSubmit={this.handleSubmit}
+                        render={({ handleSubmit, form, submitting, pristine, values }) => (
+                            <form onSubmit={handleSubmit}>
+                            <Field
+                                name="oldPassword"
+                                validate={composeValidators(required, matchesOldPassword(this.state.oldPassword))}
+                            >
+                                {({ input, meta }) => (
+                                <div className="row">
+                                    <div className="col">
+                                        <label>Old Password</label>
+                                    </div>
+                                    <div className="col">
+                                        <input {...input} type="password" placeholder="Old Pasasword" />
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                </div>
+                                )}
+                            </Field>
+                            <Field
+                                name="newPassword"
+                                validate={required}
+                            >
+                                {({ input, meta }) => (
+                                <div className="row">
+                                    <div className="col">
+                                        <label>New Password</label>
+                                    </div>
+                                    <div className="col">
+                                        <input {...input} type="password" placeholder="New Pasasword" />
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                </div>
+                                )}
+                            </Field>
+                            <Field
+                                name="confirmPassword"
+                                validate={composeValidators(required, newPasswordsMatch(values.newPassword))}
+                            >
+                                {({ input, meta }) => (
+                                <div className="row">
+                                    <div className="col">
+                                        <label>Confirm New Password</label>
+                                    </div>
+                                    <div className="col">
+                                        <input {...input} type="password" placeholder="Confirm New Pasasword" />
+                                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    </div>
+                                </div>
+                                )}
+                            </Field>
+                            <div className="row">
+                                <div className="col">
+                                    <button type="submit" disabled={submitting}>
+                                    Save Password
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    
-                    </div>                    
-                </div>
+                            </form>
+                        )}
+                    />
+                )}
             </div>
-            </>
         );
-    }
+    };
 }
 
-export default AccountDetails;
+export default AccountDetails

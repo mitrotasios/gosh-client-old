@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-//import { Button, Form, FormGroup, Label, Input, Col, Row} from 'reactstrap';
-import { Label, Button, Col, Row} from 'reactstrap';
 import {FaTimes} from 'react-icons/fa'
-//import {Control, Form, Errors, actions} from 'react-redux-form';
 import { Form, Field } from 'react-final-form';
 import equal from "fast-deep-equal";
 
@@ -22,22 +19,6 @@ class AddReagent extends Component {
         unit: null
       }
     }
-    
-    // static getDerivedStateFromProps(nextProps) {
-    //     console.log("NEXT PROPS", nextProps.selectedRow);
-    //     this.setState({
-    //         reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagentName : '', 
-    //         supplier: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.supplier : '', 
-    //         lotNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.lotNr : '', 
-    //         catNr: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.catNr : '', 
-    //         expiryDate: null,
-    //         dateReceived: null,             
-    //         storageLocation: null, 
-    //         unit: null
-    //     });
-    //     console.log(this.state.reagentName)
-    // }
-
 
     componentWillReceiveProps(nextProps) {
         this.setState({ reagentName: nextProps.selectedRow.selectedFlatRows ? nextProps.selectedRow.selectedFlatRows.reagentName : ''});
@@ -76,7 +57,7 @@ class AddReagent extends Component {
     }
 
     render() {        
-      return (        
+      return(        
         <div className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
             <Form
                 onSubmit={this.handleSubmit}
