@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Assays from './Assays'
 import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
-import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';

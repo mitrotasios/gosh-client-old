@@ -4,8 +4,7 @@ import { COLUMNS } from './ColumnsTH'
 import './table.css';
 import {AiFillCaretDown, AiFillCaretUp} from 'react-icons/ai';
 import { GlobalFilter } from './GlobalFilter';
-import AddReagent from './AddReagent';
-import { Button, ButtonGroup } from 'reactstrap';
+import { Button, ButtonGroup } from 'react-bootstrap';
 import { Checkbox } from './CheckBox';
 
 export const TestHistory = (props) => {
