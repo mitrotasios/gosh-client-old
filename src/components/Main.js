@@ -7,7 +7,6 @@ import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
 import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes} from '../redux/ActionCreators.js'
-import { actions } from 'react-redux-form';
 
 
 const mapStateToProps = state => {
@@ -35,11 +34,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTests: () => {dispatch(fetchTests())},
     //switchTests: (tests) => {dispatch(switchTests(tests))},
     deleteTest: (test_id) => {dispatch(deleteTest(test_id))},
-    fetchTestTypes: () => {dispatch(fetchTestTypes())},
-    resetAddReagentForm: () => {dispatch(actions.reset('addReagent'))},
-    changeAddReagentForm: (data) => {dispatch(actions.change('addReagent', data))},
-    resetEditReagentForm: () => {dispatch(actions.reset('editReagent'))},
-    changeEditReagentForm: (data) => {dispatch(actions.change('editReagent', data))},    
+    fetchTestTypes: () => {dispatch(fetchTestTypes())},   
 });
 
 class Main extends Component {
@@ -60,10 +55,6 @@ class Main extends Component {
                     reagentsErrMess={this.props.reagents.errMess}
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
-                    resetAddReagentForm={this.props.resetAddReagentForm}
-                    changeAddReagentForm={this.props.changeAddReagentForm}
-                    resetEditReagentForm={this.props.resetEditReagentForm}
-                    changeEditReagentForm={this.props.changeEditReagentForm} 
                     putReagent={this.props.putReagent}
                     />
             );

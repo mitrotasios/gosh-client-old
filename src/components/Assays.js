@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label} from 'reactstrap';
+//import { CardBody, CardTitle, CardText, Button, Modal, ModalHeader, ModalBody, Row, Col, Label } from 'reactstrap';
 import { max, min } from 'date-fns';
-import {Accordion, Card} from "react-bootstrap";
+import { Accordion, Card, Modal, Button}  from "react-bootstrap";
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
@@ -11,9 +11,9 @@ function RenderAssay({ assay }) {
     return (
         <div className="col-4"> 
             <Card id={assay.id}>                            
-            <CardBody>                    
-                <CardTitle><h4>{assay.assayName}</h4></CardTitle>
-                    <CardText>
+            <Card.Body>                    
+                <Card.Title><h4>{assay.assayName}</h4></Card.Title>
+                    <Card.Text>
                         <h5>Reagents</h5>
                         <div className="container-fluid">
                             <div className="row">                                
@@ -43,8 +43,8 @@ function RenderAssay({ assay }) {
                                 })}
                             </div>
                         </div>
-                    </CardText>
-                </CardBody>
+                    </Card.Text>
+                </Card.Body>
             </Card>
         </div>        
     )
@@ -111,6 +111,18 @@ class Assays extends Component {
         });
     }
 
+    handleModalShow = () => {
+        this.setState({
+            isModalOpen: true
+        });
+    }
+
+    handleModalClose = () => {
+        this.setState({
+            isModalOpen: false
+        });
+    }
+
     // onSubmit = (values) => {
     //     this.toggleModal();
     //     alert("Current State is: " + JSON.stringify(values));
@@ -164,9 +176,9 @@ class Assays extends Component {
                         </div>                        
                     </div>
                 </div>
-                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} size="lg">
-                    <ModalHeader toggle={this.toggleModal}>Add New Assay Type</ModalHeader>
-                    <ModalBody>
+                <Modal show={this.state.isModalOpen} onHide={this.handleModalClose} size="lg">
+                    <Modal.Header closeButton>Add New Assay Type</Modal.Header>
+                    <Modal.Body>
                         <Form 
                             onSubmit={this.onSubmit}
                             mutators={{
@@ -345,7 +357,7 @@ class Assays extends Component {
                                 )
                             }
                         }/>
-                    </ModalBody>
+                    </Modal.Body>
                 </Modal>
             </div>
         );

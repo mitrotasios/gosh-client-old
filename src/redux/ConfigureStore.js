@@ -1,5 +1,4 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import {createForms} from 'react-redux-form';
 import { Reagents } from "./reagents";
 import { Tests } from "./tests";
 import { TestTypes } from "./testTypes";
