@@ -83,25 +83,25 @@ class Assays extends Component {
     }
 
     componentDidMount() {
-        var minMonth = 0;
-        var minYear = 0;
-        var maxMonth = 12;
-        var maxYear = 3000;
-        this.state.assays.forEach(assay => {
-           minMonth = Math.min(minMonth, Number(assay.addedAt.substring(5, 7)))
-           minYear = Math.min(minYear, Number(assay.addedAt.substring(0, 4)))
+        // var minMonth = 0;
+        // var minYear = 0;
+        // var maxMonth = 12;
+        // var maxYear = 3000;
+        // this.state.assays.forEach(assay => {
+        //    minMonth = Math.min(minMonth, Number(assay.addedAt.substring(5, 7)))
+        //    minYear = Math.min(minYear, Number(assay.addedAt.substring(0, 4)))
 
-           maxMonth = Math.max(minMonth, Number(assay.addedAt.substring(5, 7)))
-           maxYear = Math.max(maxYear, Number(assay.addedAt.substring(0, 4)))
+        //    maxMonth = Math.max(minMonth, Number(assay.addedAt.substring(5, 7)))
+        //    maxYear = Math.max(maxYear, Number(assay.addedAt.substring(0, 4)))
 
-        });
+        // });
 
-        minMonth = 7
-        maxMonth = 9
-        var months = [9,8,7]
-        this.setState({
-            months: months
-        });        
+        // minMonth = 7
+        // maxMonth = 9
+        // var months = [9,8,7]
+        // this.setState({
+        //     months: months
+        // });        
     }
 
     handleModalShow = () => {
@@ -115,11 +115,6 @@ class Assays extends Component {
             isModalOpen: false
         });
     }
-
-    // onSubmit = (values) => {
-    //     this.toggleModal();
-    //     alert("Current State is: " + JSON.stringify(values));
-    // }
 
     handleSubmit = async values => {
         var newAssayType = {
@@ -193,8 +188,9 @@ class Assays extends Component {
             newAssayType.metadata[2].children = otherDataChildren;
         }
         
+        this.props.postTestType(newAssayType);
 
-        window.alert(JSON.stringify(newAssayType, 0, 2));
+        //window.alert(JSON.stringify(newAssayType, 0, 2));
         
     }
 

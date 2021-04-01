@@ -6,7 +6,8 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes} from '../redux/ActionCreators.js'
+import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes,
+    postTestType} from '../redux/ActionCreators.js'
 
 
 const mapStateToProps = state => {
@@ -34,7 +35,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTests: () => {dispatch(fetchTests())},
     //switchTests: (tests) => {dispatch(switchTests(tests))},
     deleteTest: (test_id) => {dispatch(deleteTest(test_id))},
-    fetchTestTypes: () => {dispatch(fetchTestTypes())},   
+    fetchTestTypes: () => {dispatch(fetchTestTypes())},
+    postTestType: (newTestType) => {dispatch(postTestType(newTestType))}   
 });
 
 class Main extends Component {
@@ -73,7 +75,8 @@ class Main extends Component {
         const AssayPage = () => {
             return(
                 <Assays testTypes={this.props.testTypes.testTypes} 
-                    testTypesErrMess={this.props.testTypes.errMess} />
+                    testTypesErrMess={this.props.testTypes.errMess} 
+                    postTestType={this.props.postTestType}/>
             );
         }
 
