@@ -252,7 +252,7 @@ export const removeTest = (test) => ({
 /////////////
 // GET
 export const fetchTestTypes = () => (dispatch) => {
-    return fetch(baseUrl + 'testTypes')
+    return fetch(baseUrl + 'test-types')
         .then(response => {
             if (response.ok) {
                 return response

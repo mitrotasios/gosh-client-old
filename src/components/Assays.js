@@ -6,60 +6,61 @@ import { FieldArray } from 'react-final-form-arrays'
 
 const required = value => (value ? undefined : 'Required')
 
-function RenderAssay({ assay }) {
+function RenderAssay({ assayType }) {
     return (
         <div className="col-4"> 
-            <Card id={assay.id}>                            
-            <Card.Body>                    
-                <Card.Title><h4>{assay.assayName}</h4></Card.Title>
-                    <Card.Text>
-                        <h5>Reagents</h5>
-                        <div className="container-fluid">
-                            <div className="row">                                
-                                {assay.metadata[0].children.map(reagent => {
+            <Card id={assayType._id} key={assayType._id}>                            
+                <Card.Title><h4>{assayType.assayName}</h4></Card.Title>
+                <Card.Body>                    
+                    <div className="container-fluid">
+                        <div className="row">                                
+                            <h5>Reagents</h5>
+                            {assayType.metadata[0].children.map(reagent => {
+                                return(
+                                    <div key={reagent.key} className="col-4">
+                                        {reagent.label}
+                                    </div>
+                                );
+                            })}
+                        </div>                         
+                        <div className="row">                                
+                            <h5>Reagent Data</h5>
+                                {assayType.metadata[1].children.map(reagentDataInput => {
                                     return(
-                                        <>
-                                            <div className="col-4">
-                                                {reagent.label}
-                                            </div>
-                                        </>
+                                        <div key={reagentDataInput.key} className="col-4">
+                                            {reagentDataInput.label}
+                                        </div>
                                     );
                                 })}
-                            </div>                            
                         </div>
-                        <p>{}</p>
-                        <h5>Other</h5>
-                        <div className="container">
-                            <div className="row">                                
-                                {assay.metadata[1].children.map(reagent => {
-                                    return(
-                                        <>
-                                            <div className="col-4">
-                                                {reagent.label}
-                                            </div>
-                                        </>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </Card.Text>
+                        <div className="row">                                
+                            <h5>Other</h5>
+                            {assayType.metadata[2].children.map(otherInput => {
+                                return(
+                                    <div key={otherInput.key} className="col-4">
+                                        {otherInput.label}
+                                    </div>
+                                );
+                            })}
+                        </div> 
+                    </div>                          
                 </Card.Body>
             </Card>
-        </div>        
+        </div>
     )
 }
 
 function AssayAccordionCard(props) {
     return(
-        props.assays.map(assay => {
-            if (Number(assay.addedAt.substring(5,7)) == props.month) {
+        props.assayTypes.map(assayType => {
+            if (Number(assayType.createdAt.substring(5,7)) == props.date.substring(5,7)) {
                 return(
-                    <RenderAssay assay={assay}/>
+                    <RenderAssay key={assayType._id} assayType={assayType}/>
                 );
             }
             else {
                 return(
-                    <div></div>
+                    null
                 );
             }
         })  
@@ -72,36 +73,28 @@ class Assays extends Component {
 
         this.state = {
             isModalOpen: false,
-            reagentInputs: ['r_1'],
-            reagentDataInputs: ['rd_1'],
-            otherInputs: ['o_1'],
-
-            months: [],
-            
-            assays: props.testTypes
+            assayTypes: props.testTypes,
+            dateSeries: [],
+            monthCounter: []
         }
     }
 
     componentDidMount() {
-        // var minMonth = 0;
-        // var minYear = 0;
-        // var maxMonth = 12;
-        // var maxYear = 3000;
-        // this.state.assays.forEach(assay => {
-        //    minMonth = Math.min(minMonth, Number(assay.addedAt.substring(5, 7)))
-        //    minYear = Math.min(minYear, Number(assay.addedAt.substring(0, 4)))
+        var dateSeries = this.state.assayTypes.map(assayType => new Date(assayType.createdAt));
+        dateSeries.sort().reverse();
+        dateSeries = dateSeries.map(date => date.toISOString().substring(0, 7))
+        dateSeries = [...new Set(dateSeries)]
+        
+        this.setState({
+            dateSeries: dateSeries
+        });
+    }
 
-        //    maxMonth = Math.max(minMonth, Number(assay.addedAt.substring(5, 7)))
-        //    maxYear = Math.max(maxYear, Number(assay.addedAt.substring(0, 4)))
-
-        // });
-
-        // minMonth = 7
-        // maxMonth = 9
-        // var months = [9,8,7]
-        // this.setState({
-        //     months: months
-        // });        
+    addToMonthCounter(date) {
+        this.setState(prevState => ({
+            monthCounter: [...prevState.monthCounter, date]
+        }))
+        console.log(this.state.monthCounter);
     }
 
     handleModalShow = () => {
@@ -216,26 +209,28 @@ class Assays extends Component {
                             return <RenderAssay assay={assay}/>
                         })*/}
                         <div className="col-12">
-                            <Accordion defaultActiveKey={this.state.months[0] ? (
-                                String(this.state.months[0])
-                            ):'9'}>
-                                {
-                                    this.state.months.map(month => {
-                                        var mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"]
+                            <Accordion>
+                                {this.state.dateSeries.map(date => {
+                                        var strDate = date
+                                        var mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"];
+                                            
+                                        console.log("triggerred")
+                                        //alert(this.state.monthCounter)
                                         return(
-                                            <Card>
+                                            <Card key={strDate.substring(0, 7)}>
                                                 <Card.Header>
-                                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={String(month)}>
-                                                        {String(mapping[month-1])}
+                                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={strDate.substring(5, 7)}>
+                                                        {String(mapping[Number(strDate.substring(5, 7))-1]) + ' ' + String(strDate.substring(0, 4))}
                                                     </Accordion.Toggle>
-                                                    <Accordion.Collapse eventKey={String(month)}>
+                                                    <Accordion.Collapse eventKey={strDate.substring(5, 7)}>
                                                         <Card.Body>
-                                                            <AssayAccordionCard assays={this.state.assays} month={month}/>
+                                                            <AssayAccordionCard assayTypes={this.state.assayTypes} date={strDate}/>
                                                         </Card.Body>                                                    
                                                     </Accordion.Collapse>
                                                 </Card.Header>
                                             </Card>
                                         );
+                                        
                                     })
                                 }                                         
                             </Accordion>                        
