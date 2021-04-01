@@ -121,6 +121,83 @@ class Assays extends Component {
     //     alert("Current State is: " + JSON.stringify(values));
     // }
 
+    handleSubmit = async values => {
+        var newAssayType = {
+            assayName: values.assayName,
+            metadata: [
+                {
+                    key: "reagents",
+                    children: []
+                },
+                {
+                    key: "reagentData",
+                    children: []
+                },
+                {
+                    key: "other",
+                    children: []
+                }
+            ]
+        };
+
+        if (values.reagents) {
+            var reagentChildren = values.reagents.filter(inputField => inputField != null);
+            reagentChildren = reagentChildren.map(inputField => {
+                let key = inputField.label.toLowerCase();
+                key = key.replace(" ","_");
+                return(
+                    {
+                        key: key,
+                        label: inputField.label,
+                        required: true,
+                        type: "text"
+                    }
+                );
+            });
+            newAssayType.metadata[0].children = reagentChildren;
+        }
+
+        if (values.reagentData) {
+            var reagentDataChildren = values.reagentData.filter(inputField => inputField.label != null);
+            reagentDataChildren = reagentDataChildren.map(inputField => {
+                let key = inputField.label.toLowerCase();
+                key = key.replace(" ","_");
+                return(
+                    {
+                        key: key,
+                        label: inputField.label,
+                        required: inputField.required,
+                        type: inputField.type
+                    }
+                );
+            });
+
+            newAssayType.metadata[1].children = reagentDataChildren;
+        }
+        
+        if (values.other) {
+            var otherDataChildren = values.other.filter(inputField => inputField.label != null);
+            var otherDataChildren = otherDataChildren.map(inputField => {
+                let key = inputField.label.toLowerCase();
+                key = key.replace(" ","_");
+                return(
+                    {
+                        key: key,
+                        label: inputField.label,
+                        required: inputField.required,
+                        type: inputField.type
+                    }
+                );
+            });
+
+            newAssayType.metadata[2].children = otherDataChildren;
+        }
+        
+
+        window.alert(JSON.stringify(newAssayType, 0, 2));
+        
+    }
+
     onSubmit = async values => {
         //await sleep(300)
         window.alert(JSON.stringify(values, 0, 2))
@@ -173,7 +250,7 @@ class Assays extends Component {
                     <Modal.Header closeButton>Add New Assay Type</Modal.Header>
                     <Modal.Body>
                         <Form 
-                            onSubmit={this.onSubmit}
+                            onSubmit={this.handleSubmit}
                             mutators={{
                               ...arrayMutators
                             }}
@@ -190,24 +267,24 @@ class Assays extends Component {
                                 return(
                                     <form onSubmit={handleSubmit}>
                                         <div className="container">
-                                                <Field
-                                                    name="assayName"
-                                                    component="input"
-                                                    type="text"
-                                                    validate={required}
-                                                    >
-                                                    {({ input, meta }) => (
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                <label>Reagent Name</label>
-                                                            </div>                                                            
-                                                            <div className="col">
-                                                                <input {...input} placeholder="Reagent Name"/>
-                                                                {meta.error && meta.touched && <span>{meta.error}</span>}
-                                                            </div>
+                                            <Field
+                                                name="assayName"
+                                                component="input"
+                                                type="text"
+                                                validate={required}
+                                                >
+                                                {({ input, meta }) => (
+                                                    <div className="row">
+                                                        <div className="col">
+                                                            <label>Reagent Name</label>
+                                                        </div>                                                            
+                                                        <div className="col">
+                                                            <input {...input} placeholder="Reagent Name"/>
+                                                            {meta.error && meta.touched && <span>{meta.error}</span>}
                                                         </div>
-                                                    )}
-                                                </Field>
+                                                    </div>
+                                                )}
+                                            </Field>
                                             <div className="row">
                                                 <div className="col"><h4>Reagents</h4></div>
                                                 <div className="col">
