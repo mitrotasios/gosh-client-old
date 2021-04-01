@@ -5,9 +5,9 @@ import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 
 const required = value => (value ? undefined : 'Required')
+const mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"];
 
 const RenderAssay = React.forwardRef(( props, ref) =>
-//function RenderAssay({ assayType, ref }) {
         <div ref={ref} className="col-4"> 
             <Card id={props.assayType._id} key={props.assayType._id}>                            
                 <Card.Title><h4>{props.assayType.assayName}</h4></Card.Title>
@@ -48,24 +48,6 @@ const RenderAssay = React.forwardRef(( props, ref) =>
             </Card>
         </div>
     )
-
-
-const AssayAccordionCard = React.forwardRef((props, ref) => 
-    
-        props.assayTypes.map(assayType => {
-            if (Number(assayType.createdAt.substring(5,7)) == props.date.substring(5,7)) {
-                return(
-                    <RenderAssay ref={ref} key={assayType._id} assayType={assayType}/>
-                );
-            }
-            else {
-                return(
-                    null
-                );
-            }
-        })  
-        
-)
 
 class Assays extends Component {
     constructor(props) {
@@ -182,14 +164,7 @@ class Assays extends Component {
         }
         
         this.props.postTestType(newAssayType);
-
-        //window.alert(JSON.stringify(newAssayType, 0, 2));
         
-    }
-
-    onSubmit = async values => {
-        //await sleep(300)
-        window.alert(JSON.stringify(values, 0, 2))
     }
 
     childRef = createRef();
@@ -207,27 +182,43 @@ class Assays extends Component {
                 </div>
                 <div className="table-container container-fluid">                    
                     <div className="row">
-                        {/*this.state.assays.map(assay => {
-                            return <RenderAssay assay={assay}/>
-                        })*/}
                         <div className="col-12">
-                            <Accordion>
+                            <Accordion defaultActiveKey="0">
+                                <Card key="0" style={{"display": this.state.dateSeries[0] ? "block": "none"}}>
+                                    <Card.Header>
+                                        <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                                            {this.state.dateSeries[0] ? String(mapping[Number(this.state.dateSeries[0].substring(5, 7))-1]) + ' ' + String(this.state.dateSeries[0].substring(0, 4)) : null}
+                                        </Accordion.Toggle>
+                                        <Accordion.Collapse eventKey="0">
+                                            <Card.Body>
+                                                {this.state.dateSeries[0] ? (this.state.assayTypes.map(assayType => {
+                                                    if (Number(assayType.createdAt.substring(5,7)) == this.state.dateSeries[0].substring(5,7)) {
+                                                        return(
+                                                            <RenderAssay ref={this.childRef} key={assayType._id} assayType={assayType}/>
+                                                        );
+                                                    }
+                                                    else {
+                                                        return(
+                                                            null
+                                                        );
+                                                    }
+                                                })): null}
+                                            </Card.Body>                                                    
+                                        </Accordion.Collapse>
+                                    </Card.Header>
+                                </Card>
                                 {this.state.dateSeries.map(date => {
-                                        var strDate = date
-                                        var mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"];
-                                            
-                                        console.log("triggerred")
-                                        //alert(this.state.monthCounter)
+                                    if (date != this.state.dateSeries[0]) {
                                         return(
-                                            <Card key={strDate.substring(0, 7)}>
+                                            <Card key={date.substring(0, 7)}>
                                                 <Card.Header>
-                                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={strDate.substring(5, 7)}>
-                                                        {String(mapping[Number(strDate.substring(5, 7))-1]) + ' ' + String(strDate.substring(0, 4))}
+                                                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={date.substring(5, 7)}>
+                                                        {String(mapping[Number(date.substring(5, 7))-1]) + ' ' + String(date.substring(0, 4))}
                                                     </Accordion.Toggle>
-                                                    <Accordion.Collapse eventKey={strDate.substring(5, 7)}>
+                                                    <Accordion.Collapse eventKey={date.substring(5, 7)}>
                                                         <Card.Body>
                                                             {this.state.assayTypes.map(assayType => {
-                                                                if (Number(assayType.createdAt.substring(5,7)) == strDate.substring(5,7)) {
+                                                                if (Number(assayType.createdAt.substring(5,7)) == date.substring(5,7)) {
                                                                     return(
                                                                         <RenderAssay ref={this.childRef} key={assayType._id} assayType={assayType}/>
                                                                     );
@@ -238,15 +229,13 @@ class Assays extends Component {
                                                                     );
                                                                 }
                                                             })}
-                                                            {/*<AssayAccordionCard assayTypes={this.state.assayTypes} date={strDate}/>*/}
                                                         </Card.Body>                                                    
                                                     </Accordion.Collapse>
                                                 </Card.Header>
                                             </Card>
                                         );
-                                        
-                                    })
-                                }                                         
+                                    }  
+                                })}                                         
                             </Accordion>                        
                         </div>                        
                     </div>
