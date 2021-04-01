@@ -4,6 +4,7 @@ import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
 
+const required = value => (value ? undefined : 'Required')
 
 function RenderAssay({ assay }) {
     return (
@@ -189,6 +190,24 @@ class Assays extends Component {
                                 return(
                                     <form onSubmit={handleSubmit}>
                                         <div className="container">
+                                                <Field
+                                                    name="assayName"
+                                                    component="input"
+                                                    type="text"
+                                                    validate={required}
+                                                    >
+                                                    {({ input, meta }) => (
+                                                        <div className="row">
+                                                            <div className="col">
+                                                                <label>Reagent Name</label>
+                                                            </div>                                                            
+                                                            <div className="col">
+                                                                <input {...input} placeholder="Reagent Name"/>
+                                                                {meta.error && meta.touched && <span>{meta.error}</span>}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </Field>
                                             <div className="row">
                                                 <div className="col"><h4>Reagents</h4></div>
                                                 <div className="col">
