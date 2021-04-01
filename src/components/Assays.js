@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { createRef, Component } from 'react';
 import { Accordion, Card, Modal, Button}  from "react-bootstrap";
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays'
@@ -6,16 +6,16 @@ import { FieldArray } from 'react-final-form-arrays'
 
 const required = value => (value ? undefined : 'Required')
 
-function RenderAssay({ assayType }) {
-    return (
-        <div className="col-4"> 
-            <Card id={assayType._id} key={assayType._id}>                            
-                <Card.Title><h4>{assayType.assayName}</h4></Card.Title>
+const RenderAssay = React.forwardRef(( props, ref) =>
+//function RenderAssay({ assayType, ref }) {
+        <div ref={ref} className="col-4"> 
+            <Card id={props.assayType._id} key={props.assayType._id}>                            
+                <Card.Title><h4>{props.assayType.assayName}</h4></Card.Title>
                 <Card.Body>                    
                     <div className="container-fluid">
                         <div className="row">                                
                             <h5>Reagents</h5>
-                            {assayType.metadata[0].children.map(reagent => {
+                            {props.assayType.metadata[0].children.map(reagent => {
                                 return(
                                     <div key={reagent.key} className="col-4">
                                         {reagent.label}
@@ -25,7 +25,7 @@ function RenderAssay({ assayType }) {
                         </div>                         
                         <div className="row">                                
                             <h5>Reagent Data</h5>
-                                {assayType.metadata[1].children.map(reagentDataInput => {
+                                {props.assayType.metadata[1].children.map(reagentDataInput => {
                                     return(
                                         <div key={reagentDataInput.key} className="col-4">
                                             {reagentDataInput.label}
@@ -35,7 +35,7 @@ function RenderAssay({ assayType }) {
                         </div>
                         <div className="row">                                
                             <h5>Other</h5>
-                            {assayType.metadata[2].children.map(otherInput => {
+                            {props.assayType.metadata[2].children.map(otherInput => {
                                 return(
                                     <div key={otherInput.key} className="col-4">
                                         {otherInput.label}
@@ -48,14 +48,14 @@ function RenderAssay({ assayType }) {
             </Card>
         </div>
     )
-}
 
-function AssayAccordionCard(props) {
-    return(
+
+const AssayAccordionCard = React.forwardRef((props, ref) => 
+    
         props.assayTypes.map(assayType => {
             if (Number(assayType.createdAt.substring(5,7)) == props.date.substring(5,7)) {
                 return(
-                    <RenderAssay key={assayType._id} assayType={assayType}/>
+                    <RenderAssay ref={ref} key={assayType._id} assayType={assayType}/>
                 );
             }
             else {
@@ -64,8 +64,8 @@ function AssayAccordionCard(props) {
                 );
             }
         })  
-    );    
-}
+        
+)
 
 class Assays extends Component {
     constructor(props) {
@@ -192,6 +192,8 @@ class Assays extends Component {
         window.alert(JSON.stringify(values, 0, 2))
     }
 
+    childRef = createRef();
+
     render() {
         return(            
             <div id="page-wrap" className="container-fluid">
@@ -224,7 +226,19 @@ class Assays extends Component {
                                                     </Accordion.Toggle>
                                                     <Accordion.Collapse eventKey={strDate.substring(5, 7)}>
                                                         <Card.Body>
-                                                            <AssayAccordionCard assayTypes={this.state.assayTypes} date={strDate}/>
+                                                            {this.state.assayTypes.map(assayType => {
+                                                                if (Number(assayType.createdAt.substring(5,7)) == strDate.substring(5,7)) {
+                                                                    return(
+                                                                        <RenderAssay ref={this.childRef} key={assayType._id} assayType={assayType}/>
+                                                                    );
+                                                                }
+                                                                else {
+                                                                    return(
+                                                                        null
+                                                                    );
+                                                                }
+                                                            })}
+                                                            {/*<AssayAccordionCard assayTypes={this.state.assayTypes} date={strDate}/>*/}
                                                         </Card.Body>                                                    
                                                     </Accordion.Collapse>
                                                 </Card.Header>
