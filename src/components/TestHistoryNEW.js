@@ -2,9 +2,9 @@ import React, { Component, useEffect, useMemo, useState } from 'react';
 import { RiDeleteBin7Fill, RiTimeFill } from 'react-icons/ri'
 import { FaLayerGroup } from 'react-icons/fa'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
-import { PrimaryReagents } from './PrimaryReagentsOverview';
+import { AllTestsOverview } from './TestsOverview';
 
-class InventoryNEW extends Component {
+class TestHistoryNEW extends Component {
     constructor(props) {
         super(props);
     }   
@@ -16,7 +16,7 @@ class InventoryNEW extends Component {
                     <div style={{"position":"fixed"}} className="col-2">
                         <div style={{"border-bottom":"1px solid #E2E2E4", "background-color": "white", "margin-top": "0px", "padding": "10px"}} className="row header">
                             <div className="col ml-5">
-                                <span className="menu-header"> Inventory </span>
+                                <span className="menu-header"> Test History </span>
                             </div>
                         </div>
                         <div style={{"border-right":"1px solid #E2E2E4"}} className="row side-info">
@@ -25,9 +25,9 @@ class InventoryNEW extends Component {
                                     <div style={{"margin-right":"15px", 
                                                     "border-radius": "7px",
                                                     "background-color": "rgba(47, 73, 209, 0.15)",
+                                                    "box-shadow": "0px 0px 5px 0px lightgrey",
                                                     "height": "70px",
-                                                    "padding-top":"20px",
-                                                    "box-shadow": "0px 0px 5px 0px lightgrey"}} 
+                                                    "padding-top":"20px"}} 
                                         className="col text-center section-selection">
                                         <a className="switch" href="/account"><span className="dot" style={{"height": "30px",
                                                                         "border": "0.5px solid rgba(229, 229, 229, 1)",
@@ -40,7 +40,7 @@ class InventoryNEW extends Component {
                                         </span></a>
                                         <span style={{"font-weight":"700", "font-size":"large", 
                                             "color": "rgba(237, 139, 0, 0.95)", "padding-left": "15px",
-                                            "vertical-align":"middle"}}>Primary Reagents </span>
+                                            "vertical-align":"middle"}}> All Conducted Tests </span>
                                         <span style={{"padding-left": "5px"}}> </span>
                                     </div>
                                 </div>
@@ -87,17 +87,16 @@ class InventoryNEW extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-10 offset-2">
-                        <PrimaryReagents reagents={this.props.reagents} 
-                            reagentsErrMess={this.props.reagentsErrMess}
-                            postReagent={this.props.postReagent}
-                            deleteReagent={this.props.deleteReagent} 
-                            putReagent={this.props.putReagent} />                                                                  
-                    </div>
+                    <div className="col-10 offset-2">  
+                        <AllTestsOverview tests={this.props.tests} 
+                            testsErrMess={this.props.testsErrMess}
+                            fetchTests={this.props.fetchTests}
+                            deleteTest={this.props.deleteTest} />  
+                    </div>    
                 </div>
             </div>
         );
     }
 }
 
-export default InventoryNEW;
+export default TestHistoryNEW;

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded, useGroupBy } from 'react-table';
-import { COLUMNS } from './ColumnsInventory'
+import { COLUMNS } from './ColsPrimaryReagents'
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';
@@ -158,7 +158,7 @@ export const PrimaryReagents = (props) => {
             <div className="col-6">
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
             </div>
-            <div style={{"padding-right":"20px"}} className="col-2 ml-auto text-right">
+            <div style={{"padding-right":"30px"}} className="col-2 ml-auto text-right">
                 <span>
                     <a style={{"font-size": "medium", "color":"rgba(67, 47, 135, 0.9)"}} type="button" onClick={toggleSidebar}>Add Reagent<span style={{"padding-left":"10px"}}><FontAwesomeIcon icon={faFolderPlus} size='lg' /></span></a>
                 </span>

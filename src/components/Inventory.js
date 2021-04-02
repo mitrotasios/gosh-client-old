@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded, useGroupBy } from 'react-table';
-import { COLUMNS } from './ColumnsInventory'
+import { COLUMNS } from './ColsPrimaryReagents'
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import AddReagent from './AddReagent';

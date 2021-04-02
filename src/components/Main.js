@@ -4,6 +4,7 @@ import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TestHistory } from './TestHistory';
+import TestHistoryNEW from './TestHistoryNEW';
 import { Inventory } from './Inventory';
 import InventoryNEW from './InventoryNEW';
 import { connect } from 'react-redux';
@@ -65,7 +66,7 @@ class Main extends Component {
 
         const TestHistoryPage = () => {
             return(
-                <TestHistory tests={this.props.tests.tests} 
+                <TestHistoryNEW tests={this.props.tests.tests} 
                     testsErrMess={this.props.tests.errMess} 
                     //switchTests={this.props.switchTests}
                     fetchTests={this.props.fetchTests}

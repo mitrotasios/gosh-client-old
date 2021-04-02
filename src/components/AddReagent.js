@@ -58,7 +58,7 @@ class AddReagent extends Component {
 
     render() {        
       return(        
-        <div className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
+        <div style={{"z-index":"11"}} className={`sidebar-content${this.props.isSidebarOpen === true ? ' open' : ''}`}>
             <Form
                 onSubmit={this.handleSubmit}
                 initialValues={{ 
