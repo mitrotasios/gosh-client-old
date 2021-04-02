@@ -5,6 +5,7 @@ import Sidebar from './Sidebar.js';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { TestHistory } from './TestHistory';
 import { Inventory } from './Inventory';
+import InventoryNEW from './InventoryNEW';
 import { connect } from 'react-redux';
 import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes,
     postTestType} from '../redux/ActionCreators.js'
@@ -53,7 +54,7 @@ class Main extends Component {
     render() {
         const InventoryPage = () => {
             return(
-                <Inventory reagents={this.props.reagents.reagents} 
+                <InventoryNEW reagents={this.props.reagents.reagents} 
                     reagentsErrMess={this.props.reagents.errMess}
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
@@ -81,17 +82,17 @@ class Main extends Component {
         }
 
         return(
-            <div id="outer-container">
-                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
+                <>
+                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />                        
                 <Switch>
+                    {/*<Route path="/inventory" component={InventoryPage}/>*/}
                     <Route path="/inventory" component={InventoryPage}/>
                     <Route exact path="/testhistory" component={TestHistoryPage}/>
                     <Route exact path="/assays" component={AssayPage}/>
                     <Route exact path="/account" component={AccountDetails}/> 
                     <Redirect to="/inventory"/>
                 </Switch>
-            </div>
-            
+                </>
         );
     }
 }

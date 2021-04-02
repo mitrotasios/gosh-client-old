@@ -1,20 +1,33 @@
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
-    width: 100%;
-    border: 1px solid lightgray;
-    box-shadow: 0 0 10px lightgray;
+    width: 100%;    
+    margin-left: 20px;
+    margin-right: 20px;
     padding-left: 0px;
     padding-right: 0px;
   }
   
 table td {
     border-bottom: 1px solid #ddd;
-    border-top: 1.5px solid darkgray;
+    border-top: 1px solid #ddd;
     padding-bottom: 8px;
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 8px;
+}
+
+table tbody {
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 0 3px lightgray;
+    /*background-color: white;*/
+    font-weight: 500;
+    vertical-align: middle;
+    border-radius: 10px;
+    background-color: white;
 }
   
 /*table tr:nth-child(even){background-color: #f2f2f2;}*/
@@ -23,16 +36,23 @@ table tbody tr:hover {background-color: #ddd;}
 
   
 table th {
-    padding-top: 12px;  
+    padding-top: 0px; 
+    padding-bottom: 10px;  
     padding-left: 8px;
     padding-right: 8px;
     text-align: left;
     background-color: none;
-    color: #38b6ff;
+    color: #432F87;
+    border-radius: 10px;
 }
 
 #searchBar {
-    border-radius: 25px;
+    border-radius: 7px;
+    margin-left: 10px;
+    height: 40px;
+    width: 60%;
+    border: 1px solid lightgrey;
+    padding-left: 10px;
 }
 
 .table.sticky {

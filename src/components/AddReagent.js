@@ -66,6 +66,7 @@ class AddReagent extends Component {
                     supplier: this.state.supplier,
                     lotNr: this.state.lotNr,
                     catNr: this.state.catNr,
+                    storageLocation: "Room 1",
                     unit: 1
                 }}
                 render={({ handleSubmit, form, submitting, pristine, values }) => (
@@ -185,7 +186,7 @@ class AddReagent extends Component {
                                             component="select"
                                             defaultValue="Room 1"
                                             >
-                                                <option selected value="Room 1">Room 1</option>
+                                                <option value="Room 1">Room 1</option>
                                                 <option value="Room 2">Room 2</option>
                                                 <option value="Room 3">Room 3</option>
                                             </Field>
