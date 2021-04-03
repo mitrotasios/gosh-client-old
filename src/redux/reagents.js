@@ -2,18 +2,24 @@ import * as ActionTypes from './ActionTypes';
 
 export const Reagents = (state = {
     errMess: null,
-    reagents: []
+    isLoading: true,
+    reagents: [],
+    deletedReagents: []
 }, action) => {
     switch(action.type) {
         case ActionTypes.RENDER_REAGENTS:
             console.log(action.payload);
-            return {...state, isLoading: false, errMess: null, reagents: action.payload}
+            return {...state, isLoading: false, errMess: null, reagents: action.payload, deletedReagents: []}
+        
+        case ActionTypes.RENDER_DELETED_REAGENTS:
+            console.log(action.payload);
+            return {...state, isLoading: false, errMess: null, reagents: state.reagents, deletedReagents: action.payload}
         
         case ActionTypes.REAGENTS_LOADING:
-            return {...state, isLoading: true, errMess: null, reagents: []}
+            return {...state, isLoading: true, errMess: null, reagents: [], deletedReagents: []}
 
         case ActionTypes.REAGENTS_FAILED:
-            return {...state, isLoading: false, errMess: action.payload, reagents: []}
+            return {...state, isLoading: false, errMess: action.payload, reagents: [], deletedReagents: []}
 
         case ActionTypes.ADD_REAGENT:
             var reagent = action.payload;

@@ -5,6 +5,7 @@ import { FaLayerGroup } from 'react-icons/fa'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
 import { PrimaryReagents } from './PrimaryReagentsOverview';
 import { PrimaryReagentsRecent } from './PrimaryReagentsRecent';
+import { PrimaryReagentsBin } from './PrimaryReagentsBin';
 import { SecReagentsOverview } from './SecReagentsOverview';
 
 class InventoryNEW extends Component {
@@ -36,6 +37,16 @@ class InventoryNEW extends Component {
             case 'primary-reagents/recent':
                 return(
                     <PrimaryReagentsRecent reagents={this.props.reagents} 
+                        reagentsErrMess={this.props.reagentsErrMess}
+                        postReagent={this.props.postReagent}
+                        deleteReagent={this.props.deleteReagent} 
+                        putReagent={this.props.putReagent} />
+                );
+            case 'primary-reagents/bin':
+                return(
+                    <PrimaryReagentsBin reagents={this.props.reagents}
+                        deletedReagents={this.props.deletedReagents}
+                        fetchReagents={this.props.fetchReagents} 
                         reagentsErrMess={this.props.reagentsErrMess}
                         postReagent={this.props.postReagent}
                         deleteReagent={this.props.deleteReagent} 
@@ -101,7 +112,7 @@ class InventoryNEW extends Component {
                                                     className={this.state.currentPath.split('/')[1]=='recent' ? 'selected' : ''}><span><RiTimeFill /></span> Last Used</a></li>
                                             <li><a type="button" 
                                                     href={this.state.currentPath.split('/')[0]=='primary-reagents' ? '/inventory/primary-reagents/bin' : '/inventory/secondary-reagents/bin'} 
-                                                    className={this.state.currentPath.split('/')[1]=='recent' ? 'bin' : ''}><span><RiDeleteBin7Fill /></span> Bin</a></li>
+                                                    className={this.state.currentPath.split('/')[1]=='bin' ? 'selected' : ''}><span><RiDeleteBin7Fill /></span> Bin</a></li>
                                         </ul>
                                     </div>
                                 </div>

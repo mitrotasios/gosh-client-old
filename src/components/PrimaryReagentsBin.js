@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, useExpanded } from 'react-table';
-import { COLUMNS } from './ColsSecReagents'
+import { COLUMNS } from './ColsPrimaryReagents'
 import './table.css';
 import {AiFillCaretDown, AiFillCaretUp} from 'react-icons/ai';
 import { GlobalFilter } from './GlobalFilter';
@@ -9,19 +9,20 @@ import { Checkbox } from './CheckBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderPlus, faPencilAlt, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons'
 
-export const SecReagentsOverview = (props) => {
+export const PrimaryReagentsBin = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
     //const data = useMemo(() => MOCK_DATA, [])
-    const [data, setData] = useState(props.secReagents, []);
-    
+    const [data, setData] = useState(props.deletedReagents, []);
+
+
     const tableInstance = useTable({
             columns,
             data,
             initialState: {
                 sortBy: [
                     {
-                        id: 'dateCreated',
+                        id: 'updatedAt',
                         desc: true
                     }
                 ],
@@ -65,15 +66,16 @@ export const SecReagentsOverview = (props) => {
     const { globalFilter } = state
 
     const [selectedRow, setSelectRows] = useState('')
+    const [isSidebarOpen, setSidebarState] = useState(false)
+    const [isModalOpen, setModalState] = useState(false)
 
-    const deleteRows = () => { 
-        selectedFlatRows.forEach(row => {     
-            var update = {
-                _id: row.original._id,
-                status: "DELETED"
-            }
-            props.putSecReagent(update);
-        });
+
+    const handleModalShow = () => {
+        setModalState(true);
+    }
+
+    const handleModalClose = () => {
+        setModalState(false);
     }
 
     const renderRowSubComponent = React.useCallback(
@@ -99,7 +101,7 @@ export const SecReagentsOverview = (props) => {
             <div className="col-6">
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
             </div>
-            <div style={{"padding-right":"20px"}} className="col-2 ml-auto text-right">
+            <div style={{"padding-right":"30px"}} className="col-2 ml-auto text-right">
             </div>
         </div>
         <div style={{"paddingTop":"61px"}} className="table-container row"> 
@@ -162,18 +164,16 @@ export const SecReagentsOverview = (props) => {
                         <div className="col text-center">
                             <ul style={{"position": "fixed", "paddingLeft":"20px"}} className="list-unstyled">
                                 <li>
-                                    <a type="button" onClick={deleteRows} className="dot"
-                                    style={{"line-height":"40px",
-                                    "border": "0.5px solid white",
+                                    <a type="button" onClick={handleModalShow} className="dot" style={{"line-height":"40px",
+                                    "border": "rgba(67, 47, 135, 0.9)",
                                     "width": "50px",
-                                    "background-color": "white",
+                                    "background-color": "rgba(67, 47, 135, 0.9)",
                                     "border-radius": "50%",
-                                    "paddingRight":"3px",
                                     "display": "inline-block",
-                                    "box-shadow": "0px 0px 5px 0px lightgrey",
+                                    "box-shadow": "0px 0px 10px 0px lightgrey",
                                     "text-align": "center",
                                     "vertical-align": "middle"}}>
-                                    <FontAwesomeIcon icon={faTimes} color="grey" size='lg'/></a>
+                                    <FontAwesomeIcon icon={faPencilAlt} color="white" size='lg'/></a>
                                 </li>
                             </ul>
                         </div>    
@@ -181,7 +181,6 @@ export const SecReagentsOverview = (props) => {
                 ) : null}
             </div>  
         </div>
-        
         </>
     );
 }

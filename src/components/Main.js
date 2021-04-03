@@ -9,7 +9,7 @@ import { Inventory } from './Inventory';
 import InventoryNEW from './InventoryNEW';
 import InvSecReagentsOverview from './InvSecReagentsOverview';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagent, postReagent, fetchReagents, 
+import { putReagent, deleteReagent, postReagent, fetchReagents, fetchDeletedReagents,
     fetchSecReagents, putSecReagent, deleteSecReagent,
     deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes,
     postTestType} from '../redux/ActionCreators.js'
@@ -18,6 +18,7 @@ import { putReagent, deleteReagent, postReagent, fetchReagents,
 const mapStateToProps = state => {
     return {
         reagents: state.reagents,
+        deletedReagents: state.deleteReagents,
         secReagents: state.secReagents,
         tests: state.tests,
         testTypes: state.testTypes,
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
         storageLocation
         ) => dispatch(postReagent(unit, reagentName, supplier, lotNr, catNr, expiryDate, dateReceived, storageLocation)),    
     fetchReagents: () => {dispatch(fetchReagents())},
+    fetchDeletedReagents: () => {dispatch(fetchDeletedReagents())},
     fetchSecReagents: () => {dispatch(fetchSecReagents())},
     putSecReagent: (secReagent) => {dispatch(putSecReagent(secReagent))},
     deleteSecReagent: (secReagent_id) => {dispatch(deleteSecReagent(secReagent_id))},
@@ -55,6 +57,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.fetchReagents();
+        this.props.fetchDeletedReagents();
         this.props.fetchSecReagents();
         this.props.fetchTests();
         this.props.fetchTestTypes();
@@ -65,13 +68,16 @@ class Main extends Component {
             return(
                 <InventoryNEW 
                     // Primary Reagents
-                    reagents={this.props.reagents.reagents} 
+                    reagents={this.props.reagents.reagents}
+                    deletedReagents={this.props.reagents.deletedReagents}
+                    fetchReagents={this.props.fetchReagents} 
                     reagentsErrMess={this.props.reagents.errMess}
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
                     putReagent={this.props.putReagent}
                     // Secondary Reagents
                     secReagents={this.props.secReagents.secReagents} 
+                    fetchSecReagents={this.props.fetchSecReagents}
                     secReagentsErrMess={this.props.secReagents.errMess}
                     deleteSecReagent={this.props.deleteSecReagent} 
                     putSecReagent={this.props.putSecReagent}

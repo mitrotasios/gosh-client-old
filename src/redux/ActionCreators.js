@@ -6,8 +6,8 @@ import { TestTypes } from './testTypes';
 // PRIMARY REAGENTS
 ///////////////////
 // GET
-export const fetchReagents = () => (dispatch) => {
-    return fetch(baseUrl + 'reagents')
+export const fetchReagents = (deleted=false) => (dispatch) => {
+    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted)
         .then(response => {
             if (response.ok) {
                 return response
@@ -27,6 +27,28 @@ export const fetchReagents = () => (dispatch) => {
         .catch(error => dispatch(reagentsFailed(error.message)));
 }
 
+// GET DELETED
+export const fetchDeletedReagents = (deleted=true) => (dispatch) => {
+    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted)
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(reagents => dispatch(renderDeletedReagents(reagents)))
+        .catch(error => dispatch(reagentsFailed(error.message)));
+}
+
 export const reagentsLoading = () => ({
     type: ActionTypes.REAGENTS_LOADING
 });
@@ -34,6 +56,11 @@ export const reagentsLoading = () => ({
 export const renderReagents = (reagents) => ({
     type: ActionTypes.RENDER_REAGENTS,
     payload: reagents
+});
+
+export const renderDeletedReagents = (deletedReagents) => ({
+    type: ActionTypes.RENDER_DELETED_REAGENTS,
+    payload: deletedReagents
 });
 
 export const reagentsFailed = (errmess) => ({
@@ -176,8 +203,8 @@ export const removeReagent = (reagent) => ({
 // SECONDARY REAGENTS
 ///////////////////
 // GET
-export const fetchSecReagents = () => (dispatch) => {
-    return fetch(baseUrl + 'secondary-reagents')
+export const fetchSecReagents = (deleted=false) => (dispatch) => {
+    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted)
         .then(response => {
             if (response.ok) {
                 return response
