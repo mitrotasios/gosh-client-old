@@ -7,7 +7,7 @@ import { GlobalFilter } from './GlobalFilter';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { Checkbox } from './CheckBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus, faPencilAlt, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faFolderPlus, faPencilAlt, faDownload, faTimes, faUndo } from '@fortawesome/free-solid-svg-icons'
 
 export const PrimaryReagentsBin = (props) => {
     
@@ -69,13 +69,22 @@ export const PrimaryReagentsBin = (props) => {
     const [isSidebarOpen, setSidebarState] = useState(false)
     const [isModalOpen, setModalState] = useState(false)
 
-
     const handleModalShow = () => {
         setModalState(true);
     }
 
     const handleModalClose = () => {
         setModalState(false);
+    }
+
+    const undoDelete = () => { 
+        selectedFlatRows.forEach(row => {     
+            var update = {
+                _id: row.original._id,
+                status: "OK"
+            }
+            props.putReagent(update);
+        });
     }
 
     const renderRowSubComponent = React.useCallback(
@@ -164,7 +173,7 @@ export const PrimaryReagentsBin = (props) => {
                         <div className="col text-center">
                             <ul style={{"position": "fixed", "paddingLeft":"20px"}} className="list-unstyled">
                                 <li>
-                                    <a type="button" onClick={handleModalShow} className="dot" style={{"line-height":"40px",
+                                    <a type="button" onClick={undoDelete} className="dot" style={{"line-height":"40px",
                                     "border": "rgba(67, 47, 135, 0.9)",
                                     "width": "50px",
                                     "background-color": "rgba(67, 47, 135, 0.9)",
@@ -173,7 +182,7 @@ export const PrimaryReagentsBin = (props) => {
                                     "box-shadow": "0px 0px 10px 0px lightgrey",
                                     "text-align": "center",
                                     "vertical-align": "middle"}}>
-                                    <FontAwesomeIcon icon={faPencilAlt} color="white" size='lg'/></a>
+                                    <FontAwesomeIcon icon={faUndo} color="white" size='lg'/></a>
                                 </li>
                             </ul>
                         </div>    

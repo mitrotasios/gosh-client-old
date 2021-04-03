@@ -9,11 +9,11 @@ export const Reagents = (state = {
     switch(action.type) {
         case ActionTypes.RENDER_REAGENTS:
             console.log(action.payload);
-            return {...state, isLoading: false, errMess: null, reagents: action.payload, deletedReagents: []}
+            return {...state, isLoading: false, errMess: null, reagents: action.payload}
         
         case ActionTypes.RENDER_DELETED_REAGENTS:
             console.log(action.payload);
-            return {...state, isLoading: false, errMess: null, reagents: state.reagents, deletedReagents: action.payload}
+            return {...state, isLoading: false, errMess: null, deletedReagents: action.payload}
         
         case ActionTypes.REAGENTS_LOADING:
             return {...state, isLoading: true, errMess: null, reagents: [], deletedReagents: []}
@@ -27,17 +27,22 @@ export const Reagents = (state = {
 
         case ActionTypes.UPDATE_REAGENT:
             var reagent = action.payload;
+
             if (reagent.status == "DELETED") {
                 return {...state, reagents: state.reagents.filter(
-                    item => item._id !== reagent._id
-                )};
+                            item => item._id !== reagent._id
+                        ), deletedReagents: state.deletedReagents.concat(reagent)};
             }
             else {
                 var reagentsCopy = state.reagents.slice()
                 var foundIndex = reagentsCopy.findIndex(entry => entry._id == reagent._id);
                 reagentsCopy[foundIndex] = reagent;
-                
-                return {...state, reagents: reagentsCopy}
+
+               var deletedReagentsCopy = state.deletedReagents.filter(
+                    item => item._id !== reagent._id
+                )
+
+                return {...state, reagents: reagentsCopy, deletedReagents: deletedReagentsCopy}
             }
        
         case ActionTypes.REMOVE_REAGENT:
