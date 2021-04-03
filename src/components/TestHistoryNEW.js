@@ -7,7 +7,30 @@ import { AllTestsOverview } from './TestsOverview';
 class TestHistoryNEW extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            currentPath: ''
+        }
     }   
+
+    componentDidMount() {
+        const currentPath = window.location.pathname.split('/').splice(2,).join('/');
+        this.setState({
+            currentPath: currentPath
+        });
+    }
+
+    renderTable(path) {
+        switch(path) {
+            case 'all-tests/overview':
+                return(
+                    <AllTestsOverview tests={this.props.tests} 
+                        testsErrMess={this.props.testsErrMess}
+                        fetchTests={this.props.fetchTests}
+                        deleteTest={this.props.deleteTest} />  
+                );
+        }
+    }
 
     render() {
         return(
@@ -47,9 +70,9 @@ class TestHistoryNEW extends Component {
                                 <div style={{"margin-top":"30px"}} className="row section-choices">
                                     <div className="col" style={{"padding":"0px"}}>
                                         <ul className="list-unstyled">
-                                            <li><a href="/" type="button" className="selected"><span><FaLayerGroup /></span> Overview</a></li>
-                                            <li><a href="/" type="button"><span><RiTimeFill /></span> Last Used</a></li>
-                                            <li><a href="/" type="button"><span><RiDeleteBin7Fill /></span> Bin</a></li>
+                                            <li><a href="/" type="button" className={this.state.currentPath.split('/')[1]=='overview' ? 'selected' : ''}><span><FaLayerGroup /></span> Overview</a></li>
+                                            <li><a href="/" type="button" className={this.state.currentPath.split('/')[1]=='recent' ? 'selected' : ''}><span><RiTimeFill /></span> Last Used</a></li>
+                                            <li><a href="/" type="button" className={this.state.currentPath.split('/')[1]=='bin' ? 'selected' : ''}><span><RiDeleteBin7Fill /></span> Bin</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -88,10 +111,7 @@ class TestHistoryNEW extends Component {
                         </div>
                     </div>
                     <div className="col-10 offset-2">  
-                        <AllTestsOverview tests={this.props.tests} 
-                            testsErrMess={this.props.testsErrMess}
-                            fetchTests={this.props.fetchTests}
-                            deleteTest={this.props.deleteTest} />  
+                        {this.renderTable(this.state.currentPath)}  
                     </div>    
                 </div>
             </div>

@@ -63,11 +63,18 @@ class Main extends Component {
     render() {
         const InventoryPage = () => {
             return(
-                <InventoryNEW reagents={this.props.reagents.reagents} 
+                <InventoryNEW 
+                    // Primary Reagents
+                    reagents={this.props.reagents.reagents} 
                     reagentsErrMess={this.props.reagents.errMess}
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
                     putReagent={this.props.putReagent}
+                    // Secondary Reagents
+                    secReagents={this.props.secReagents.secReagents} 
+                    secReagentsErrMess={this.props.secReagents.errMess}
+                    deleteSecReagent={this.props.deleteSecReagent} 
+                    putSecReagent={this.props.putSecReagent}
                     />
             );
         }
@@ -106,8 +113,12 @@ class Main extends Component {
                 <Switch>
                     {/*<Route path="/inventory" component={InventoryPage}/>*/}
                     <Route path="/inventory/primary-reagents/overview" component={InventoryPage}/>
-                    <Route path="/inventory/secondary-reagents/overview" component={InvSecReagentsOverviewPage}/>
-                    <Route exact path="/testhistory" component={TestHistoryPage}/>
+                    <Route path="/inventory/primary-reagents/recent" component={InventoryPage}/>
+                    <Route path="/inventory/primary-reagents/bin" component={InventoryPage}/>
+                    <Route path="/inventory/secondary-reagents/overview" component={InventoryPage}/>
+                    <Route path="/inventory/secondary-reagents/recent" component={InventoryPage}/>
+                    <Route path="/inventory/secondary-reagents/bin" component={InventoryPage}/>
+                    <Route exact path="/testhistory/all-tests/overview" component={TestHistoryPage}/>
                     <Route exact path="/assays" component={AssayPage}/>
                     <Route exact path="/account" component={AccountDetails}/> 
                     <Route exact path="/account" component={AccountDetails}/> 

@@ -10,7 +10,7 @@ function Sidebar(props) {
       <a className="menu-item" href="/invenotry">
         <span><RiTestTubeLine/>&nbsp;&nbsp;Inventory</span>
       </a>
-      <a className="menu-item" href="/testhistory">
+      <a className="menu-item" href="/testhistory/all-tests/overview">
       <span><RiHistoryLine/>&nbsp;&nbsp;Test History</span>
       </a>
       <a className="menu-item" href="/assays">

@@ -25,7 +25,6 @@ export const SecReagentsOverview = (props) => {
                         desc: true
                     }
                 ],
-                groupBy: ['lotNr'],
                 hiddenColumns: ['updatedAt']
             },
         },         
@@ -110,22 +109,6 @@ export const SecReagentsOverview = (props) => {
             <div style={{"padding-right":"20px"}} className="col-2 ml-auto text-right">
             </div>
         </div>
-        {/*<div className="container-fluid row">
-            <div className="row text-center">
-                <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    
-                <div className="col-sm-4 ml-auto">
-                    <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
-                </div>                 
-                <div className="ml-auto">
-                    {selectedFlatRows[0] ? (<span><Button className="btn" color="danger"
-                        onClick={deleteRows}>Delete</Button> </span>) : <span><Button className="btn btn-white" disabled>Delete</Button> </span>}
-                    <ButtonGroup>
-                        <Button onClick={switchToMyTests}>My Tests</Button>
-                        <Button onClick={switchToAllTests}>All Tests</Button>
-                    </ButtonGroup>
-                </div>   
-            </div>                
-        </div>*/}
         <div style={{"paddingTop":"61px"}} className="table-container row"> 
             <div style={{"padding-top":"10px", "padding-bottom":"0px", "padding-left":"0px", "padding-right":"10px"}} className="col-11">
                 <table {...getTableProps()}>
