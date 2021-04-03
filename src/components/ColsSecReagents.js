@@ -34,4 +34,8 @@ export const COLUMNS = [
         Header: 'Created By',
         accessor: 'createdBy',
     },
+    {
+        Header: 'Updated At',
+        accessor: 'updatedAt',
+    }    
 ]

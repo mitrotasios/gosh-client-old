@@ -17,7 +17,17 @@ export const SecReagentsOverview = (props) => {
     
     const tableInstance = useTable({
             columns,
-            data
+            data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: 'dateCreated',
+                        desc: true
+                    }
+                ],
+                groupBy: ['lotNr'],
+                hiddenColumns: ['updatedAt']
+            },
         },         
         useGlobalFilter,
         useSortBy,

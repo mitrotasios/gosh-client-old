@@ -88,8 +88,6 @@ export const COLUMNS = [
     {
         Header: 'Updated At',
         accessor: 'updatedAt',
-        canGroupBy: false,
-        show: false
     }    
 ]
 

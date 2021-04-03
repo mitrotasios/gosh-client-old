@@ -17,7 +17,17 @@ export const AllTestsOverview = (props) => {
     
     const tableInstance = useTable({
             columns,
-            data
+            data,
+            initialState: {
+                sortBy: [
+                    {
+                        id: 'createdAt',
+                        desc: true
+                    }
+                ],
+                groupBy: ['lotNr'],
+                hiddenColumns: ['updatedAt']
+            },
         },         
         useGlobalFilter,
         useSortBy,

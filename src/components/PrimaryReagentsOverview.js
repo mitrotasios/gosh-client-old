@@ -32,6 +32,7 @@ export const PrimaryReagents = (props) => {
                     }
                 ],
                 groupBy: ['lotNr'],
+                hiddenColumns: ['updatedAt']
             },
             autoResetExpanded: false,
             autoResetSelectedRows: false,

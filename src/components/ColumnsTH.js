@@ -35,11 +35,14 @@ export const COLUMNS = [
         //aggregate: topValue,
     },    
     {
-         Header: 'Conducted By',
-         accessor: 'conductedBy',
-         //disableSortBy: true
-
-    }
+        Header: 'Conducted By',
+        accessor: 'conductedBy',
+        //disableSortBy: true
+    },
+    {
+        Header: 'Updated At',
+        accessor: 'updatedAt',
+    }    
 ]
 
 const onRowClick = (state, rowInfo, column, instance) => {
