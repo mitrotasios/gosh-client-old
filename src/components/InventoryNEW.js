@@ -7,6 +7,8 @@ import { PrimaryReagents } from './PrimaryReagentsOverview';
 import { PrimaryReagentsRecent } from './PrimaryReagentsRecent';
 import { PrimaryReagentsBin } from './PrimaryReagentsBin';
 import { SecReagentsOverview } from './SecReagentsOverview';
+import { SecReagentsRecent } from './SecReagentsRecent';
+import { SecReagentsBin } from './SecReagentsBin';
 
 class InventoryNEW extends Component {
     constructor(props) {
@@ -55,6 +57,22 @@ class InventoryNEW extends Component {
             case 'secondary-reagents/overview':
                 return(
                     <SecReagentsOverview secReagents={this.props.secReagents} 
+                        secReagentsErrMess={this.props.errMess}
+                        deleteSecReagent={this.props.deleteSecReagent} 
+                        putSecReagent={this.props.putSecReagent} />  
+                );
+            case 'secondary-reagents/recent':
+                return(
+                    <SecReagentsRecent secReagents={this.props.secReagents} 
+                        secReagentsErrMess={this.props.errMess}
+                        deleteSecReagent={this.props.deleteSecReagent} 
+                        putSecReagent={this.props.putSecReagent} />  
+                );
+            
+            case 'secondary-reagents/bin':
+                return(
+                    <SecReagentsBin secReagents={this.props.secReagents} 
+                        deletedSecReagents={this.props.deletedSecReagents}
                         secReagentsErrMess={this.props.errMess}
                         deleteSecReagent={this.props.deleteSecReagent} 
                         putSecReagent={this.props.putSecReagent} />  

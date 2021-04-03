@@ -9,11 +9,11 @@ import { Checkbox } from './CheckBox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderPlus, faPencilAlt, faDownload, faTimes } from '@fortawesome/free-solid-svg-icons'
 
-export const SecReagentsRecent = (props) => {
+export const SecReagentsBin = (props) => {
     
     const columns = useMemo(() => COLUMNS, [])
     //const data = useMemo(() => MOCK_DATA, [])
-    const [data, setData] = useState(props.secReagents, []);
+    const [data, setData] = useState(props.deletedSecReagents, []);
     
     const tableInstance = useTable({
             columns,

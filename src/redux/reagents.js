@@ -38,7 +38,7 @@ export const Reagents = (state = {
                 var foundIndex = reagentsCopy.findIndex(entry => entry._id == reagent._id);
                 reagentsCopy[foundIndex] = reagent;
 
-               var deletedReagentsCopy = state.deletedReagents.filter(
+                var deletedReagentsCopy = state.deletedReagents.filter(
                     item => item._id !== reagent._id
                 )
 

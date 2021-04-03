@@ -224,6 +224,28 @@ export const fetchSecReagents = (deleted=false) => (dispatch) => {
         .catch(error => dispatch(secReagentsFailed(error.message)));
 }
 
+// GET DELETED
+export const fetchDeletedSecReagents = (deleted=true) => (dispatch) => {
+    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted)
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(deletedSecReagents => dispatch(renderSecDeletedReagents(deletedSecReagents)))
+        .catch(error => dispatch(secReagentsFailed(error.message)));
+}
+
 export const secReagentsLoading = () => ({
     type: ActionTypes.SEC_REAGENTS_LOADING
 });
@@ -231,6 +253,11 @@ export const secReagentsLoading = () => ({
 export const renderSecReagents = (secReagents) => ({
     type: ActionTypes.RENDER_SEC_REAGENTS,
     payload: secReagents
+});
+
+export const renderSecDeletedReagents = (deletedSecReagents) => ({
+    type: ActionTypes.RENDER_DELETED_SEC_REAGENTS,
+    payload: deletedSecReagents
 });
 
 export const secReagentsFailed = (errmess) => ({

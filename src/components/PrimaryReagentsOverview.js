@@ -196,7 +196,7 @@ export const PrimaryReagents = (props) => {
                         prepareRow(row)                        
                         return (
                         <React.Fragment key={row.getRowProps().key}>                        
-                        <tr> 
+                        <tr className={row.subRows.length ? "grouped-row" : ""}> 
                             {row.cells.map(cell => {
                             return (
                                 <td
