@@ -34,7 +34,7 @@ li{
 
 
 li > a {
-  color: #432F87;
+  color: grey;
   font-size: large;
   font-weight: 500; 
   width: 100%;
@@ -51,6 +51,22 @@ li > a > span {
 li > a:hover {
   background-color: rgba(237, 139, 0, 0.2);
   border-radius: 4px;
+}
+
+li > a:active {
+  background-color: rgba(237, 139, 0, 0.2);
+  border-radius: 4px;
+}
+
+a.selected {
+  border-right: 3px solid #432F87;
+  color: #432F87;
+  font-size: large;
+  font-weight: 500; 
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
 }
 
 .table-container {

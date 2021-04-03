@@ -2,9 +2,9 @@ import React, { Component, useEffect, useMemo, useState } from 'react';
 import { RiDeleteBin7Fill, RiTimeFill } from 'react-icons/ri'
 import { FaLayerGroup } from 'react-icons/fa'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
-import { PrimaryReagents } from './PrimaryReagentsOverview';
+import { SecReagentsOverview } from './SecReagentsOverview';
 
-class InventoryNEW extends Component {
+class InvSecReagentsOverview extends Component {
     constructor(props) {
         super(props);
     }   
@@ -29,7 +29,7 @@ class InventoryNEW extends Component {
                                                     "padding-top":"20px",
                                                     "box-shadow": "0px 0px 5px 0px lightgrey"}} 
                                         className="col text-center section-selection">
-                                        <a className="switch" href="/inventory/secondary-reagents/overview"><span className="dot" style={{"height": "30px",
+                                        <a className="switch" href="/inventory/primary-reagents/overview"><span className="dot" style={{"height": "30px",
                                                                         "border": "0.5px solid rgba(229, 229, 229, 1)",
                                                                         "width": "30px",
                                                                         "background-color": "#ffffff",
@@ -39,8 +39,8 @@ class InventoryNEW extends Component {
                                             <HiOutlineSwitchHorizontal/>
                                         </span></a>
                                         <span style={{"font-weight":"700", "font-size":"large", 
-                                            "color": "rgba(237, 139, 0, 0.95)", "padding-left": "15px",
-                                            "vertical-align":"middle"}}>Primary Reagents </span>
+                                            "color": "rgba(237, 139, 0, 0.95)", "padding-left": "10px",
+                                            "vertical-align":"middle"}}> Secondary Reagents </span>
                                         <span style={{"padding-left": "5px"}}> </span>
                                     </div>
                                 </div>
@@ -88,11 +88,10 @@ class InventoryNEW extends Component {
                         </div>
                     </div>
                     <div className="col-10 offset-2">
-                        <PrimaryReagents reagents={this.props.reagents} 
-                            reagentsErrMess={this.props.reagentsErrMess}
-                            postReagent={this.props.postReagent}
-                            deleteReagent={this.props.deleteReagent} 
-                            putReagent={this.props.putReagent} />                                                                  
+                        <SecReagentsOverview secReagents={this.props.secReagents} 
+                        secReagentsErrMess={this.props.errMess}
+                        deleteSecReagent={this.props.deleteSecReagent} 
+                        putSecReagent={this.props.putSecReagent} />                                                 
                     </div>
                 </div>
             </div>
@@ -100,4 +99,4 @@ class InventoryNEW extends Component {
     }
 }
 
-export default InventoryNEW;
+export default InvSecReagentsOverview;

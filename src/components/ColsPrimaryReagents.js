@@ -84,6 +84,12 @@ export const COLUMNS = [
         Header: 'Assay',
         accessor: 'assayName',
         canGroupBy: false,
+    },
+    {
+        Header: 'Updated At',
+        accessor: 'updatedAt',
+        canGroupBy: false,
+        show: false
     }    
 ]
 

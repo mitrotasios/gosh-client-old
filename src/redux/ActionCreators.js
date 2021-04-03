@@ -173,6 +173,120 @@ export const removeReagent = (reagent) => ({
 ///////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////
+// SECONDARY REAGENTS
+///////////////////
+// GET
+export const fetchSecReagents = () => (dispatch) => {
+    return fetch(baseUrl + 'secondary-reagents')
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(secReagents => dispatch(renderSecReagents(secReagents)))
+        .catch(error => dispatch(secReagentsFailed(error.message)));
+}
+
+export const secReagentsLoading = () => ({
+    type: ActionTypes.SEC_REAGENTS_LOADING
+});
+
+export const renderSecReagents = (secReagents) => ({
+    type: ActionTypes.RENDER_SEC_REAGENTS,
+    payload: secReagents
+});
+
+export const secReagentsFailed = (errmess) => ({
+    type: ActionTypes.SEC_REAGENTS_FAILED,
+    payload: errmess
+});
+
+// PUT
+export const putSecReagent = (
+    updatedSecReagent, action = ""
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'secondary-reagents/' + updatedSecReagent._id 
+    + "?action=" + action, {
+        method: 'PUT',
+        body: JSON.stringify(updatedSecReagent),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(updateSecReagent(response))})
+        .catch(error => { console.log('Post reagents', error.message) 
+            alert('Reagent could not be posted\nError: '+ error.message)})
+}
+
+export const updateSecReagent = (secReagent) => ({
+    type: ActionTypes.UPDATE_SEC_REAGENT,
+    payload: secReagent
+});
+
+// DELETE
+export const deleteSecReagent = (
+    secReagent_id
+) => (dispatch) => {
+    
+    return fetch(baseUrl + 'secondary-reagents/' + secReagent_id, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ': ' + response.statusText)
+                error.response = response;
+                throw error;
+            }
+        }, 
+        error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+        })
+        .then(response => response.json())
+        .then(response => {dispatch(removeSecReagent(response))})
+        .catch(error => { console.log('Delete reagents', error.message) 
+            alert('Reagent could not be deleted\nError: '+ error.message)})
+        
+}
+
+export const removeSecReagent = (secReagent) => ({    
+    type: ActionTypes.REMOVE_SEC_REAGENT,
+    payload: secReagent
+});
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
 // TESTS
 ////////
 // GET

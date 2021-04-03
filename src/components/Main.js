@@ -7,14 +7,18 @@ import { TestHistory } from './TestHistory';
 import TestHistoryNEW from './TestHistoryNEW';
 import { Inventory } from './Inventory';
 import InventoryNEW from './InventoryNEW';
+import InvSecReagentsOverview from './InvSecReagentsOverview';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagent, postReagent, fetchReagents, deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes,
+import { putReagent, deleteReagent, postReagent, fetchReagents, 
+    fetchSecReagents, putSecReagent, deleteSecReagent,
+    deleteTest, fetchTests, /*switchTests,*/ fetchTestTypes,
     postTestType} from '../redux/ActionCreators.js'
 
 
 const mapStateToProps = state => {
     return {
         reagents: state.reagents,
+        secReagents: state.secReagents,
         tests: state.tests,
         testTypes: state.testTypes,
     }     
@@ -34,6 +38,9 @@ const mapDispatchToProps = (dispatch) => ({
         storageLocation
         ) => dispatch(postReagent(unit, reagentName, supplier, lotNr, catNr, expiryDate, dateReceived, storageLocation)),    
     fetchReagents: () => {dispatch(fetchReagents())},
+    fetchSecReagents: () => {dispatch(fetchSecReagents())},
+    putSecReagent: (secReagent) => {dispatch(putSecReagent(secReagent))},
+    deleteSecReagent: (secReagent_id) => {dispatch(deleteSecReagent(secReagent_id))},
     fetchTests: () => {dispatch(fetchTests())},
     //switchTests: (tests) => {dispatch(switchTests(tests))},
     deleteTest: (test_id) => {dispatch(deleteTest(test_id))},
@@ -48,6 +55,7 @@ class Main extends Component {
 
     componentDidMount() {
         this.props.fetchReagents();
+        this.props.fetchSecReagents();
         this.props.fetchTests();
         this.props.fetchTestTypes();
     }
@@ -60,6 +68,16 @@ class Main extends Component {
                     postReagent={this.props.postReagent}
                     deleteReagent={this.props.deleteReagent} 
                     putReagent={this.props.putReagent}
+                    />
+            );
+        }
+
+        const InvSecReagentsOverviewPage = () => {
+            return(
+                <InvSecReagentsOverview secReagents={this.props.secReagents.secReagents} 
+                    secReagentsErrMess={this.props.secReagents.errMess}
+                    deleteSecReagent={this.props.deleteSecReagent} 
+                    putSecReagent={this.props.putSecReagent}
                     />
             );
         }
@@ -87,11 +105,13 @@ class Main extends Component {
                 <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />                        
                 <Switch>
                     {/*<Route path="/inventory" component={InventoryPage}/>*/}
-                    <Route path="/inventory" component={InventoryPage}/>
+                    <Route path="/inventory/primary-reagents/overview" component={InventoryPage}/>
+                    <Route path="/inventory/secondary-reagents/overview" component={InvSecReagentsOverviewPage}/>
                     <Route exact path="/testhistory" component={TestHistoryPage}/>
                     <Route exact path="/assays" component={AssayPage}/>
                     <Route exact path="/account" component={AccountDetails}/> 
-                    <Redirect to="/inventory"/>
+                    <Route exact path="/account" component={AccountDetails}/> 
+                    <Redirect to="/inventory/primary-reagents/overview"/>
                 </Switch>
                 </>
         );

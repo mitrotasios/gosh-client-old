@@ -47,7 +47,7 @@ class TestHistoryNEW extends Component {
                                 <div style={{"margin-top":"30px"}} className="row section-choices">
                                     <div className="col" style={{"padding":"0px"}}>
                                         <ul className="list-unstyled">
-                                            <li><a href="/" type="button"><span><FaLayerGroup /></span> Overview</a></li>
+                                            <li><a href="/" type="button" className="selected"><span><FaLayerGroup /></span> Overview</a></li>
                                             <li><a href="/" type="button"><span><RiTimeFill /></span> Last Used</a></li>
                                             <li><a href="/" type="button"><span><RiDeleteBin7Fill /></span> Bin</a></li>
                                         </ul>

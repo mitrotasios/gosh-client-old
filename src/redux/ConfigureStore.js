@@ -1,15 +1,16 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import { Reagents } from "./reagents";
+import { SecReagents } from "./secondaryReagents";
 import { Tests } from "./tests";
 import { TestTypes } from "./testTypes";
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { InitialReagentInfo, InitialAccountInfo, InitialEditReagent } from './forms';
 
 export const ConfigureStore = () => {
     const store = createStore(
         combineReducers({
             reagents: Reagents,
+            secReagents: SecReagents,
             tests: Tests,
             testTypes: TestTypes
         }),
