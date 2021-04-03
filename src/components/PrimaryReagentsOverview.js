@@ -246,12 +246,12 @@ export const PrimaryReagents = (props) => {
                 </table>
                 <pre>
                     <code>
-                        {JSON.stringify({
+                        {/*JSON.stringify({
                             selectedFlatRows: selectedFlatRows.map((row) => row.original),
                         },
                         null,
                         2
-                    )}
+                    )*/}
                     </code>
                 </pre>
                 <div id="hidden-qr">                    

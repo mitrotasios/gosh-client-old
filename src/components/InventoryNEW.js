@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useMemo, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import { RiDeleteBin7Fill, RiTimeFill } from 'react-icons/ri'
 import { FaLayerGroup } from 'react-icons/fa'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
@@ -7,7 +8,18 @@ import { PrimaryReagents } from './PrimaryReagentsOverview';
 class InventoryNEW extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            currentPath: ''
+        }
     }   
+
+    componentDidMount() {
+        const currentPath = window.location.pathname;
+        this.setState({
+            currentPath: currentPath
+        });
+    }
 
     render() {
         return(

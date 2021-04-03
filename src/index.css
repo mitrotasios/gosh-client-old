@@ -74,3 +74,11 @@ a.selected {
   padding-left: 0px;
   padding-right: 0px;
 }
+
+tbody svg {
+  color: #432F87
+}
+
+.header svg {
+  color: #432F87
+}
