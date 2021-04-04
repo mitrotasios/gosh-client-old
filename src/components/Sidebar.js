@@ -19,7 +19,7 @@ function Sidebar(props) {
       <a className="menu-item" href="/account">
       <span><RiAccountBoxLine/>&nbsp;&nbsp;Account</span>
       </a>
-      <a id="signout-link" className="menu-item" href="/account">
+      <a id="signout-link" className="menu-item" href="/" onClick={props.logoutUser}>
         Sign Out
       </a>
     </Menu>

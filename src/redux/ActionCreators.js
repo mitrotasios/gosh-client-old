@@ -6,6 +6,38 @@ import { TestTypes } from './testTypes';
 // AUTH
 ///////////////////
 // LOGIN
+export const checkJWTToken = () => (dispatch) => {
+    
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'users/checkJWTToken', {
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+          }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.success) {
+            }
+            else if (!response.success) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('creds');
+                var error = new Error('Error ' + response.err.name);
+                error.response = response;
+                throw error;
+            }
+            else {
+                var error = new Error('Error ' + response.status);
+                error.response = response;
+                throw error;
+            }
+        })
+        .catch(error => dispatch(loginError(error.message)))
+};
+
+
+
 export const loginUser = (creds) => (dispatch) => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
@@ -94,7 +126,16 @@ export const receiveLogout = () => {
 ///////////////////
 // GET
 export const fetchReagents = (deleted=false) => (dispatch) => {
-    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted)
+    
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': bearer
+          }
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -116,7 +157,15 @@ export const fetchReagents = (deleted=false) => (dispatch) => {
 
 // GET DELETED
 export const fetchDeletedReagents = (deleted=true) => (dispatch) => {
-    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted)
+    
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'reagents' + "?deleted=" + deleted, {
+            headers: { 
+                'Content-Type':'application/json',
+                'Authorization': bearer
+            }
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -167,6 +216,8 @@ export const postReagent = (
     storageLocation
 ) => (dispatch) => {
 
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
     const newReagent = {
         unit: unit,
         reagentName: reagentName,
@@ -177,12 +228,13 @@ export const postReagent = (
         dateReceived: dateReceived,
         storageLocation: storageLocation
     }
-    
+
     return fetch(baseUrl + 'reagents', {
         method: 'POST',
         body: JSON.stringify(newReagent),
-        headers: {
-            'Content-Type': 'application/json'
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
         },
         credentials: 'same-origin'
         })
@@ -215,13 +267,16 @@ export const addReagent = (reagent) => ({
 export const putReagent = (
     updatedReagent, action = ""
 ) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     
     return fetch(baseUrl + 'reagents/' + updatedReagent._id 
     + "?action=" + action, {
         method: 'PUT',
         body: JSON.stringify(updatedReagent),
-        headers: {
-            'Content-Type': 'application/json'
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
         },
         credentials: 'same-origin'
         })
@@ -254,9 +309,15 @@ export const updateReagent = (reagent) => ({
 export const deleteReagent = (
     reagent_id
 ) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     
     return fetch(baseUrl + 'reagents/' + reagent_id, {
         method: 'DELETE',
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
+        },
         credentials: 'same-origin'
         })
         .then(response => {
@@ -291,7 +352,15 @@ export const removeReagent = (reagent) => ({
 ///////////////////
 // GET
 export const fetchSecReagents = (deleted=false) => (dispatch) => {
-    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted)
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted, {
+            headers: { 
+                'Content-Type':'application/json',
+                'Authorization': bearer
+            },
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -313,7 +382,15 @@ export const fetchSecReagents = (deleted=false) => (dispatch) => {
 
 // GET DELETED
 export const fetchDeletedSecReagents = (deleted=true) => (dispatch) => {
-    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted)
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'secondary-reagents' + "?deleted=" + deleted, {
+            headers: { 
+                'Content-Type':'application/json',
+                'Authorization': bearer
+            },
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -356,13 +433,16 @@ export const secReagentsFailed = (errmess) => ({
 export const putSecReagent = (
     updatedSecReagent, action = ""
 ) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     
     return fetch(baseUrl + 'secondary-reagents/' + updatedSecReagent._id 
     + "?action=" + action, {
         method: 'PUT',
         body: JSON.stringify(updatedSecReagent),
-        headers: {
-            'Content-Type': 'application/json'
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
         },
         credentials: 'same-origin'
         })
@@ -395,9 +475,15 @@ export const updateSecReagent = (secReagent) => ({
 export const deleteSecReagent = (
     secReagent_id
 ) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     
     return fetch(baseUrl + 'secondary-reagents/' + secReagent_id, {
         method: 'DELETE',
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
+        },
         credentials: 'same-origin'
         })
         .then(response => {
@@ -432,7 +518,15 @@ export const removeSecReagent = (secReagent) => ({
 ////////
 // GET
 export const fetchTests = () => (dispatch) => {
-    return fetch(baseUrl + 'tests')
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'tests', {
+            headers: { 
+                'Content-Type':'application/json',
+                'Authorization': bearer
+            },
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -470,9 +564,15 @@ export const testsFailed = (errmess) => ({
 export const deleteTest = (
     test_id
 ) => (dispatch) => {
+
+    const bearer = 'Bearer ' + localStorage.getItem('token');
     
     return fetch(baseUrl + 'tests/' + test_id, {
         method: 'DELETE',
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
+        },
         credentials: 'same-origin'
         })
         .then(response => {
@@ -507,7 +607,15 @@ export const removeTest = (test) => ({
 /////////////
 // GET
 export const fetchTestTypes = () => (dispatch) => {
-    return fetch(baseUrl + 'test-types')
+    
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
+    return fetch(baseUrl + 'test-types', {
+            headers: { 
+                'Content-Type':'application/json',
+                'Authorization': bearer
+            },
+        })
         .then(response => {
             if (response.ok) {
                 return response
@@ -546,11 +654,14 @@ export const postTestType = (
     newTestType
 ) => (dispatch) => {
     
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+
     return fetch(baseUrl + 'test-types', {
         method: 'POST',
         body: JSON.stringify(newTestType),
-        headers: {
-            'Content-Type': 'application/json'
+        headers: { 
+            'Content-Type':'application/json',
+            'Authorization': bearer
         },
         credentials: 'same-origin'
         })

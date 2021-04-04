@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Field } from 'react-final-form';
+import Sidebar from './Sidebar';
 
 const required = value => (value ? undefined : 'Required')
 const matchesOldPassword = oldPassword => value => ( value == oldPassword ? undefined : 'Does not match old password' )
@@ -34,6 +35,7 @@ class AccountDetails extends Component {
     render() {
         return (
             <div className="container-fluid">
+                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} logoutUser={this.props.logoutUser} />                        
                 <div className="row">
                     <div className="col">
                         First Name

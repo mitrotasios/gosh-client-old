@@ -3,6 +3,7 @@ import { Accordion, Card, Modal, Button}  from "react-bootstrap";
 import { Form, Field } from 'react-final-form';
 import arrayMutators from 'final-form-arrays'
 import { FieldArray } from 'react-final-form-arrays'
+import Sidebar from './Sidebar';
 
 const required = value => (value ? undefined : 'Required')
 const mapping = ["JAN", "FEB", "MAR", "APR", "MAI", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEZ"];
@@ -172,6 +173,7 @@ class Assays extends Component {
     render() {
         return(            
             <div id="page-wrap" className="container-fluid">
+                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} logoutUser={this.props.logoutUser} />                        
                 <div className="container-fluid">
                     <div className="row text-center">
                         <img id="logo" src="/assets/images/GOSH.png" height="40px" width="200px"/>                    

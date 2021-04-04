@@ -3,13 +3,14 @@ import Assays from './Assays'
 import AccountDetails from './AccountDetails'
 import Sidebar from './Sidebar.js';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Login } from './Login';
 import { TestHistory } from './TestHistory';
 import TestHistoryNEW from './TestHistoryNEW';
 import { Inventory } from './Inventory';
 import InventoryNEW from './InventoryNEW';
 import InvSecReagentsOverview from './InvSecReagentsOverview';
 import { connect } from 'react-redux';
-import { putReagent, deleteReagent, postReagent, fetchReagents, fetchDeletedReagents,
+import { checkJWTToken, loginUser, logoutUser, putReagent, deleteReagent, postReagent, fetchReagents, fetchDeletedReagents,
     fetchSecReagents, fetchDeletedSecReagents, putSecReagent, deleteSecReagent, 
     deleteTest, fetchTests, fetchTestTypes,
     postTestType} from '../redux/ActionCreators.js'
@@ -23,10 +24,14 @@ const mapStateToProps = state => {
         deletedSecReagents: state.deletedSecReagents,
         tests: state.tests,
         testTypes: state.testTypes,
+        auth: state.auth
     }     
 }
 
-const mapDispatchToProps = (dispatch) => ({    
+const mapDispatchToProps = (dispatch) => ({   
+    checkJWTToken: () => dispatch(checkJWTToken()), 
+    loginUser: (creds) => dispatch(loginUser(creds)),
+    logoutUser: () => dispatch(logoutUser()), 
     putReagent: (reagent) => {dispatch(putReagent(reagent))},
     deleteReagent: (reagent_id) => {dispatch(deleteReagent(reagent_id))},
     postReagent: (
@@ -57,18 +62,24 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchReagents();
-        this.props.fetchDeletedReagents();
-        this.props.fetchSecReagents();
-        this.props.fetchDeletedSecReagents();
-        this.props.fetchTests();
-        this.props.fetchTestTypes();
+        if(this.props.auth.isAuthenticated) {
+            this.props.fetchReagents();
+            this.props.fetchDeletedReagents();
+            this.props.fetchSecReagents();
+            this.props.fetchDeletedSecReagents();
+            this.props.fetchTests();
+            this.props.fetchTestTypes();
+            this.props.checkJWTToken();
+        } 
+        //alert("Mounted")
+        
     }
 
     render() {
         const InventoryPage = () => {
             return(
                 <InventoryNEW 
+                    logoutUser={this.props.logoutUser}
                     // Primary Reagents
                     reagents={this.props.reagents.reagents}
                     deletedReagents={this.props.reagents.deletedReagents}
@@ -88,23 +99,14 @@ class Main extends Component {
             );
         }
 
-        const InvSecReagentsOverviewPage = () => {
-            return(
-                <InvSecReagentsOverview secReagents={this.props.secReagents.secReagents} 
-                    secReagentsErrMess={this.props.secReagents.errMess}
-                    deleteSecReagent={this.props.deleteSecReagent} 
-                    putSecReagent={this.props.putSecReagent}
-                    />
-            );
-        }
-
         const TestHistoryPage = () => {
             return(
                 <TestHistoryNEW tests={this.props.tests.tests} 
                     testsErrMess={this.props.tests.errMess} 
                     //switchTests={this.props.switchTests}
                     fetchTests={this.props.fetchTests}
-                    deleteTest={this.props.deleteTest} />
+                    deleteTest={this.props.deleteTest} 
+                    logoutUser={this.props.logoutUser}/>
             );
         }
 
@@ -112,26 +114,48 @@ class Main extends Component {
             return(
                 <Assays testTypes={this.props.testTypes.testTypes} 
                     testTypesErrMess={this.props.testTypes.errMess} 
-                    postTestType={this.props.postTestType}/>
+                    postTestType={this.props.postTestType}
+                    logoutUser={this.props.logoutUser}/>
             );
         }
 
+        const PrivateRoute = ({ component: Component, ...rest }) => (
+            <Route {...rest} render={(props) => (
+              this.props.auth.isAuthenticated
+                ? <Component {...props} />
+                : <Redirect to={{
+                    pathname: '/login',
+                    state: { from: props.location }
+                  }} />
+            )} />
+          );
+
         return(
                 <>
-                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />                        
                 <Switch>
+                    <Route path="/login" 
+                        component={() => 
+                            (<Login 
+                                auth={this.props.auth} 
+                                loginUser={this.props.loginUser} 
+                                logoutUser={this.props.logoutUser}
+                                fetchReagents={this.props.fetchReagents}
+                                fetchDeletedReagents={this.props.fetchDeletedReagents}
+                                fetchSecReagents={this.props.fetchSecReagents}
+                                fetchDeletedSecReagents={this.props.fetchDeletedSecReagents}
+                                fetchTests={this.props.fetchTests}
+                                fetchTestTypes={this.props.fetchTestTypes}/>)}/>
                     {/*<Route path="/inventory" component={InventoryPage}/>*/}
-                    <Route path="/inventory/primary-reagents/overview" component={InventoryPage}/>
-                    <Route path="/inventory/primary-reagents/recent" component={InventoryPage}/>
-                    <Route path="/inventory/primary-reagents/bin" component={InventoryPage}/>
-                    <Route path="/inventory/secondary-reagents/overview" component={InventoryPage}/>
-                    <Route path="/inventory/secondary-reagents/recent" component={InventoryPage}/>
-                    <Route path="/inventory/secondary-reagents/bin" component={InventoryPage}/>
-                    <Route exact path="/testhistory/all-tests/overview" component={TestHistoryPage}/>
-                    <Route exact path="/assays" component={AssayPage}/>
-                    <Route exact path="/account" component={AccountDetails}/> 
-                    <Route exact path="/account" component={AccountDetails}/> 
-                    <Redirect to="/inventory/primary-reagents/overview"/>
+                    <PrivateRoute exact path="/inventory/primary-reagents/overview" component={InventoryPage}/>
+                    <PrivateRoute exact path="/inventory/primary-reagents/recent" component={InventoryPage}/>
+                    <PrivateRoute exact path="/inventory/primary-reagents/bin" component={InventoryPage}/>
+                    <PrivateRoute exact path="/inventory/secondary-reagents/overview" component={InventoryPage}/>
+                    <PrivateRoute exact path="/inventory/secondary-reagents/recent" component={InventoryPage}/>
+                    <PrivateRoute exact path="/inventory/secondary-reagents/bin" component={InventoryPage}/>
+                    <PrivateRoute exact path="/testhistory/all-tests/overview" component={TestHistoryPage}/>
+                    <PrivateRoute exact path="/assays" component={AssayPage}/>
+                    <PrivateRoute exact path="/account" component={AccountDetails}/> 
+                    <Redirect to="/inventory/primary-reagents/overview" />
                 </Switch>
                 </>
         );

@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useMemo, useState } from 'react';
+import Sidebar from './Sidebar';
 import { RiDeleteBin7Fill, RiTimeFill } from 'react-icons/ri'
 import { FaLayerGroup } from 'react-icons/fa'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
@@ -34,7 +35,8 @@ class TestHistoryNEW extends Component {
 
     render() {
         return(
-            <div id="page-wrap" className="container-fluid">                
+            <div id="page-wrap" className="container-fluid">         
+                <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} logoutUser={this.props.logoutUser} />                               
                 <div className="row flex-fill h-100 d-flex">
                     <div style={{"position":"fixed"}} className="col-2">
                         <div style={{"border-bottom":"1px solid #E2E2E4", "background-color": "white", "margin-top": "0px", "padding": "10px"}} className="row header">
