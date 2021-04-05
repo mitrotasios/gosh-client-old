@@ -2,7 +2,27 @@
     "routes": [
         {
             "route": "/*",
-            "serve": "/index.html",
+            "serve": "/inventory/primary-reagents/overview",
+            "statusCode": 200
+        },
+        {
+            "route": "/inventory/primary-reagents/overview",
+            "serve": "/",
+            "statusCode": 200
+        },
+        {
+            "route": "/inventory/primary-reagents/recent",
+            "serve": "/inventory/primary-reagents/recent",
+            "statusCode": 200
+        },
+        {
+            "route": "/inventory/primary-reagents/bin",
+            "serve": "/inventory/primary-reagents/bin",
+            "statusCode": 200
+        },
+        {
+            "route": "/inventory/secondary-reagents/overview",
+            "serve": "/inventory/secondary-reagents/overview",
             "statusCode": 200
         }
     ]
