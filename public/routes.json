@@ -1,11 +1,6 @@
 {
     "routes": [
         {
-            "route": "/*",
-            "serve": "/inventory/primary-reagents/overview",
-            "statusCode": 200
-        },
-        {
             "route": "/inventory/primary-reagents/overview",
             "serve": "/inventory/primary-reagents/overview",
             "statusCode": 200
